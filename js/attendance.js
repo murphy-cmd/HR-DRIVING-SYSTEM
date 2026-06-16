@@ -3,9 +3,10 @@ let currentEmployee = null;
 async function searchEmployee() {
 
     const employeeId =
-        document.getElementById(
-            "searchEmployee"
-        ).value.trim();
+        document
+        .getElementById("searchEmployee")
+        .value
+        .trim();
 
     if (!employeeId) {
 
@@ -42,6 +43,8 @@ async function searchEmployee() {
 
         <h3>${data.full_name}</h3>
 
+        <hr>
+
         <p>
             Employee ID:
             <strong>${data.employee_id}</strong>
@@ -49,12 +52,12 @@ async function searchEmployee() {
 
         <p>
             Position:
-            <strong>${data.position || ""}</strong>
+            <strong>${data.position || "-"}</strong>
         </p>
 
         <p>
             Department:
-            <strong>${data.department || ""}</strong>
+            <strong>${data.department || "-"}</strong>
         </p>
 
         <p>
@@ -67,22 +70,10 @@ async function searchEmployee() {
             <div class="col-md-3 mb-2">
 
                 <button
-                    class="btn btn-success w-100"
-                    onclick="recordAction('TIME_IN')">
+                class="btn btn-success w-100"
+                onclick="recordAction('TIME_IN')">
 
-                    TIME IN
-
-                </button>
-
-            </div>
-
-            <div class="col-md-3 mb-2">
-
-                <button
-                    class="btn btn-danger w-100"
-                    onclick="recordAction('TIME_OUT')">
-
-                    TIME OUT
+                TIME IN
 
                 </button>
 
@@ -91,10 +82,10 @@ async function searchEmployee() {
             <div class="col-md-3 mb-2">
 
                 <button
-                    class="btn btn-warning w-100"
-                    onclick="recordAction('BREAK_OUT')">
+                class="btn btn-danger w-100"
+                onclick="recordAction('TIME_OUT')">
 
-                    BREAK OUT
+                TIME OUT
 
                 </button>
 
@@ -103,10 +94,22 @@ async function searchEmployee() {
             <div class="col-md-3 mb-2">
 
                 <button
-                    class="btn btn-info w-100"
-                    onclick="recordAction('BREAK_IN')">
+                class="btn btn-warning w-100"
+                onclick="recordAction('BREAK_OUT')">
 
-                    BREAK IN
+                BREAK OUT
+
+                </button>
+
+            </div>
+
+            <div class="col-md-3 mb-2">
+
+                <button
+                class="btn btn-info w-100"
+                onclick="recordAction('BREAK_IN')">
+
+                BREAK IN
 
                 </button>
 
@@ -119,10 +122,10 @@ async function searchEmployee() {
             <div class="col-md-6">
 
                 <button
-                    class="btn btn-dark w-100"
-                    onclick="startTrip()">
+                class="btn btn-dark w-100"
+                onclick="startTrip()">
 
-                    START TRIP
+                START TRIP
 
                 </button>
 
@@ -131,10 +134,10 @@ async function searchEmployee() {
             <div class="col-md-6">
 
                 <button
-                    class="btn btn-secondary w-100"
-                    onclick="endTrip()">
+                class="btn btn-secondary w-100"
+                onclick="endTrip()">
 
-                    END TRIP
+                END TRIP
 
                 </button>
 
@@ -156,31 +159,41 @@ async function recordAction(action) {
         return;
     }
 
-    await supabaseClient
-        .from("attendance")
-        .insert([
-            {
-                employee_id:
-                    currentEmployee.employee_id,
+    const { error } =
+        await supabaseClient
+            .from("attendance")
+            .insert([
+                {
+                    employee_id:
+                        currentEmployee.employee_id,
 
-                action:
-                    action
-            }
-        ]);
+                    action:
+                        action
+                }
+            ]);
+
+    if(error){
+
+        console.error(error);
+
+        alert(error.message);
+
+        return;
+    }
 
     let newStatus =
         currentEmployee.status;
 
-    if (action === "TIME_IN")
+    if(action === "TIME_IN")
         newStatus = "AVAILABLE";
 
-    if (action === "TIME_OUT")
+    if(action === "TIME_OUT")
         newStatus = "OFF_DUTY";
 
-    if (action === "BREAK_OUT")
+    if(action === "BREAK_OUT")
         newStatus = "BREAK";
 
-    if (action === "BREAK_IN")
+    if(action === "BREAK_IN")
         newStatus = "AVAILABLE";
 
     await supabaseClient
@@ -200,7 +213,7 @@ async function recordAction(action) {
 
 async function startTrip() {
 
-    if (!currentEmployee) {
+    if(!currentEmployee){
 
         alert("Search Employee First");
 
@@ -224,7 +237,7 @@ async function startTrip() {
 
 async function endTrip() {
 
-    if (!currentEmployee) {
+    if(!currentEmployee){
 
         alert("Search Employee First");
 
