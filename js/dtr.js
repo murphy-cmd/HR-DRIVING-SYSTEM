@@ -1,4 +1,4 @@
-```javascript
+
 async function generateDTR(){
 
     const employee =
@@ -69,4 +69,3 @@ async function generateDTR(){
     )
     .innerHTML = html;
 }
-```
