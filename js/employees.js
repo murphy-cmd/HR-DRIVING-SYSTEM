@@ -19,24 +19,26 @@ async function saveEmployee() {
 
     if (!employeeId || !fullName) {
 
-        alert("Employee ID and Full Name required");
+        alert(
+            "Employee ID and Full Name are required"
+        );
 
         return;
     }
 
     const { error } =
         await supabaseClient
-            .from("employees")
-            .insert([
-                {
-                    employee_id: employeeId,
-                    full_name: fullName,
-                    position: position,
-                    department: department,
-                    employee_type: employeeType,
-                    status: "OFF_DUTY"
-                }
-            ]);
+        .from("employees")
+        .insert([
+            {
+                employee_id: employeeId,
+                full_name: fullName,
+                position: position,
+                department: department,
+                employee_type: employeeType,
+                status: "OFF_DUTY"
+            }
+        ]);
 
     if (error) {
 
@@ -49,6 +51,22 @@ async function saveEmployee() {
 
     alert("Employee Saved");
 
+    document.getElementById(
+        "employeeId"
+    ).value = "";
+
+    document.getElementById(
+        "fullName"
+    ).value = "";
+
+    document.getElementById(
+        "position"
+    ).value = "";
+
+    document.getElementById(
+        "department"
+    ).value = "";
+
     loadEmployees();
 }
 
@@ -56,11 +74,11 @@ async function loadEmployees() {
 
     const { data, error } =
         await supabaseClient
-            .from("employees")
-            .select("*")
-            .order("id", {
-                ascending: false
-            });
+        .from("employees")
+        .select("*")
+        .order("id", {
+            ascending: false
+        });
 
     if (error) {
 
