@@ -1,10 +1,20 @@
+```javascript
 async function loadDrivers(){
 
     const { data, error } =
         await supabaseClient
             .from("employees")
             .select("*")
-            .order("full_name");
+            .eq(
+                "employee_type",
+                "driver"
+            )
+            .order(
+                "full_name",
+                {
+                    ascending:true
+                }
+            );
 
     if(error){
 
@@ -15,36 +25,59 @@ async function loadDrivers(){
 
     let html = "";
 
-    data.forEach(emp => {
+    data.forEach(driver => {
 
-        let badge = "secondary";
+        let badge =
+            "secondary";
 
-        if(emp.status === "AVAILABLE")
-            badge = "success";
+        if(
+            driver.status ===
+            "AVAILABLE"
+        ){
+            badge =
+            "success";
+        }
 
-        if(emp.status === "DRIVING")
-            badge = "dark";
+        if(
+            driver.status ===
+            "DRIVING"
+        ){
+            badge =
+            "dark";
+        }
 
-        if(emp.status === "BREAK")
-            badge = "warning";
+        if(
+            driver.status ===
+            "ON_BREAK"
+        ){
+            badge =
+            "warning";
+        }
 
-        if(emp.status === "OFF_DUTY")
-            badge = "danger";
+        if(
+            driver.status ===
+            "OFF_DUTY"
+        ){
+            badge =
+            "danger";
+        }
 
         html += `
 
         <tr>
 
-            <td>${emp.employee_id}</td>
+            <td>
+                ${driver.employee_id}
+            </td>
 
-            <td>${emp.full_name}</td>
-
-            <td>${emp.position || ""}</td>
+            <td>
+                ${driver.full_name}
+            </td>
 
             <td>
 
                 <span class="badge bg-${badge}">
-                    ${emp.status}
+                    ${driver.status}
                 </span>
 
             </td>
@@ -65,3 +98,4 @@ setInterval(
     loadDrivers,
     3000
 );
+```
