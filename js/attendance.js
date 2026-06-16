@@ -1,3 +1,4 @@
+```javascript
 let currentEmployee = null;
 
 async function searchEmployee() {
@@ -87,6 +88,14 @@ function renderEmployeeCard() {
 
     <div class="card p-4">
 
+        <button
+        class="btn btn-outline-secondary mb-3"
+        onclick="goBack()">
+
+        ← BACK
+
+        </button>
+
         <h3>
             ${currentEmployee.full_name}
         </h3>
@@ -111,6 +120,13 @@ function renderEmployeeCard() {
             Department:
             <strong>
                 ${currentEmployee.department || "-"}
+            </strong>
+        </p>
+
+        <p>
+            Employee Type:
+            <strong>
+                ${currentEmployee.employee_type}
             </strong>
         </p>
 
@@ -184,28 +200,20 @@ function renderEmployeeCard() {
 
 async function logAction(action) {
 
-    const { error } =
-        await supabaseClient
-            .from("attendance_logs")
-            .insert([
-                {
-                    employee_id:
-                        currentEmployee.employee_id,
+    await supabaseClient
+        .from("attendance_logs")
+        .insert([
+            {
+                employee_id:
+                    currentEmployee.employee_id,
 
-                    employee_name:
-                        currentEmployee.full_name,
+                employee_name:
+                    currentEmployee.full_name,
 
-                    action:
-                        action
-                }
-            ]);
-
-    if (error) {
-
-        console.error(error);
-
-        alert(error.message);
-    }
+                action:
+                    action
+            }
+        ]);
 }
 
 async function updateStatus(status) {
@@ -332,3 +340,41 @@ async function endTrip() {
         "AVAILABLE"
     );
 }
+
+function goBack(){
+
+    currentEmployee = null;
+
+    document.getElementById(
+        "employeeCard"
+    ).innerHTML = "";
+
+    document.getElementById(
+        "searchEmployee"
+    ).value = "";
+
+    document.getElementById(
+        "searchEmployee"
+    ).focus();
+}
+
+document
+.getElementById(
+    "searchEmployee"
+)
+.addEventListener(
+    "keypress",
+    function(event){
+
+        if(
+            event.key ===
+            "Enter"
+        ){
+
+            searchEmployee();
+
+        }
+
+    }
+);
+```
