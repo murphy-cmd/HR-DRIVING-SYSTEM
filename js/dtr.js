@@ -1,11 +1,8 @@
-
-async function generateDTR(){
+async function generateDTR() {
 
     const employee =
         document
-        .getElementById(
-            "employeeSearch"
-        )
+        .getElementById("employeeSearch")
         .value
         .toLowerCase();
 
@@ -13,14 +10,11 @@ async function generateDTR(){
         await supabaseClient
             .from("attendance_logs")
             .select("*")
-            .order(
-                "log_time",
-                {
-                    ascending:false
-                }
-            );
+            .order("log_time", {
+                ascending: false
+            });
 
-    if(error){
+    if (error) {
 
         console.error(error);
 
@@ -31,41 +25,37 @@ async function generateDTR(){
 
     data.forEach(log => {
 
-        if(
+        if (
             employee &&
             !log.employee_name
-            .toLowerCase()
-            .includes(employee)
-        ){
+                .toLowerCase()
+                .includes(employee)
+        ) {
             return;
         }
 
         html += `
         <tr>
 
-        <td>
-            ${new Date(
-                log.log_time
-            ).toLocaleDateString()}
-        </td>
+            <td>
+                ${new Date(log.log_time)
+                    .toLocaleDateString()}
+            </td>
 
-        <td>
-            ${log.action}
-        </td>
+            <td>
+                ${log.action}
+            </td>
 
-        <td>
-            ${new Date(
-                log.log_time
-            ).toLocaleTimeString()}
-        </td>
+            <td>
+                ${new Date(log.log_time)
+                    .toLocaleTimeString()}
+            </td>
 
         </tr>
         `;
     });
 
     document
-    .getElementById(
-        "dtrTable"
-    )
-    .innerHTML = html;
+        .getElementById("dtrTable")
+        .innerHTML = html;
 }
