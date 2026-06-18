@@ -83,31 +83,36 @@ async function loadHistory() {
             badge = "primary";
         }
 
-        html += `
+       html += `
 
-        <tr>
+<tr>
 
-            <td>
-                ${log.employee_name}
-            </td>
+    <td>
+        ${log.employee_name}
+    </td>
 
-            <td>
+    <td>
 
-                <span class="badge bg-${badge}">
-                    ${log.action}
-                </span>
+        <span class="badge bg-${badge}">
+            ${log.action}
+        </span>
 
-            </td>
+    </td>
 
-            <td>
-                ${new Date(
-                    log.log_time
-                ).toLocaleString()}
-            </td>
+    <td>
+        ${new Date(
+            log.log_time
+        ).toLocaleString(
+            "en-PH",
+            {
+                timeZone: "Asia/Manila"
+            }
+        )}
+    </td>
 
-        </tr>
+</tr>
 
-        `;
+`;
     });
 
     document.getElementById(
