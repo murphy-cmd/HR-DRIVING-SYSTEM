@@ -134,13 +134,29 @@ function renderEmployeeCard() {
 
 async function logAction(action) {
 
+    const philippinesTime =
+        new Date().toLocaleString(
+            "sv-SE",
+            {
+                timeZone: "Asia/Manila"
+            }
+        );
+
     await supabaseClient
         .from("attendance_logs")
         .insert([
             {
-                employee_id: currentEmployee.employee_id,
-                employee_name: currentEmployee.full_name,
-                action: action
+                employee_id:
+                    currentEmployee.employee_id,
+
+                employee_name:
+                    currentEmployee.full_name,
+
+                action:
+                    action,
+
+                log_time:
+                    philippinesTime
             }
         ]);
 }
