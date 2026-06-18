@@ -34,7 +34,7 @@ async function loadDashboard() {
         "breakEmployees"
     ).innerText =
     data.filter(
-        emp => emp.status === "BREAK"
+        emp => emp.status === "ON_BREAK"
     ).length;
 }
 
