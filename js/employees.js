@@ -36,7 +36,7 @@ async function saveEmployee() {
                 position: position,
                 department: department,
                 employee_type: employeeType,
-                status: "OFF_DUTY"
+                status: "ACTIVE"
             }
         ]);
 
