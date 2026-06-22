@@ -217,11 +217,95 @@ async function recordAttendance(
             employeeStatus = "WORKING";
             break;
 
-        case "TIME_OUT":
-            updateData.time_out = philippinesTime;
-            updateData.completed = true;
-            employeeStatus = "COMPLETED";
-            break;
+       case "TIME_OUT":
+updateData.time_out = philippinesTime;
+updateData.completed = true;
+employeeStatus = "COMPLETED";
+
+if (
+    daily &&
+    daily.am_in &&
+    daily.break_time &&
+    daily.pm_in
+) {
+
+    const amIn =
+        new Date(daily.am_in);
+
+    const breakTime =
+        new Date(daily.break_time);
+
+    const pmIn =
+        new Date(daily.pm_in);
+
+    const timeOut =
+        new Date(philippinesTime);
+
+    // MORNING HOURS
+
+    const morningMs =
+        breakTime - amIn;
+
+    // AFTERNOON HOURS
+
+    const afternoonMs =
+        timeOut - pmIn;
+
+    const totalMs =
+        morningMs + afternoonMs;
+
+    const totalHours =
+        Math.floor(
+            totalMs / 3600000
+        );
+
+    const totalMinutes =
+        Math.floor(
+            (totalMs % 3600000) / 60000
+        );
+
+    updateData.work_hours =
+        `${totalHours}h ${totalMinutes}m`;
+
+    // OT COMPUTATION
+
+    const sixPM =
+        new Date(timeOut);
+
+    sixPM.setHours(
+        18,
+        0,
+        0,
+        0
+    );
+
+    if (timeOut > sixPM) {
+
+        const otMs =
+            timeOut - sixPM;
+
+        const otHours =
+            Math.floor(
+                otMs / 3600000
+            );
+
+        const otMinutes =
+            Math.floor(
+                (otMs % 3600000) / 60000
+            );
+
+        updateData.ot_hours =
+            `${otHours}h ${otMinutes}m`;
+
+    } else {
+
+        updateData.ot_hours =
+            `0h 0m`;
+    }
+}
+
+break;
+
 
         case "START_TRIP":
             updateData.start_trip = philippinesTime;
