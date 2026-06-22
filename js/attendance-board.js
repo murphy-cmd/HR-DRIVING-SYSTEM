@@ -93,62 +93,143 @@ document.getElementById(
 }
 
 async function recordAttendance(
-employeeId,
-employeeName,
-action,
-checkbox
+    employeeId,
+    employeeName,
+    action,
+    checkbox
 ) {
 
+    if (!checkbox.checked) return;
 
-if (!checkbox.checked) {
-    return;
-}
+    const now = new Date();
 
-const philippinesTime =
-    new Date().toLocaleString(
-        "sv-SE",
-        {
-            timeZone: "Asia/Manila"
-        }
-    );
-
-const today =
-    new Date().toLocaleDateString(
-        "en-CA",
-        {
-            timeZone: "Asia/Manila"
-        }
-    );
-
-const { error } =
-    await supabaseClient
-        .from("attendance_logs")
-        .insert([
+    const philippinesTime =
+        new Date().toLocaleString(
+            "sv-SE",
             {
-                employee_id: employeeId,
-                employee_name: employeeName,
-                action: action,
-                log_time: philippinesTime,
-                action_date: today
+                timeZone: "Asia/Manila"
             }
-        ]);
+        );
 
-if (error) {
+    const today =
+        new Date().toLocaleDateString(
+            "en-CA",
+            {
+                timeZone: "Asia/Manila"
+            }
+        );
 
-    console.error(error);
+    // SAVE TO LOGS
 
-    alert(error.message);
+    const { error } =
+        await supabaseClient
+            .from("attendance_logs")
+            .insert([
+                {
+                    employee_id: employeeId,
+                    employee_name: employeeName,
+                    action: action,
+                    log_time: philippinesTime,
+                    action_date: today
+                }
+            ]);
 
-    checkbox.checked = false;
+    if (error) {
 
-    return;
-}
+        console.error(error);
 
-checkbox.disabled = true;
+        alert(error.message);
 
-loadTodayHistory();
+        checkbox.checked = false;
 
+        return;
+    }
 
+    // FIND DAILY RECORD
+
+    const { data: daily } =
+        await supabaseClient
+            .from("attendance_daily")
+            .select("*")
+            .eq("employee_id", employeeId)
+            .eq("attendance_date", today)
+            .maybeSingle();
+
+    let updateData = {};
+    let employeeStatus = "WORKING";
+
+    switch(action){
+
+        case "AM_IN":
+            updateData.am_in = philippinesTime;
+            employeeStatus = "WORKING";
+            break;
+
+        case "BREAK":
+            updateData.break_time = philippinesTime;
+            employeeStatus = "ON_BREAK";
+            break;
+
+        case "PM_IN":
+            updateData.pm_in = philippinesTime;
+            employeeStatus = "WORKING";
+            break;
+
+        case "TIME_OUT":
+            updateData.time_out = philippinesTime;
+            updateData.completed = true;
+            employeeStatus = "COMPLETED";
+            break;
+
+        case "START_TRIP":
+            updateData.start_trip = philippinesTime;
+            employeeStatus = "DRIVING";
+            break;
+
+        case "END_TRIP":
+            updateData.end_trip = philippinesTime;
+            employeeStatus = "AVAILABLE";
+            break;
+    }
+
+    updateData.status = employeeStatus;
+
+    if (!daily) {
+
+        updateData.employee_id = employeeId;
+        updateData.employee_name = employeeName;
+        updateData.employee_type =
+            employeeId.startsWith("DR")
+                ? "driver"
+                : "office";
+
+        updateData.attendance_date = today;
+
+        await supabaseClient
+            .from("attendance_daily")
+            .insert([updateData]);
+
+    } else {
+
+        await supabaseClient
+            .from("attendance_daily")
+            .update(updateData)
+            .eq("id", daily.id);
+
+    }
+
+    // UPDATE EMPLOYEE STATUS
+
+    await supabaseClient
+        .from("employees")
+        .update({
+            status: employeeStatus
+        })
+        .eq("employee_id", employeeId);
+
+    checkbox.disabled = true;
+
+    loadTodayHistory();
 }
 
 async function loadTodayHistory() {
