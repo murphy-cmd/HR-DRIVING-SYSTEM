@@ -149,12 +149,12 @@ async function loadDriverSummary() {
 
 loadDashboard();
 loadEmployeeSummary();
+loadDriverSummary();
 
 setInterval(() => {
 
-
-loadDashboard();
-loadEmployeeSummary();
-
+    loadDashboard();
+    loadEmployeeSummary();
+    loadDriverSummary();
 
 }, 3000);
