@@ -3,6 +3,14 @@ console.log("Attendance Board Loaded");
 async function loadAttendanceBoard() {
 
 
+const today =
+    new Date().toLocaleDateString(
+        "en-CA",
+        {
+            timeZone: "Asia/Manila"
+        }
+    );
+
 const { data, error } =
     await supabaseClient
         .from("employees")
@@ -10,10 +18,15 @@ const { data, error } =
         .order("employee_id");
 
 if (error) {
-
     console.error(error);
     return;
 }
+
+const { data: dailyRecords } =
+    await supabaseClient
+        .from("attendance_daily")
+        .select("*")
+        .eq("attendance_date", today);
 
 let html = "";
 
@@ -21,6 +34,29 @@ data.forEach(emp => {
 
     const isDriver =
         emp.employee_type === "driver";
+
+    const daily =
+        dailyRecords?.find(
+            d => d.employee_id === emp.employee_id
+        );
+
+    const amInChecked =
+        daily?.am_in ? "checked disabled" : "";
+
+    const breakChecked =
+        daily?.break_time ? "checked disabled" : "";
+
+    const pmInChecked =
+        daily?.pm_in ? "checked disabled" : "";
+
+    const timeoutChecked =
+        daily?.time_out ? "checked disabled" : "";
+
+    const startTripChecked =
+        daily?.start_trip ? "checked disabled" : "";
+
+    const endTripChecked =
+        daily?.end_trip ? "checked disabled" : "";
 
     html += `
 
@@ -35,24 +71,28 @@ data.forEach(emp => {
         <td>
             <input
                 type="checkbox"
+                ${amInChecked}
                 onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','AM_IN',this)">
         </td>
 
         <td>
             <input
                 type="checkbox"
+                ${breakChecked}
                 onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','BREAK',this)">
         </td>
 
         <td>
             <input
                 type="checkbox"
+                ${pmInChecked}
                 onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','PM_IN',this)">
         </td>
 
         <td>
             <input
                 type="checkbox"
+                ${timeoutChecked}
                 onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','TIME_OUT',this)">
         </td>
 
@@ -62,6 +102,7 @@ data.forEach(emp => {
                 ?
                 `<input
                     type="checkbox"
+                    ${startTripChecked}
                     onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','START_TRIP',this)">`
                 :
                 "-"
@@ -74,6 +115,7 @@ data.forEach(emp => {
                 ?
                 `<input
                     type="checkbox"
+                    ${endTripChecked}
                     onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','END_TRIP',this)">`
                 :
                 "-"
@@ -81,7 +123,6 @@ data.forEach(emp => {
         </td>
 
     </tr>
-
     `;
 });
 
@@ -91,6 +132,7 @@ document.getElementById(
 
 
 }
+
 
 async function recordAttendance(
     employeeId,
@@ -227,9 +269,10 @@ async function recordAttendance(
         })
         .eq("employee_id", employeeId);
 
-    checkbox.disabled = true;
+   checkbox.disabled = true;
 
-    loadTodayHistory();
+loadAttendanceBoard();
+loadTodayHistory();
 }
 
 async function loadTodayHistory() {
