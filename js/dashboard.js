@@ -1,6 +1,5 @@
 async function loadDashboard() {
 
-
 // EMPLOYEES
 
 const { data: employees, error } =
@@ -34,49 +33,75 @@ if (dailyError) {
     return;
 }
 
-// TOTAL EMPLOYEES
+// EMPLOYEE COUNTS
+
+const officeEmployees =
+    employees.filter(
+        emp => emp.employee_type === "office"
+    );
 
 document.getElementById(
     "totalEmployees"
 ).innerText =
-    employees.length;
-
-// WORKING
+    officeEmployees.length;
 
 document.getElementById(
     "workingEmployees"
 ).innerText =
-    employees.filter(
+    officeEmployees.filter(
         emp => emp.status === "WORKING"
     ).length;
-
-// DRIVING
-
-document.getElementById(
-    "drivingEmployees"
-).innerText =
-    employees.filter(
-        emp => emp.status === "DRIVING"
-    ).length;
-
-// ON BREAK
 
 document.getElementById(
     "breakEmployees"
 ).innerText =
-    employees.filter(
+    officeEmployees.filter(
         emp => emp.status === "ON_BREAK"
     ).length;
-
-// COMPLETED TODAY
 
 document.getElementById(
     "completedEmployees"
 ).innerText =
     daily.filter(
-        row => row.completed === true
+        row =>
+            row.employee_type === "office" &&
+            row.completed === true
     ).length;
 
+// DRIVER COUNTS
+
+const drivers =
+    employees.filter(
+        emp => emp.employee_type === "driver"
+    );
+
+document.getElementById(
+    "totalDrivers"
+).innerText =
+    drivers.length;
+
+document.getElementById(
+    "availableDrivers"
+).innerText =
+    drivers.filter(
+        emp => emp.status === "AVAILABLE"
+    ).length;
+
+document.getElementById(
+    "drivingEmployees"
+).innerText =
+    drivers.filter(
+        emp => emp.status === "DRIVING"
+    ).length;
+
+document.getElementById(
+    "completedTrips"
+).innerText =
+    daily.filter(
+        row =>
+            row.employee_type === "driver" &&
+            row.completed === true
+    ).length;
 
 }
 
