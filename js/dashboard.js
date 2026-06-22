@@ -1,46 +1,84 @@
 async function loadDashboard() {
 
-    const { data, error } =
-        await supabaseClient
+// EMPLOYEES
+
+const { data: employees, error } =
+    await supabaseClient
         .from("employees")
         .select("*");
 
-    if(error){
+if (error) {
 
-        console.error(error);
+    console.error(error);
+    return;
+}
 
-        return;
-    }
+// TODAY
 
-    document.getElementById(
-        "totalEmployees"
-    ).innerText = data.length;
+const today =
+    new Date().toLocaleDateString(
+        "en-CA",
+        {
+            timeZone: "Asia/Manila"
+        }
+    );
 
-    document.getElementById(
-        "availableEmployees"
-    ).innerText =
-    data.filter(
-        emp => emp.status === "AVAILABLE"
+// ATTENDANCE DAILY
+
+const { data: daily } =
+    await supabaseClient
+        .from("attendance_daily")
+        .select("*")
+        .eq("attendance_date", today);
+
+// TOTAL EMPLOYEES
+
+document.getElementById(
+    "totalEmployees"
+).innerText =
+    employees.length;
+
+// WORKING
+
+document.getElementById(
+    "workingEmployees"
+).innerText =
+    employees.filter(
+        emp => emp.status === "WORKING"
     ).length;
 
-    document.getElementById(
-        "drivingEmployees"
-    ).innerText =
-    data.filter(
+// ON BREAK
+
+document.getElementById(
+    "breakEmployees"
+).innerText =
+    employees.filter(
+        emp => emp.status === "ON_BREAK"
+    ).length;
+
+// DRIVING
+
+document.getElementById(
+    "drivingEmployees"
+).innerText =
+    employees.filter(
         emp => emp.status === "DRIVING"
     ).length;
 
-    document.getElementById(
-        "breakEmployees"
-    ).innerText =
-    data.filter(
-        emp => emp.status === "ON_BREAK"
+// COMPLETED TODAY
+
+document.getElementById(
+    "completedEmployees"
+).innerText =
+    daily.filter(
+        item => item.completed === true
     ).length;
+
 }
 
 loadDashboard();
 
 setInterval(
-    loadDashboard,
-    3000
+loadDashboard,
+3000
 );
