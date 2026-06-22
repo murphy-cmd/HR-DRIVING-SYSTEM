@@ -100,29 +100,34 @@ async function loadDriverSummary() {
         await supabaseClient
             .from("attendance_daily")
             .select("*")
-            .eq("attendance_date", today)
-            .eq("employee_type", "driver");
+            .eq("attendance_date", today);
 
     if (error) {
-
         console.error(error);
         return;
     }
 
     let html = "";
 
-    data.forEach(driver => {
+    const drivers =
+        data.filter(
+            row =>
+                row.employee_type &&
+                row.employee_type.toLowerCase() === "driver"
+        );
+
+    drivers.forEach(driver => {
 
         const startTrip =
             driver.start_trip
             ? new Date(driver.start_trip)
-                .toLocaleTimeString("en-PH")
+                .toLocaleTimeString()
             : "-";
 
         const endTrip =
             driver.end_trip
             ? new Date(driver.end_trip)
-                .toLocaleTimeString("en-PH")
+                .toLocaleTimeString()
             : "-";
 
         html += `
