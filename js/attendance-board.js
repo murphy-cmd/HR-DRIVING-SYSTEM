@@ -217,94 +217,81 @@ async function recordAttendance(
             employeeStatus = "WORKING";
             break;
 
-       case "TIME_OUT":
-updateData.time_out = philippinesTime;
-updateData.completed = true;
-employeeStatus = "COMPLETED";
+      case "TIME_OUT":
 
-if (
-    daily &&
-    daily.am_in &&
-    daily.break_time &&
-    daily.pm_in
-) {
+    updateData.time_out = philippinesTime;
+    updateData.completed = true;
+    employeeStatus = "COMPLETED";
 
-    const amIn =
-        new Date(daily.am_in);
+    if (daily && daily.am_in) {
 
-    const breakTime =
-        new Date(daily.break_time);
+        const amIn =
+            new Date(daily.am_in);
 
-    const pmIn =
-        new Date(daily.pm_in);
+        const timeOut =
+            new Date(philippinesTime);
 
-    const timeOut =
-        new Date(philippinesTime);
+        let totalMinutes =
+            Math.floor(
+                (timeOut - amIn)
+                / 1000 / 60
+            );
 
-    // MORNING HOURS
+        // Huwag payagan ang negative
 
-    const morningMs =
-        breakTime - amIn;
+        if (totalMinutes < 0) {
+            totalMinutes = 0;
+        }
 
-    // AFTERNOON HOURS
+        const workHours =
+            Math.floor(
+                totalMinutes / 60
+            );
 
-    const afternoonMs =
-        timeOut - pmIn;
+        const workMinutes =
+            totalMinutes % 60;
 
-    const totalMs =
-        morningMs + afternoonMs;
+        updateData.work_hours =
+            `${workHours}h ${workMinutes}m`;
 
-    const totalHours =
-        Math.floor(
-            totalMs / 3600000
+        // OT COMPUTATION
+        // Official end of shift = 6:00 PM
+
+        const shiftEnd =
+            new Date(amIn);
+
+        shiftEnd.setHours(
+            18,
+            0,
+            0,
+            0
         );
 
-    const totalMinutes =
-        Math.floor(
-            (totalMs % 3600000) / 60000
-        );
+        let otMinutes = 0;
 
-    updateData.work_hours =
-        `${totalHours}h ${totalMinutes}m`;
+        if (timeOut > shiftEnd) {
 
-    // OT COMPUTATION
+            otMinutes =
+                Math.floor(
+                    (timeOut - shiftEnd)
+                    / 1000 / 60
+                );
 
-    const sixPM =
-        new Date(timeOut);
-
-    sixPM.setHours(
-        18,
-        0,
-        0,
-        0
-    );
-
-    if (timeOut > sixPM) {
-
-        const otMs =
-            timeOut - sixPM;
+        }
 
         const otHours =
             Math.floor(
-                otMs / 3600000
+                otMinutes / 60
             );
 
-        const otMinutes =
-            Math.floor(
-                (otMs % 3600000) / 60000
-            );
+        const remainingOtMinutes =
+            otMinutes % 60;
 
         updateData.ot_hours =
-            `${otHours}h ${otMinutes}m`;
-
-    } else {
-
-        updateData.ot_hours =
-            `0h 0m`;
+            `${otHours}h ${remainingOtMinutes}m`;
     }
-}
 
-break;
+    break;
 
 
         case "START_TRIP":
