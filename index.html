@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -6,140 +7,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
 </head>
 
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-    <div class="container-fluid">
 
-        <a class="navbar-brand" href="index.html">
-            HR Driving System
+<div class="container-fluid">
+
+    <a class="navbar-brand" href="index.html">
+        HR Driving System
+    </a>
+
+    <div class="navbar-nav">
+
+        <a class="nav-link active" href="index.html">
+            Dashboard
         </a>
 
-        <div class="navbar-nav">
+        <a class="nav-link" href="employees.html">
+            Employees
+        </a>
 
-            <a class="nav-link active" href="index.html">
-                Dashboard
-            </a>
+        <a class="nav-link" href="attendance.html">
+            Attendance
+        </a>
 
-            <a class="nav-link" href="employees.html">
-                Employees
-            </a>
+        <a class="nav-link" href="drivers.html">
+            Drivers
+        </a>
 
-            <a class="nav-link" href="attendance.html">
-                Attendance
-            </a>
-
-            <a class="nav-link" href="drivers.html">
-                Drivers
-            </a>
-
-            <a class="nav-link" href="history.html">
-                History
-            </a>
-
-        </div>
+        <a class="nav-link" href="history.html">
+            History
+        </a>
 
     </div>
+
+</div>
+
 
 </nav>
 
 <div class="container mt-4">
 
-    <h2 class="mb-4">Dashboard</h2>
 
-    <!-- EMPLOYEE OVERVIEW -->
+<h2 class="mb-4">Dashboard</h2>
 
-    <h4 class="mb-3">Employee Overview</h4>
+<!-- EMPLOYEE OVERVIEW -->
 
-    <div class="row mb-4">
+<h4 class="mb-3">Employee Overview</h4>
 
-        <div class="col-md-3 mb-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5>Total Employees</h5>
-                    <h2 id="totalEmployees">0</h2>
-                </div>
+<div class="row mb-4">
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Total Employees</h5>
+                <h2 id="totalEmployees">0</h2>
             </div>
         </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5>Working</h5>
-                    <h2 id="workingEmployees">0</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5>On Break</h5>
-                    <h2 id="breakEmployees">0</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card text-center border-success">
-                <div class="card-body">
-                    <h5>Completed Today</h5>
-                    <h2 id="completedEmployees">0</h2>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <!-- DRIVER OVERVIEW -->
-
-    <h4 class="mb-3">Driver Overview</h4>
-
-    <div class="row">
-
-        <div class="col-md-3 mb-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5>Total Drivers</h5>
-                    <h2 id="totalDrivers">0</h2>
-                </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Working</h5>
+                <h2 id="workingEmployees">0</h2>
             </div>
         </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5>Available Drivers</h5>
-                    <h2 id="availableDrivers">0</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5>Driving Now</h5>
-                    <h2 id="drivingEmployees">0</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card text-center border-primary">
-                <div class="card-body">
-                    <h5>Completed Trips</h5>
-                    <h2 id="completedTrips">0</h2>
-                </div>
-            </div>
-        </div>
-
     </div>
-    
- <hr class="mt-4">
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>On Break</h5>
+                <h2 id="breakEmployees">0</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-center border-success">
+            <div class="card-body">
+                <h5>Completed Today</h5>
+                <h2 id="completedEmployees">0</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- DRIVER OVERVIEW -->
+
+<h4 class="mb-3">Driver Overview</h4>
+
+<div class="row">
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Total Drivers</h5>
+                <h2 id="totalDrivers">0</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Available Drivers</h5>
+                <h2 id="availableDrivers">0</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Driving Now</h5>
+                <h2 id="drivingEmployees">0</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-center border-primary">
+            <div class="card-body">
+                <h5>Completed Trips</h5>
+                <h2 id="completedTrips">0</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<hr class="mt-4">
+
+<h4 class="mt-4">Employee Daily Summary</h4>
+
+<div class="table-responsive">
+
+    <table class="table table-bordered table-striped">
+
+        <thead class="table-dark">
+
+            <tr>
+                <th>Employee</th>
+                <th>Status</th>
+                <th>Work Hours</th>
+                <th>OT Hours</th>
+            </tr>
+
+        </thead>
+
+        <tbody id="employeeSummaryTable">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<hr class="mt-4">
 
 <h4 class="mt-4">Driver Daily Summary</h4>
 
@@ -166,7 +200,6 @@
     </table>
 
 </div>
-
 
 </div>
 
