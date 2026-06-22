@@ -216,8 +216,8 @@ async function recordAttendance(
             updateData.pm_in = philippinesTime;
             employeeStatus = "WORKING";
             break;
-
-      case "TIME_OUT":
+            
+case "TIME_OUT":
 
     updateData.time_out = philippinesTime;
     updateData.completed = true;
