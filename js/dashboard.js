@@ -1,7 +1,5 @@
 async function loadDashboard() {
 
-// EMPLOYEES
-
 const { data: employees, error } =
     await supabaseClient
         .from("employees")
@@ -20,8 +18,6 @@ const today =
         }
     );
 
-// DAILY ATTENDANCE
-
 const { data: daily, error: dailyError } =
     await supabaseClient
         .from("attendance_daily")
@@ -33,81 +29,115 @@ if (dailyError) {
     return;
 }
 
-// EMPLOYEE COUNTS
+// EMPLOYEE OVERVIEW
 
 const officeEmployees =
     employees.filter(
         emp => emp.employee_type === "office"
     );
 
-document.getElementById(
-    "totalEmployees"
-).innerText =
+document.getElementById("totalEmployees").innerText =
     officeEmployees.length;
 
-document.getElementById(
-    "workingEmployees"
-).innerText =
+document.getElementById("workingEmployees").innerText =
     officeEmployees.filter(
         emp => emp.status === "WORKING"
     ).length;
 
-document.getElementById(
-    "breakEmployees"
-).innerText =
+document.getElementById("breakEmployees").innerText =
     officeEmployees.filter(
         emp => emp.status === "ON_BREAK"
     ).length;
 
-document.getElementById(
-    "completedEmployees"
-).innerText =
+document.getElementById("completedEmployees").innerText =
     daily.filter(
         row =>
             row.employee_type === "office" &&
             row.completed === true
     ).length;
 
-// DRIVER COUNTS
+// DRIVER OVERVIEW
 
 const drivers =
     employees.filter(
         emp => emp.employee_type === "driver"
     );
 
-document.getElementById(
-    "totalDrivers"
-).innerText =
+document.getElementById("totalDrivers").innerText =
     drivers.length;
 
-document.getElementById(
-    "availableDrivers"
-).innerText =
+document.getElementById("availableDrivers").innerText =
     drivers.filter(
         emp => emp.status === "AVAILABLE"
     ).length;
 
-document.getElementById(
-    "drivingEmployees"
-).innerText =
+document.getElementById("drivingEmployees").innerText =
     drivers.filter(
         emp => emp.status === "DRIVING"
     ).length;
 
-document.getElementById(
-    "completedTrips"
-).innerText =
+document.getElementById("completedTrips").innerText =
     daily.filter(
         row =>
             row.employee_type === "driver" &&
             row.completed === true
     ).length;
 
+
+}
+
+async function loadEmployeeSummary() {
+
+
+const today =
+    new Date().toLocaleDateString(
+        "en-CA",
+        {
+            timeZone: "Asia/Manila"
+        }
+    );
+
+const { data, error } =
+    await supabaseClient
+        .from("attendance_daily")
+        .select("*")
+        .eq("attendance_date", today)
+        .eq("employee_type", "office");
+
+if (error) {
+    console.error(error);
+    return;
+}
+
+let html = "";
+
+data.forEach(emp => {
+
+    html += `
+        <tr>
+            <td>${emp.employee_name}</td>
+            <td>${emp.status || "-"}</td>
+            <td>${emp.work_hours || "0h 0m"}</td>
+            <td>${emp.ot_hours || "0h 0m"}</td>
+        </tr>
+    `;
+});
+
+document.getElementById(
+    "employeeSummaryTable"
+).innerHTML = html;
+
+
 }
 
 loadDashboard();
+loadEmployeeSummary();
 
-setInterval(
-loadDashboard,
-3000
-);
+setInterval(() => {
+
+
+loadDashboard();
+loadEmployeeSummary();
+
+
+}, 3000);
