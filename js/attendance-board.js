@@ -297,6 +297,11 @@ loadAttendanceBoard();
 loadTodayHistory();
 
 setInterval(
-loadTodayHistory,
-5000
+    loadTodayHistory,
+    5000
 );
+
+async function refreshBoard() {
+    loadAttendanceBoard();
+    loadTodayHistory();
+}
