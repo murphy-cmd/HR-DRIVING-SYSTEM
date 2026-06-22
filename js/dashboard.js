@@ -86,48 +86,65 @@ document.getElementById("completedTrips").innerText =
 
 }
 
-async function loadEmployeeSummary() {
+async function loadDriverSummary() {
 
+    const today =
+        new Date().toLocaleDateString(
+            "en-CA",
+            {
+                timeZone: "Asia/Manila"
+            }
+        );
 
-const today =
-    new Date().toLocaleDateString(
-        "en-CA",
-        {
-            timeZone: "Asia/Manila"
-        }
-    );
+    const { data, error } =
+        await supabaseClient
+            .from("attendance_daily")
+            .select("*")
+            .eq("attendance_date", today)
+            .eq("employee_type", "driver");
 
-const { data, error } =
-    await supabaseClient
-        .from("attendance_daily")
-        .select("*")
-        .eq("attendance_date", today)
-        .eq("employee_type", "office");
+    if (error) {
 
-if (error) {
-    console.error(error);
-    return;
-}
+        console.error(error);
+        return;
+    }
 
-let html = "";
+    let html = "";
 
-data.forEach(emp => {
+    data.forEach(driver => {
 
-    html += `
-        <tr>
-            <td>${emp.employee_name}</td>
-            <td>${emp.status || "-"}</td>
-            <td>${emp.work_hours || "0h 0m"}</td>
-            <td>${emp.ot_hours || "0h 0m"}</td>
-        </tr>
-    `;
-});
+        const startTrip =
+            driver.start_trip
+            ? new Date(driver.start_trip)
+                .toLocaleTimeString("en-PH")
+            : "-";
 
-document.getElementById(
-    "employeeSummaryTable"
-).innerHTML = html;
+        const endTrip =
+            driver.end_trip
+            ? new Date(driver.end_trip)
+                .toLocaleTimeString("en-PH")
+            : "-";
 
+        html += `
+            <tr>
 
+                <td>${driver.employee_name}</td>
+
+                <td>${driver.status || "-"}</td>
+
+                <td>${startTrip}</td>
+
+                <td>${endTrip}</td>
+
+                <td>${driver.work_hours || "0h 0m"}</td>
+
+            </tr>
+        `;
+    });
+
+    document.getElementById(
+        "driverSummaryTable"
+    ).innerHTML = html;
 }
 
 loadDashboard();
