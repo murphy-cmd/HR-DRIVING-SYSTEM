@@ -1,1 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Payroll Report</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+<div class="container-fluid">
+
+<a class="navbar-brand" href="index.html">
+HR Driving System
+</a>
+
+<div class="navbar-nav">
+
+<a class="nav-link" href="index.html">Dashboard</a>
+<a class="nav-link" href="employees.html">Employees</a>
+<a class="nav-link" href="attendance.html">Attendance</a>
+<a class="nav-link" href="drivers.html">Drivers</a>
+<a class="nav-link" href="history.html">History</a>
+<a class="nav-link" href="dtr.html">DTR</a>
+<a class="nav-link active" href="payroll.html">Payroll</a>
+
+</div>
+
+</div>
+
+</nav>
+
+<div class="container mt-4">
+
+<h2>Payroll Report</h2>
+
+<button
+class="btn btn-primary mb-3"
+onclick="generatePayroll()">
+
+Generate Payroll
+
+</button>
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Employee</th>
+<th>Work Hours</th>
+<th>OT Hours</th>
+<th>Daily Rate</th>
+<th>Total Salary</th>
+
+</tr>
+
+</thead>
+
+<tbody id="payrollTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase-config.js"></script>
+
+<script src="js/payroll.js"></script>
+
+</body>
+
+</html>
