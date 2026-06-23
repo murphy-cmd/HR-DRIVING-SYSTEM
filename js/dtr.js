@@ -7,10 +7,10 @@ async function generateDTR() {
 
     const { data, error } =
         await supabaseClient
-            .from("attendance_logs")
+            .from("attendance_daily")
             .select("*")
             .order(
-                "log_time",
+                "attendance_date",
                 {
                     ascending: false
                 }
@@ -25,43 +25,37 @@ async function generateDTR() {
 
     let html = "";
 
-    data.forEach(log => {
+    data.forEach(record => {
 
         if (
             employee &&
-            !log.employee_name
+            !record.employee_name
                 .toLowerCase()
                 .includes(employee)
         ) {
             return;
         }
 
-        const datePH =
-            new Date(log.log_time)
-            .toLocaleDateString(
-                "en-PH",
-                {
-                    timeZone: "Asia/Manila"
-                }
-            );
-
-        const timePH =
-            new Date(log.log_time)
-            .toLocaleTimeString(
-                "en-PH",
-                {
-                    timeZone: "Asia/Manila"
-                }
-            );
-
         html += `
         <tr>
 
-            <td>${datePH}</td>
+            <td>${record.employee_name}</td>
 
-            <td>${log.action}</td>
+            <td>${record.attendance_date}</td>
 
-            <td>${timePH}</td>
+            <td>${record.am_in || "-"}</td>
+
+            <td>${record.break_time || "-"}</td>
+
+            <td>${record.pm_in || "-"}</td>
+
+            <td>${record.time_out || "-"}</td>
+
+            <td>${record.work_hours || "0h 0m"}</td>
+
+            <td>${record.ot_hours || "0h 0m"}</td>
+
+            <td>${record.status || "-"}</td>
 
         </tr>
         `;
@@ -71,3 +65,5 @@ async function generateDTR() {
         "dtrTable"
     ).innerHTML = html;
 }
+
+generateDTR();
