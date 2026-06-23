@@ -28,29 +28,49 @@ async function generatePayroll() {
 
         // WORK HOURS
 
-        const workMatch =
-            (record.work_hours || "0h 0m")
-            .match(/(\d+)h\s+(\d+)m/);
+        const workText =
+            record.work_hours || "0h 0m";
 
-        const workHours =
-            workMatch
-            ? parseInt(workMatch[1]) +
-              parseInt(workMatch[2]) / 60
-            : 0;
+        const workParts =
+            workText.match(/(\d+)h\s*(\d+)m/);
+
+        let workHours = 0;
+
+        if (workParts) {
+
+            const hrs =
+                Number(workParts[1]);
+
+            const mins =
+                Number(workParts[2]);
+
+            workHours =
+                hrs + (mins / 60);
+        }
 
         // OT HOURS
 
-        const otMatch =
-            (record.ot_hours || "0h 0m")
-            .match(/(\d+)h\s+(\d+)m/);
+        const otText =
+            record.ot_hours || "0h 0m";
 
-        const otHours =
-            otMatch
-            ? parseInt(otMatch[1]) +
-              parseInt(otMatch[2]) / 60
-            : 0;
+        const otParts =
+            otText.match(/(\d+)h\s*(\d+)m/);
 
-        // SALARY COMPUTATION
+        let otHours = 0;
+
+        if (otParts) {
+
+            const hrs =
+                Number(otParts[1]);
+
+            const mins =
+                Number(otParts[2]);
+
+            otHours =
+                hrs + (mins / 60);
+        }
+
+        // PAYROLL COMPUTATION
 
         const hourlyRate =
             dailyRate / 8;
@@ -76,9 +96,7 @@ async function generatePayroll() {
 
             <td>₱${dailyRate.toFixed(2)}</td>
 
-            <td>
-                ₱${totalSalary.toFixed(2)}
-            </td>
+            <td>₱${totalSalary.toFixed(2)}</td>
 
         </tr>
 
