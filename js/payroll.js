@@ -1,4 +1,4 @@
-console.log("Payroll JS Loaded");
+console.log("Payroll Loaded");
 
 async function generatePayroll() {
 
@@ -13,14 +13,9 @@ async function generatePayroll() {
                 }
             );
 
-    console.log("Payroll Data:", data);
-    console.log("Payroll Error:", error);
-
     if (error) {
 
         console.error(error);
-
-        alert(error.message);
 
         return;
     }
@@ -31,33 +26,59 @@ async function generatePayroll() {
 
         const dailyRate = 500;
 
+        // WORK HOURS
+
+        const workMatch =
+            (record.work_hours || "0h 0m")
+            .match(/(\d+)h\s+(\d+)m/);
+
         const workHours =
-            parseInt(record.work_hours) || 0;
+            workMatch
+            ? parseInt(workMatch[1]) +
+              parseInt(workMatch[2]) / 60
+            : 0;
+
+        // OT HOURS
+
+        const otMatch =
+            (record.ot_hours || "0h 0m")
+            .match(/(\d+)h\s+(\d+)m/);
 
         const otHours =
-            parseInt(record.ot_hours) || 0;
+            otMatch
+            ? parseInt(otMatch[1]) +
+              parseInt(otMatch[2]) / 60
+            : 0;
+
+        // SALARY COMPUTATION
 
         const hourlyRate =
             dailyRate / 8;
 
+        const regularPay =
+            workHours * hourlyRate;
+
+        const overtimePay =
+            otHours * hourlyRate * 1.25;
+
         const totalSalary =
-            (workHours * hourlyRate)
-            +
-            (otHours * hourlyRate * 1.25);
+            regularPay + overtimePay;
 
         html += `
 
         <tr>
 
-            <td>${record.employee_name || "-"}</td>
+            <td>${record.employee_name}</td>
 
             <td>${record.work_hours || "0h 0m"}</td>
 
             <td>${record.ot_hours || "0h 0m"}</td>
 
-            <td>₱${dailyRate}</td>
+            <td>₱${dailyRate.toFixed(2)}</td>
 
-            <td>₱${totalSalary.toFixed(2)}</td>
+            <td>
+                ₱${totalSalary.toFixed(2)}
+            </td>
 
         </tr>
 
