@@ -1,93 +1,85 @@
-html += `
-<tr>
+async function generateDTR() {
 
-    <td>${record.employee_name}</td>
+    const employee =
+        document.getElementById("employeeSearch")
+        .value
+        .toLowerCase();
 
-    <td>${record.attendance_date}</td>
+    const { data, error } =
+        await supabaseClient
+            .from("attendance_daily")
+            .select("*")
+            .order(
+                "attendance_date",
+                { ascending: false }
+            );
 
-    <td>${record.am_in || "-"}</td>
+    if (error) {
+        console.error(error);
+        return;
+    }
 
-    <td>${record.break_time || "-"}</td>
+    let html = "";
 
-    <td>${record.pm_in || "-"}</td>
+    data.forEach(record => {
 
-    <td>${record.time_out || "-"}</td>
+        if (
+            employee &&
+            !record.employee_name
+                .toLowerCase()
+                .includes(employee)
+        ) {
+            return;
+        }
 
-    <td>${record.work_hours || "0h 0m"}</td>
+        const amIn =
+            record.am_in
+            ? record.am_in.split("T")[1]
+            : "-";
 
-    <td>${record.ot_hours || "0h 0m"}</td>
+        const breakTime =
+            record.break_time
+            ? record.break_time.split("T")[1]
+            : "-";
 
-    <td>${record.status || "-"}</td>
+        const pmIn =
+            record.pm_in
+            ? record.pm_in.split("T")[1]
+            : "-";
 
-</tr>
-`;
+        const timeOut =
+            record.time_out
+            ? record.time_out.split("T")[1]
+            : "-";
 
-Palitan mo ng buong ito:
+        html += `
+        <tr>
 
-html += `
-<tr>
+            <td>${record.employee_name}</td>
 
-    <td>${record.employee_name}</td>
+            <td>${record.attendance_date}</td>
 
-    <td>${record.attendance_date}</td>
+            <td>${amIn}</td>
 
-    <td>${
-        record.am_in
-        ? new Date(record.am_in).toLocaleTimeString(
-            "en-PH",
-            {
-                hour: "numeric",
-                minute: "2-digit",
-                second: "2-digit"
-            }
-        )
-        : "-"
-    }</td>
+            <td>${breakTime}</td>
 
-    <td>${
-        record.break_time
-        ? new Date(record.break_time).toLocaleTimeString(
-            "en-PH",
-            {
-                hour: "numeric",
-                minute: "2-digit",
-                second: "2-digit"
-            }
-        )
-        : "-"
-    }</td>
+            <td>${pmIn}</td>
 
-    <td>${
-        record.pm_in
-        ? new Date(record.pm_in).toLocaleTimeString(
-            "en-PH",
-            {
-                hour: "numeric",
-                minute: "2-digit",
-                second: "2-digit"
-            }
-        )
-        : "-"
-    }</td>
+            <td>${timeOut}</td>
 
-    <td>${
-        record.time_out
-        ? new Date(record.time_out).toLocaleTimeString(
-            "en-PH",
-            {
-                hour: "numeric",
-                minute: "2-digit",
-                second: "2-digit"
-            }
-        )
-        : "-"
-    }</td>
+            <td>${record.work_hours || "0h 0m"}</td>
 
-    <td>${record.work_hours || "0h 0m"}</td>
+            <td>${record.ot_hours || "0h 0m"}</td>
 
-    <td>${record.ot_hours || "0h 0m"}</td>
+            <td>${record.status || "-"}</td>
 
-    <td>${record.status || "-"}</td>
+        </tr>
+        `;
+    });
 
-</tr>
-`;
+    document.getElementById(
+        "dtrTable"
+    ).innerHTML = html;
+}
+
+generateDTR();
