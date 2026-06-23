@@ -1,3 +1,5 @@
+console.log("Payroll JS Loaded");
+
 async function generatePayroll() {
 
     const { data, error } =
@@ -11,9 +13,14 @@ async function generatePayroll() {
                 }
             );
 
+    console.log("Payroll Data:", data);
+    console.log("Payroll Error:", error);
+
     if (error) {
 
         console.error(error);
+
+        alert(error.message);
 
         return;
     }
@@ -25,14 +32,10 @@ async function generatePayroll() {
         const dailyRate = 500;
 
         const workHours =
-            parseInt(
-                record.work_hours
-            ) || 0;
+            parseInt(record.work_hours) || 0;
 
         const otHours =
-            parseInt(
-                record.ot_hours
-            ) || 0;
+            parseInt(record.ot_hours) || 0;
 
         const hourlyRate =
             dailyRate / 8;
@@ -46,7 +49,7 @@ async function generatePayroll() {
 
         <tr>
 
-            <td>${record.employee_name}</td>
+            <td>${record.employee_name || "-"}</td>
 
             <td>${record.work_hours || "0h 0m"}</td>
 
@@ -54,9 +57,7 @@ async function generatePayroll() {
 
             <td>₱${dailyRate}</td>
 
-            <td>
-                ₱${totalSalary.toFixed(2)}
-            </td>
+            <td>₱${totalSalary.toFixed(2)}</td>
 
         </tr>
 
