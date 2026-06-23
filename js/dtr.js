@@ -5,17 +5,29 @@ async function generateDTR() {
         .value
         .toLowerCase();
 
+    const fromDate =
+        document.getElementById("fromDate")
+        .value;
+
+    const toDate =
+        document.getElementById("toDate")
+        .value;
+
     const { data, error } =
         await supabaseClient
             .from("attendance_daily")
             .select("*")
             .order(
                 "attendance_date",
-                { ascending: false }
+                {
+                    ascending: false
+                }
             );
 
     if (error) {
+
         console.error(error);
+
         return;
     }
 
@@ -28,6 +40,20 @@ async function generateDTR() {
             !record.employee_name
                 .toLowerCase()
                 .includes(employee)
+        ) {
+            return;
+        }
+
+        if (
+            fromDate &&
+            record.attendance_date < fromDate
+        ) {
+            return;
+        }
+
+        if (
+            toDate &&
+            record.attendance_date > toDate
         ) {
             return;
         }
@@ -80,6 +106,44 @@ async function generateDTR() {
     document.getElementById(
         "dtrTable"
     ).innerHTML = html;
+}
+
+function exportExcel() {
+
+    const table =
+        document.querySelector("table");
+
+    const html =
+        table.outerHTML;
+
+    const blob =
+        new Blob(
+            [html],
+            {
+                type:
+                "application/vnd.ms-excel"
+            }
+        );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const a =
+        document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+        "DTR_Report.xls";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+function exportPDF() {
+
+    window.print();
 }
 
 generateDTR();
