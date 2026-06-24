@@ -1,1 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Leave Management</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+<div class="container-fluid">
+
+<a class="navbar-brand" href="index.html">
+HR Driving System
+</a>
+
+<div class="navbar-nav">
+
+<a class="nav-link" href="index.html">Dashboard</a>
+<a class="nav-link" href="employees.html">Employees</a>
+<a class="nav-link" href="attendance-board.html">Attendance</a>
+<a class="nav-link" href="drivers.html">Drivers</a>
+<a class="nav-link" href="history.html">History</a>
+<a class="nav-link" href="dtr.html">DTR</a>
+<a class="nav-link" href="payroll.html">Payroll</a>
+<a class="nav-link" href="payslip.html">Payslip</a>
+<a class="nav-link active" href="leave.html">Leave</a>
+
+</div>
+
+</div>
+
+</nav>
+
+<div class="container mt-4">
+
+<h2>Leave Management</h2>
+
+<div class="card p-4 mb-4">
+
+<h4>Leave Request Form</h4>
+
+<input
+id="employeeName"
+class="form-control mb-2"
+placeholder="Employee Name">
+
+<select
+id="leaveType"
+class="form-select mb-2">
+
+<option value="Vacation Leave">
+Vacation Leave
+</option>
+
+<option value="Sick Leave">
+Sick Leave
+</option>
+
+<option value="Emergency Leave">
+Emergency Leave
+</option>
+
+<option value="Maternity Leave">
+Maternity Leave
+</option>
+
+<option value="Paternity Leave">
+Paternity Leave
+</option>
+
+</select>
+
+<input
+type="date"
+id="startDate"
+class="form-control mb-2">
+
+<input
+type="date"
+id="endDate"
+class="form-control mb-2">
+
+<textarea
+id="reason"
+class="form-control mb-2"
+placeholder="Reason"></textarea>
+
+<button
+class="btn btn-primary"
+onclick="submitLeave()">
+
+Submit Leave Request
+
+</button>
+
+</div>
+
+<div class="card p-4">
+
+<h4>Leave Requests</h4>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Employee</th>
+<th>Leave Type</th>
+<th>Start Date</th>
+<th>End Date</th>
+<th>Reason</th>
+<th>Status</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="leaveTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase-config.js"></script>
+
+<script src="js/leave.js"></script>
+
+</body>
+
+</html>
