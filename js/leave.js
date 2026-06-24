@@ -236,3 +236,4 @@ async function loadLeaves() {
 }
 
 loadLeaves();
+console.log("Leave JS Loaded");
