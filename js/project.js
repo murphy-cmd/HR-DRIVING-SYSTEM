@@ -1,8 +1,10 @@
 // =====================================================
-// RILCO PROJECT MANAGEMENT
+// RILCO PROJECT MANAGEMENT SYSTEM
 // =====================================================
 
 const supabase = window.supabaseClient;
+
+// FORM
 
 const projectName = document.getElementById("projectName");
 const client = document.getElementById("client");
@@ -14,7 +16,10 @@ const status = document.getElementById("status");
 
 const saveProject = document.getElementById("saveProject");
 
-const projectsContainer = document.getElementById("projectsContainer");
+// DISPLAY
+
+const projectsContainer =
+document.getElementById("projectsContainer");
 
 const projectTemplate =
 document.getElementById("projectCardTemplate");
@@ -22,243 +27,276 @@ document.getElementById("projectCardTemplate");
 const searchProject =
 document.getElementById("searchProject");
 
-// =====================================
+// CATEGORY MAP
+
+const categories = {};
+// ============================================
 // LOAD CATEGORY
-// =====================================
+// ============================================
 
 async function loadCategories(){
 
-const {data,error} = await supabase
+    const {data,error}=await supabase
 
-.from("project_categories")
+    .from("project_categories")
 
-.select("*")
+    .select("*")
 
-.order("id");
+    .order("id");
 
-if(error){
+    if(error){
 
-console.log(error);
-
-return;
-
-}
-
-category.innerHTML =
-
-'<option value="">Select Category</option>';
-
-data.forEach(cat=>{
-
-category.innerHTML += `
-
-<option value="${cat.id}">
-
-${cat.category_name}
-
-</option>
-
-`;
-
-});
-
-}
-
-loadCategories();
-
-// =====================================
-// SAVE PROJECT
-// =====================================
-
-saveProject.addEventListener("click",async()=>{
-
-if(projectName.value==""){
-
-alert("Project Name Required");
-
-return;
-
-}
-
-const {error} = await supabase
-
-.from("projects")
-
-.insert({
-
-project_name:projectName.value,
-
-category_id:category.value,
-
-client:client.value,
-
-location:locationInput.value,
-
-start_date:startDate.value,
-
-expected_finish:finishDate.value,
-
-status:status.value
-
-});
-
-if(error){
-
-alert(error.message);
-
-return;
-
-}
-
-alert("Project Saved");
-
-projectName.value="";
-client.value="";
-locationInput.value="";
-startDate.value="";
-finishDate.value="";
-
-loadProjects();
-
-});
-
-// ======================================
-// LOAD PROJECTS
-// ======================================
-
-async function loadProjects() {
-
-    projectsContainer.innerHTML = "";
-
-    const { data, error } = await supabase
-
-        .from("projects")
-
-        .select(`
-            *,
-            project_categories(
-                category_name
-            )
-        `)
-
-        .order("created_at", {
-            ascending: false
-        });
-
-    if (error) {
-
-        console.log(error);
+        console.error(error);
 
         return;
 
     }
 
-    data.forEach(project => {
+    category.innerHTML =
+    '<option value="">Select Category</option>';
+
+    data.forEach(cat=>{
+
+        categories[cat.id]=cat.category_name;
+
+        category.innerHTML +=
+
+        `<option value="${cat.id}">
+            ${cat.category_name}
+        </option>`;
+
+    });
+
+}
+// ============================================
+// INITIALIZE
+// ============================================
+
+async function initialize(){
+
+    await loadCategories();
+
+    await loadProjects();
+
+}
+
+initialize();
+// ============================================
+// SAVE PROJECT
+// ============================================
+
+saveProject.addEventListener("click", async () => {
+
+    if(projectName.value.trim() === ""){
+
+        alert("Please enter the Project Name.");
+        return;
+
+    }
+
+    const { error } = await supabase
+
+    .from("projects")
+
+    .insert({
+
+        project_name: projectName.value,
+
+        category_id: Number(category.value),
+
+        client: client.value,
+
+        location: locationInput.value,
+
+        start_date: startDate.value,
+
+        expected_finish: finishDate.value,
+
+        status: status.value
+
+    });
+
+    if(error){
+
+        console.error(error);
+
+        alert(error.message);
+
+        return;
+
+    }
+
+    alert("Project saved successfully!");
+
+    projectName.value = "";
+    client.value = "";
+    category.value = "";
+    locationInput.value = "";
+    startDate.value = "";
+    finishDate.value = "";
+    status.value = "Active";
+
+    loadProjects();
+
+});
+// ============================================
+// LOAD PROJECTS
+// ============================================
+
+async function loadProjects(){
+
+    projectsContainer.innerHTML = "";
+
+    const { data, error } = await supabase
+
+    .from("projects")
+
+    .select("*")
+
+    .order("created_at", { ascending:false });
+
+    if(error){
+
+        console.error(error);
+
+        return;
+
+    }
+
+    data.forEach(project=>{
 
         const card = projectTemplate.content.cloneNode(true);
 
         card.querySelector(".project-title").textContent =
-            project.project_name;
+        project.project_name;
 
         card.querySelector(".project-client").textContent =
-            project.client;
+        project.client;
 
         card.querySelector(".project-category").textContent =
-            project.project_categories.category_name;
+        categories[project.category_id] || "-";
 
         card.querySelector(".project-location").textContent =
-            project.location;
+        project.location;
 
-        card.querySelector(".employee-count").textContent =
-            "0";
+        card.querySelector(".employee-count").textContent = "0";
 
         card.querySelector(".current-procedure").textContent =
-            "Waiting Assignment";
+        "Waiting Assignment";
 
         card.querySelector(".estimated-finish").textContent =
-            project.expected_finish;
-
-        // STATUS
+        project.expected_finish || "-";
 
         const badge =
-            card.querySelector(".badge");
+        card.querySelector(".badge");
 
         badge.textContent =
-            project.status;
+        project.status;
 
-        if (project.status == "Completed") {
+        badge.className = "badge";
 
-            badge.className =
-                "badge bg-danger";
+        switch(project.status){
+
+            case "Active":
+
+                badge.classList.add("bg-success");
+
+                break;
+
+            case "Completed":
+
+                badge.classList.add("bg-danger");
+
+                break;
+
+            case "On Hold":
+
+                badge.classList.add("bg-warning","text-dark");
+
+                break;
+
+            default:
+
+                badge.classList.add("bg-secondary");
 
         }
 
-        if (project.status == "On Hold") {
+        card.querySelector(".project-progress").style.width="0%";
 
-            badge.className =
-                "badge bg-warning text-dark";
+        card.querySelector(".edit-project").dataset.id =
+        project.id;
 
-        }
-
-        if (project.status == "Active") {
-
-            badge.className =
-                "badge bg-success";
-
-        }
-
-        // Progress Placeholder
-
-        card.querySelector(".project-progress")
-            .style.width = "0%";
-
-        // Save ID
-
-        card.querySelector(".edit-project")
-            .dataset.id = project.id;
-
-        card.querySelector(".delete-project")
-            .dataset.id = project.id;
+        card.querySelector(".delete-project").dataset.id =
+        project.id;
 
         projectsContainer.appendChild(card);
 
     });
 
 }
-
-loadProjects();
-
-// ======================================
+// ============================================
 // SEARCH PROJECT
-// ======================================
+// ============================================
 
 searchProject.addEventListener("keyup", () => {
 
-    const keyword =
-        searchProject.value.toLowerCase();
+    const keyword = searchProject.value.toLowerCase();
 
-    const cards =
-        document.querySelectorAll(".project-card");
+    const cards = document.querySelectorAll(".project-card");
 
     cards.forEach(card => {
 
-        const title =
-            card.querySelector(".project-title")
-                .innerText
-                .toLowerCase();
+        const title = card.querySelector(".project-title")
+            .textContent
+            .toLowerCase();
 
-        if (title.includes(keyword)) {
+        if(title.includes(keyword)){
 
-            card.parentElement.style.display =
-                "block";
+            card.parentElement.style.display = "";
 
-        } else {
+        }else{
 
-            card.parentElement.style.display =
-                "none";
+            card.parentElement.style.display = "none";
 
         }
 
     });
 
 });
+// ============================================
+// DELETE PROJECT
+// ============================================
+
+async function deleteProject(id){
+
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this project?"
+    );
+
+    if(!confirmDelete) return;
+
+    const { error } = await supabase
+
+        .from("projects")
+
+        .delete()
+
+        .eq("id", id);
+
+    if(error){
+
+        console.error(error);
+
+        alert(error.message);
+
+        return;
+
+    }
+
+    alert("Project deleted successfully.");
+
+    loadProjects();
+
+}
+card.querySelector(".delete-project").dataset.id =
+project.id;
