@@ -2,20 +2,57 @@
 <html lang="en">
 
 <head>
-    <style>
+
+<style>
+
+body{
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* NAVBAR */
+
+.navbar{
+    background:linear-gradient(90deg,#0b1220,#111827);
+    padding:14px 40px;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+/* LOGO */
 
 .logo{
-    height:95px;
+    height:60px;
     width:auto;
-    transition:.3s ease;
-    filter:drop-shadow(0 0 8px rgba(108,77,255,.45));
+    transition:.35s ease;
 }
 
 .logo:hover{
-    transform:scale(1.05);
+    transform:scale(1.08);
+    filter:drop-shadow(0 0 12px #7C5CFF);
+}
+
+/* MENU */
+
+.navbar-nav{
+    gap:22px;
+}
+
+.nav-link{
+    color:white !important;
+    font-size:20px;
+    font-weight:500;
+    transition:.3s;
+}
+
+.nav-link:hover{
+    color:#8B5CF6 !important;
+}
+
+.nav-link.active{
+    color:#8B5CF6 !important;
 }
 
 </style>
+
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,10 +71,10 @@
 
 <a class="navbar-brand d-flex align-items-center" href="index.html">
 
-    <img
-        src="./asset/rilco-logo.png"
-        alt="RILCO Logo"
-        style="height:60px; width:auto;">
+   <img
+    src="./asset/rilco-logo.png"
+    alt="RILCO Logo"
+    class="logo">
 
 </a>
 
