@@ -3,111 +3,53 @@
 <html lang="en">
 
 <head>
+
 <style>
 
 body{
-
     font-family:'Segoe UI',sans-serif;
-    background:#f4f7fb;
-
 }
+
+/* NAVBAR */
 
 .navbar{
-
-    background:linear-gradient(
-        90deg,
-        #111827,
-        #0f172a
-    );
-
-    padding:15px 30px;
-
-    box-shadow:0 5px 20px rgba(0,0,0,.25);
-
+    background:linear-gradient(90deg,#0b1220,#111827);
+    padding:14px 40px;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
+/* LOGO */
+
 .logo{
-
-    height:200px;
-
+    height:60px;
     width:auto;
-
-    transition:.35s;
-
-    filter:drop-shadow(
-        0 0 12px rgba(108,77,255,.5)
-    );
-
+    transition:.35s ease;
 }
 
 .logo:hover{
-
-    transform:scale(1.05);
-
+    transform:scale(1.08);
+    filter:drop-shadow(0 0 12px #7C5CFF);
 }
 
+/* MENU */
+
 .navbar-nav{
-
-    gap:10px;
-
+    gap:22px;
 }
 
 .nav-link{
-
     color:white !important;
-
     font-size:20px;
-
-    font-weight:600;
-
-    padding:10px 16px !important;
-
+    font-weight:500;
     transition:.3s;
-
 }
 
 .nav-link:hover{
-
-    color:#7C5CFF !important;
-
+    color:#8B5CF6 !important;
 }
 
 .nav-link.active{
-
-    color:#7C5CFF !important;
-
-    border-bottom:4px solid #7C5CFF;
-
-}
-
-.container{
-
-    max-width:1500px;
-
-}
-
-.card{
-
-    border:none;
-
-    border-radius:18px;
-
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
-
-}
-
-.btn-primary{
-
-    background:#5B43D6;
-
-    border:none;
-
-}
-
-.btn-primary:hover{
-
-    background:#4B35BD;
-
+    color:#8B5CF6 !important;
 }
 
 </style>
@@ -128,11 +70,10 @@ body{
     <div class="container-fluid px-4">
 
         <a class="navbar-brand d-flex align-items-center" href="index.html">
-
-            <img
-                src="asset/rilco-logo.png"
-                alt="RILCO Logo"
-                class="logo">
+<img
+    src="./asset/rilco-logo.png"
+    alt="RILCO Logo"
+    class="logo">
 
         </a>
 
