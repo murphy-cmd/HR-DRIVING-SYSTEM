@@ -24,13 +24,12 @@ body{
 .logo{
     height:60px;
     width:auto;
-    transition:.35s ease;
-    cursor:pointer;
+    transition:.35s;
 }
 
 .logo:hover{
     transform:scale(1.08);
-    filter:drop-shadow(0 0 12px #7C5CFF);
+    filter:drop-shadow(0 0 10px #7C5CFF);
 }
 
 
