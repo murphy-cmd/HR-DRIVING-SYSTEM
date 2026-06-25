@@ -1,1 +1,112 @@
+/* ==========================================
+   RILCO BUILDERS PAYROLL SYSTEM
+   GLOBAL STYLE
+========================================== */
 
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* BODY */
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f4f7fb;
+}
+
+/* =======================
+   NAVBAR
+======================= */
+
+.navbar{
+    background:linear-gradient(90deg,#0b1220,#111827);
+    padding:14px 40px;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+/* =======================
+   LOGO
+======================= */
+
+.logo{
+    height:60px;
+    width:auto;
+    transition:.35s ease;
+    cursor:pointer;
+}
+
+.logo:hover{
+    transform:scale(1.08);
+    filter:drop-shadow(0 0 12px #7C5CFF);
+}
+
+/* =======================
+   NAVIGATION
+======================= */
+
+.navbar-nav{
+    gap:22px;
+}
+
+.nav-link{
+    color:#fff !important;
+    font-size:20px;
+    font-weight:500;
+    transition:.3s;
+}
+
+.nav-link:hover{
+    color:#8B5CF6 !important;
+}
+
+.nav-link.active{
+    color:#8B5CF6 !important;
+}
+
+/* =======================
+   CONTAINER
+======================= */
+
+.container{
+    max-width:1500px;
+}
+
+/* =======================
+   CARDS
+======================= */
+
+.card{
+    border:none;
+    border-radius:18px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+/* =======================
+   TABLES
+======================= */
+
+.table{
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.table-dark{
+    background:#111827;
+}
+
+/* =======================
+   BUTTONS
+======================= */
+
+.btn-primary{
+    background:#6C4DFF;
+    border:none;
+}
+
+.btn-primary:hover{
+    background:#563BDB;
+}
