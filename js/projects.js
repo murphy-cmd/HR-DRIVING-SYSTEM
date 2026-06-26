@@ -94,7 +94,7 @@ saveProject.addEventListener("click", async () => {
 
     }
 
-    const { error } = await supabase
+    const { error } = await db
 
     .from("projects")
 
@@ -147,7 +147,7 @@ async function loadProjects(){
 
     projectsContainer.innerHTML = "";
 
-    const { data, error } = await supabase
+    const { data, error } = await db
 
     .from("projects")
 
@@ -275,7 +275,7 @@ async function deleteProject(id){
 
     if(!confirmDelete) return;
 
-    const { error } = await supabase
+    const { error } = await db
 
         .from("projects")
 
@@ -297,10 +297,11 @@ async function deleteProject(id){
 
     loadProjects();
     
-card.querySelector(".project-progress").style.width="0%";
-    
+    card.querySelector(".delete-project").dataset.id =
+project.id;
 
-}
+    card.querySelector(".project-progress").style.width = "0%";
+
 const deleteBtn = card.querySelector(".delete-project");
 
 deleteBtn.dataset.id = project.id;
@@ -310,3 +311,7 @@ deleteBtn.addEventListener("click", () => {
     deleteProject(project.id);
 
 });
+
+projectsContainer.appendChild(card);
+
+}
