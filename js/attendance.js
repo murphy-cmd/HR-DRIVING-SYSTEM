@@ -291,10 +291,9 @@ async function recordAttendance(
 
     switch(action){
 
-       case "AM_IN": 
+      case "AM_IN":
 
     updateData.am_in = philippinesTime;
-
     employeeStatus = "WORKING";
 
     if (employee.schedule_in) {
@@ -318,81 +317,55 @@ async function recordAttendance(
             (employee.grace_period || 0)
         );
 
-        const lateMinutes =
-            Math.max(
-                0,
-                Math.floor(
-                    (actualTime - scheduledTime)
-                    / 1000 / 60
-                )
-            );
+        const lateMinutes = Math.max(
+            0,
+            Math.floor(
+                (actualTime - scheduledTime) /
+                1000 / 60
+            )
+        );
+
+        updateData.late_minutes = lateMinutes;
 
         if (lateMinutes <= 0) {
 
-    updateData.late_minutes = "On Time";
+            updateData.late_display = "On Time";
 
-} else {
+        } else {
 
-    const hrs = Math.floor(lateMinutes / 60);
-    const mins = lateMinutes % 60;
+            const hrs =
+                Math.floor(lateMinutes / 60);
 
-    if (hrs > 0 && mins > 0) {
+            const mins =
+                lateMinutes % 60;
 
-        updateData.late_minutes =
-            `${hrs} hr ${mins} min`;
+            if (hrs > 0 && mins > 0) {
 
-    } else if (hrs > 0) {
+                updateData.late_display =
+                    `${hrs} hr ${mins} min`;
 
-        updateData.late_minutes =
-            `${hrs} hr`;
+            } else if (hrs > 0) {
 
-    } else {
+                updateData.late_display =
+                    `${hrs} hr`;
 
-       updateData.late_minutes =
-    lateMinutes;
+            } else {
 
-if (lateMinutes <= 0) {
+                updateData.late_display =
+                    `${mins} min`;
 
-    updateData.late_display =
-        "On Time";
+            }
 
-} else {
+        }
 
-    const hrs =
-        Math.floor(lateMinutes / 60);
-
-    const mins =
-        lateMinutes % 60;
-
-    if (hrs > 0 && mins > 0) {
-
-        updateData.late_display =
-            `${hrs} hr ${mins} min`;
+        updateData.attendance_status =
+            lateMinutes > 0
+                ? "LATE"
+                : "ON TIME";
 
     }
 
-    else if (hrs > 0) {
-
-        updateData.late_display =
-            `${hrs} hr`;
-
-    }
-
-    else {
-
-        updateData.late_display =
-            `${mins} min`;
-
-    }
-
-
-updateData.attendance_status =
-    lateMinutes > 0
-        ? "LATE"
-        : "ON TIME";
-    }
-
-break;
+    break;
 
         case "BREAK":
 
