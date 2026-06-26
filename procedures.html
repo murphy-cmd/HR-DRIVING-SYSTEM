@@ -92,13 +92,16 @@
 
             <div class="col-md-3">
 
-                <label class="form-label">Estimated Time</label>
+               <label class="form-label">Status</label>
 
-                <input
-                type="text"
-                id="duration"
-                class="form-control"
-                placeholder="Ex. 2 Hours">
+<select
+id="status"
+class="form-select">
+
+    <option>Active</option>
+    <option>Inactive</option>
+
+</select>
 
             </div>
 
@@ -162,13 +165,10 @@
 
                     <tr>
 
-                        <th width="35%">Procedure Name</th>
-
-                        <th width="25%">Department</th>
-
-                        <th width="20%">Estimated Time</th>
-
-                        <th width="20%">Action</th>
+                       <th width="35%">Procedure Name</th>
+<th width="25%">Department</th>
+<th width="20%">Status</th>
+<th width="20%">Action</th>
 
                     </tr>
 
@@ -178,12 +178,13 @@
 
                     <tr>
 
-                        <td>Primer Application</td>
-
-                        <td>Painting</td>
-
-                        <td>2 Hours</td>
-
+                       <td>Primer Application</td>
+<td>Painting</td>
+<td>
+    <span class="badge bg-success">
+        Active
+    </span>
+</td>
                         <td>
 
                             <button class="btn btn-warning btn-sm">
