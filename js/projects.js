@@ -298,5 +298,12 @@ async function deleteProject(id){
     loadProjects();
 
 }
-card.querySelector(".delete-project").dataset.id =
-project.id;
+const deleteBtn = card.querySelector(".delete-project");
+
+deleteBtn.dataset.id = project.id;
+
+deleteBtn.addEventListener("click", () => {
+
+    deleteProject(project.id);
+
+});
