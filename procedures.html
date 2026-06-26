@@ -1,1 +1,223 @@
+<div class="container mt-4">
 
+    <h2 class="mb-4">Procedures</h2>
+
+    <!-- Add Procedure -->
+    <div class="card p-3 mb-4">
+
+        <h5 class="mb-3">Add Procedure</h5>
+
+        <div class="row g-2">
+
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="procedureName" placeholder="Procedure Name">
+            </div>
+
+            <div class="col-md-3">
+                <select class="form-select" id="department">
+                    <option value="">Select Department</option>
+                    <option>Painting</option>
+                    <option>Finishing</option>
+                    <option>Carpentry</option>
+                    <option>Driver</option>
+                    <option>Safety</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="duration" placeholder="Estimated Time">
+            </div>
+
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" onclick="addProcedure()">
+                    Save
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Search -->
+
+    <div class="row mb-3">
+
+        <div class="col-md-4">
+            <input type="text"
+                   id="searchProcedure"
+                   class="form-control"
+                   placeholder="Search Procedure..."
+                   onkeyup="searchProcedure()">
+        </div>
+
+    </div>
+
+    <!-- Table -->
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-striped">
+
+            <thead class="table-dark">
+
+                <tr>
+                    <th>Procedure</th>
+                    <th>Department</th>
+                    <th>Estimated Time</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="procedureTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+let procedures = [
+
+    {
+        name:"Primer Application",
+        department:"Painting",
+        duration:"2 Hours"
+    },
+
+    {
+        name:"Putty Application",
+        department:"Painting",
+        duration:"1 Hour"
+    },
+
+    {
+        name:"Sanding",
+        department:"Finishing",
+        duration:"2 Hours"
+    }
+
+];
+
+displayProcedures();
+
+function displayProcedures(){
+
+    const table = document.getElementById("procedureTable");
+
+    table.innerHTML = "";
+
+    procedures.forEach((item,index)=>{
+
+        table.innerHTML += `
+
+        <tr>
+
+            <td>${item.name}</td>
+
+            <td>${item.department}</td>
+
+            <td>${item.duration}</td>
+
+            <td>
+
+                <button class="btn btn-warning btn-sm"
+                onclick="editProcedure(${index})">
+
+                    Edit
+
+                </button>
+
+                <button class="btn btn-danger btn-sm"
+                onclick="deleteProcedure(${index})">
+
+                    Delete
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+function addProcedure(){
+
+    const name=document.getElementById("procedureName").value;
+    const department=document.getElementById("department").value;
+    const duration=document.getElementById("duration").value;
+
+    if(name==""||department==""||duration==""){
+
+        alert("Please complete all fields.");
+        return;
+
+    }
+
+    procedures.push({
+
+        name,
+        department,
+        duration
+
+    });
+
+    displayProcedures();
+
+    document.getElementById("procedureName").value="";
+    document.getElementById("department").value="";
+    document.getElementById("duration").value="";
+
+}
+
+function deleteProcedure(index){
+
+    if(confirm("Delete this procedure?")){
+
+        procedures.splice(index,1);
+
+        displayProcedures();
+
+    }
+
+}
+
+function editProcedure(index){
+
+    const newName=prompt("Procedure Name",procedures[index].name);
+
+    if(newName!=null){
+
+        procedures[index].name=newName;
+
+        displayProcedures();
+
+    }
+
+}
+
+function searchProcedure(){
+
+    let input=document.getElementById("searchProcedure").value.toLowerCase();
+
+    let rows=document.querySelectorAll("#procedureTable tr");
+
+    rows.forEach(row=>{
+
+        row.style.display=row.innerText.toLowerCase().includes(input)
+        ? ""
+        : "none";
+
+    });
+
+}
+
+</script>
