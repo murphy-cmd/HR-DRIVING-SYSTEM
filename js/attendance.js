@@ -289,13 +289,60 @@ async function recordAttendance(
 
         case "AM_IN":
 
-            updateData.am_in =
-                philippinesTime;
+           case "AM_IN":
 
-            employeeStatus =
-                "WORKING";
+    updateData.am_in = philippinesTime;
 
-            break;
+    employeeStatus = "WORKING";
+
+    const scheduleIn =
+        employee.schedule_in;
+
+    if (scheduleIn) {
+
+        const actualTime =
+            new Date(philippinesTime);
+
+        const scheduledTime =
+            new Date(philippinesTime);
+
+        const [hour, minute] =
+            scheduleIn.split(":");
+
+        scheduledTime.setHours(
+            Number(hour),
+            Number(minute),
+            0,
+            0
+        );
+
+        const grace =
+            employee.grace_period || 0;
+
+        scheduledTime.setMinutes(
+            scheduledTime.getMinutes() + grace
+        );
+
+        const lateMinutes =
+            Math.max(
+                0,
+                Math.floor(
+                    (actualTime - scheduledTime)
+                    / 1000 / 60
+                )
+            );
+
+        updateData.late_minutes =
+            lateMinutes;
+
+        updateData.attendance_status =
+            lateMinutes > 0
+                ? "LATE"
+                : "ON TIME";
+
+    }
+
+    break;
 
         case "BREAK":
 
@@ -317,18 +364,62 @@ async function recordAttendance(
 
             break;
 
-        case "TIME_OUT":
+       case "TIME_OUT":
 
-            updateData.time_out =
-                philippinesTime;
+    updateData.time_out = philippinesTime;
+    updateData.completed = true;
+    employeeStatus = "COMPLETED";
 
-            employeeStatus =
-                "COMPLETED";
+    if (daily && daily.am_in) {
 
-            updateData.completed =
-                true;
+        const amIn = new Date(daily.am_in);
+        const timeOut = new Date(philippinesTime);
 
-            break;
+        let totalMinutes =
+            Math.floor(
+                (timeOut - amIn) / 1000 / 60
+            );
+
+        if (totalMinutes < 0) {
+            totalMinutes = 0;
+        }
+
+        updateData.work_hours =
+            `${Math.floor(totalMinutes / 60)}h ${totalMinutes % 60}m`;
+
+        const shiftEnd = new Date(amIn);
+
+        if (employee.employee_type === "office") {
+
+            shiftEnd.setHours(18, 0, 0, 0);
+
+        } else if (employee.employee_type === "warehouse") {
+
+            shiftEnd.setHours(17, 0, 0, 0);
+
+        } else {
+
+            shiftEnd.setHours(18, 0, 0, 0);
+
+        }
+
+        let otMinutes = 0;
+
+        if (timeOut > shiftEnd) {
+
+            otMinutes =
+                Math.floor(
+                    (timeOut - shiftEnd) / 1000 / 60
+                );
+
+        }
+
+        updateData.ot_hours =
+            `${Math.floor(otMinutes / 60)}h ${otMinutes % 60}m`;
+
+    }
+
+    break;
 
         case "START_TRIP":
 
