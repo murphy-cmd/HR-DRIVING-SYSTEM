@@ -223,18 +223,19 @@ async function loadProjects(){
 
        card.querySelector(".edit-project").dataset.id = project.id;
 
-const deleteBtn = card.querySelector(".delete-project");
+        const deleteBtn = card.querySelector(".delete-project");
 
-deleteBtn.dataset.id = project.id;
+        deleteBtn.dataset.id = project.id;
 
-deleteBtn.addEventListener("click", () => {
+        deleteBtn.addEventListener("click", () => {
 
-    deleteProject(project.id);
+            deleteProject(project.id);
 
-});
+        });
 
-projectsContainer.appendChild(card);
+        projectsContainer.appendChild(card);
 
+    });
 
 }
 // ============================================
