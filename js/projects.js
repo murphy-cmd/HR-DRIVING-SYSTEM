@@ -15,7 +15,7 @@ const finishDate = document.getElementById("finishDate");
 const status = document.getElementById("status");
 
 const saveProject = document.getElementById("saveProject");
-
+let editingProjectId = null;
 // DISPLAY
 
 const projectsContainer =
@@ -94,49 +94,58 @@ saveProject.addEventListener("click", async () => {
 
     }
 
-    const { error } = await db
+ let response;
+
+if(editingProjectId){
+
+    response = await db
+
+    .from("projects")
+
+    .update({
+
+        project_name: projectName.value,
+        category_id: Number(category.value),
+        client: client.value,
+        location: locationInput.value,
+        start_date: startDate.value,
+        expected_finish: finishDate.value,
+        status: status.value
+
+    })
+
+    .eq("id", editingProjectId);
+
+}else{
+
+    response = await db
 
     .from("projects")
 
     .insert({
 
         project_name: projectName.value,
-
         category_id: Number(category.value),
-
         client: client.value,
-
         location: locationInput.value,
-
         start_date: startDate.value,
-
         expected_finish: finishDate.value,
-
         status: status.value
 
     });
 
-    if(error){
+}
 
-        console.error(error);
-
-        alert(error.message);
-
-        return;
-
-    }
-
-    alert("Project saved successfully!");
-
-    projectName.value = "";
-    client.value = "";
-    category.value = "";
-    locationInput.value = "";
-    startDate.value = "";
-    finishDate.value = "";
-    status.value = "Active";
+const { error } = response;
 
     loadProjects();
+    editingProjectId = null;
+
+saveProject.textContent = "Save Project";
+
+bootstrap.Modal.getInstance(
+    document.getElementById("projectModal")
+).hide();
 
 });
 // ============================================
@@ -221,7 +230,29 @@ async function loadProjects(){
 
         }
 
-       card.querySelector(".edit-project").dataset.id = project.id;
+     const editBtn = card.querySelector(".edit-project");
+
+editBtn.addEventListener("click", () => {
+
+    editingProjectId = project.id;
+
+    projectName.value = project.project_name;
+    client.value = project.client;
+    category.value = project.category_id;
+    locationInput.value = project.location;
+    startDate.value = project.start_date;
+    finishDate.value = project.expected_finish;
+    status.value = project.status;
+
+    saveProject.textContent = "Update Project";
+
+    const modal = new bootstrap.Modal(
+        document.getElementById("projectModal")
+    );
+
+    modal.show();
+
+});
 
         const deleteBtn = card.querySelector(".delete-project");
 
