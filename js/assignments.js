@@ -4,185 +4,154 @@
 
 const db = window.supabaseClient;
 
+// =====================================================
 // FORM
+// =====================================================
 
-const employeeSelect =
-document.getElementById("employeeSelect");
+const employeeSelect = document.getElementById("employeeSelect");
+const projectSelect = document.getElementById("projectSelect");
+const procedureSelect = document.getElementById("procedureSelect");
+const assignmentNotes = document.getElementById("assignmentNotes");
+const assignEmployee = document.getElementById("assignEmployee");
 
-const projectSelect =
-document.getElementById("projectSelect");
-
-const procedureSelect =
-document.getElementById("procedureSelect");
-
-const assignmentNotes =
-document.getElementById("assignmentNotes");
-
-const assignEmployee =
-document.getElementById("assignEmployee");
-
+// =====================================================
 // TABLES
+// =====================================================
 
-const assignmentTable =
-document.getElementById("assignmentTable");
+const assignmentTable = document.getElementById("assignmentTable");
+const historyTable = document.getElementById("historyTable");
 
-const historyTable =
-document.getElementById("historyTable");
-
+// =====================================================
 // DASHBOARD
+// =====================================================
 
-const runningProjects =
-document.getElementById("runningProjects");
+const runningProjects = document.getElementById("runningProjects");
+const workingEmployees = document.getElementById("workingEmployees");
+const assignmentCount = document.getElementById("assignmentCount");
+const hoursToday = document.getElementById("hoursToday");
 
-const workingEmployees =
-document.getElementById("workingEmployees");
-
-const assignmentCount =
-document.getElementById("assignmentCount");
-
-const hoursToday =
-document.getElementById("hoursToday");
-
-// =======================================
+// =====================================================
 // TRANSFER
-// =======================================
+// =====================================================
 
-const transferProject =
-document.getElementById("transferProject");
-
-const transferProcedure =
-document.getElementById("transferProcedure");
-
-const transferRemarks =
-document.getElementById("transferRemarks");
-
-const confirmTransfer =
-document.getElementById("confirmTransfer");
+const transferProject = document.getElementById("transferProject");
+const transferProcedure = document.getElementById("transferProcedure");
+const transferRemarks = document.getElementById("transferRemarks");
+const confirmTransfer = document.getElementById("confirmTransfer");
 
 let selectedAssignment = null;
 
-// =======================================
+// =====================================================
 // LOAD EMPLOYEES
-// =======================================
+// =====================================================
 
-async function loadEmployees(){
-
-    const { data, error } = await db
-
-    .from("employees")
-
-    .select("*")
-
-    .order("full_name");
- console.log("Employees:", data);
-console.log("Employee Error:", error);
-
-   if(error){
-
-    console.error(error);
-
-    alert(error.message);
-
-    return;
-
-}
-
-    employeeSelect.innerHTML =
-    '<option value="">Select Employee</option>';
-
-    data.forEach(emp=>{
-
-        employeeSelect.innerHTML += `
-
-        <option value="${emp.id}">
-
-        ${emp.full_name}
-
-        </option>
-
-        `;
-
-    });
-
-}
-// =======================================
-// LOAD PROJECTS
-// =======================================
-
-async function loadProjects(){
+async function loadEmployees() {
 
     const { data, error } = await db
 
-    .from("projects")
+        .from("employees")
 
-    .select("*")
+        .select("id, full_name")
 
-    .order("project_name");
-console.log("Projects:", data);
-console.log("Project Error:", error);
+        .order("full_name");
 
-   if(error){
+    if (error) {
 
-    console.error(error);
-
-    alert(error.message);
-
-    return;
-
-}
-
-    projectSelect.innerHTML =
-    '<option value="">Select Project</option>';
-
-    document.getElementById("filterProject").innerHTML =
-    '<option value="">All Projects</option>';
-
-    data.forEach(project=>{
-
-        projectSelect.innerHTML += `
-
-        <option value="${project.id}">
-
-        ${project.project_name}
-
-        </option>
-
-        `;
-
-        document.getElementById("filterProject").innerHTML += `
-
-        <option value="${project.id}">
-
-        ${project.project_name}
-
-        </option>
-
-        `;
-
-    });
-
-}
-// =======================================
-// LOAD PROCEDURES BASED ON PROJECT
-// =======================================
-
-projectSelect.addEventListener("change", async () => {
-
-    procedureSelect.innerHTML =
-    '<option value="">Loading...</option>';
-
-    if (projectSelect.value == "") {
-
-        procedureSelect.innerHTML =
-        '<option value="">Select Procedure</option>';
+        console.error(error);
 
         return;
 
     }
 
-    // Kunin ang category ng project
+    employeeSelect.innerHTML =
+    `<option value="">Select Employee</option>`;
 
-    const { data: project, error: projectError } = await db
+    data.forEach(emp => {
+
+        employeeSelect.innerHTML += `
+
+<option value="${emp.id}">
+${emp.full_name}
+</option>
+
+`;
+
+    });
+
+}
+
+// =====================================================
+// LOAD PROJECTS
+// =====================================================
+
+async function loadProjects() {
+
+    const { data, error } = await db
+
+        .from("projects")
+
+        .select("id, project_name")
+
+        .order("project_name");
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+
+    }
+
+    projectSelect.innerHTML =
+    `<option value="">Select Project</option>`;
+
+    const filterProject =
+    document.getElementById("filterProject");
+
+    filterProject.innerHTML =
+    `<option value="">All Projects</option>`;
+
+    data.forEach(project => {
+
+        projectSelect.innerHTML += `
+
+<option value="${project.id}">
+${project.project_name}
+</option>
+
+`;
+
+        filterProject.innerHTML += `
+
+<option value="${project.id}">
+${project.project_name}
+</option>
+
+`;
+
+    });
+
+}
+
+// =====================================================
+// LOAD PROCEDURES
+// =====================================================
+
+projectSelect.addEventListener("change", async () => {
+
+    procedureSelect.innerHTML =
+    `<option value="">Loading...</option>`;
+
+    if (projectSelect.value == "") {
+
+        procedureSelect.innerHTML =
+        `<option value="">Select Procedure</option>`;
+
+        return;
+
+    }
+
+    const { data: project } = await db
 
         .from("projects")
 
@@ -192,17 +161,9 @@ projectSelect.addEventListener("change", async () => {
 
         .single();
 
-    if (projectError) {
+    if (!project) return;
 
-        console.log(projectError);
-
-        return;
-
-    }
-
-    // Kunin ang lahat ng procedures ng category
-
-    const { data: procedures, error } = await db
+    const { data, error } = await db
 
         .from("procedures")
 
@@ -214,16 +175,16 @@ projectSelect.addEventListener("change", async () => {
 
     if (error) {
 
-        console.log(error);
+        console.error(error);
 
         return;
 
     }
 
     procedureSelect.innerHTML =
-    '<option value="">Select Procedure</option>';
+    `<option value="">Select Procedure</option>`;
 
-    procedures.forEach(proc => {
+    data.forEach(proc => {
 
         procedureSelect.innerHTML += `
 
@@ -237,35 +198,68 @@ ${proc.procedure_name}
 
 });
 
-// =======================================
+// =====================================================
+// INITIALIZE
+// =====================================================
+
+async function initialize() {
+
+    await loadEmployees();
+
+    await loadProjects();
+
+    await loadAssignments();
+
+    await loadProjectStats();
+
+}
+
+initialize();
+
+// =====================================================
 // ASSIGN EMPLOYEE
-// =======================================
+// =====================================================
 
 assignEmployee.addEventListener("click", async () => {
 
     if (employeeSelect.value === "") {
+
         alert("Please select an employee.");
+
         return;
+
     }
 
     if (projectSelect.value === "") {
+
         alert("Please select a project.");
+
         return;
+
     }
 
     if (procedureSelect.value === "") {
+
         alert("Please select a procedure.");
+
         return;
+
     }
 
     const employeeName =
-        employeeSelect.options[employeeSelect.selectedIndex].text;
+    employeeSelect.options[
+        employeeSelect.selectedIndex
+    ].text;
 
     const projectName =
-        projectSelect.options[projectSelect.selectedIndex].text;
+    projectSelect.options[
+        projectSelect.selectedIndex
+    ].text;
 
     const procedureName =
-        procedureSelect.options[procedureSelect.selectedIndex].text;
+    procedureSelect.options[
+        procedureSelect.selectedIndex
+    ].text;
 
     const { error } = await db
 
@@ -285,11 +279,11 @@ assignEmployee.addEventListener("click", async () => {
 
             procedure_name: procedureName,
 
-            start_time: new Date().toISOString(),
+            notes: assignmentNotes.value,
 
             status: "WORKING",
 
-            notes: assignmentNotes.value,
+            start_time: new Date().toISOString(),
 
             assigned_by: "Supervisor"
 
@@ -305,14 +299,14 @@ assignEmployee.addEventListener("click", async () => {
 
     }
 
-    alert("Employee assigned successfully!");
+    alert("Employee Assigned Successfully!");
 
     employeeSelect.value = "";
 
     projectSelect.value = "";
 
     procedureSelect.innerHTML =
-    '<option value="">Select Procedure</option>';
+    `<option value="">Select Procedure</option>`;
 
     assignmentNotes.value = "";
 
@@ -320,79 +314,9 @@ assignEmployee.addEventListener("click", async () => {
 
 });
 
-// =======================================
-// LIVE TIMER
-// =======================================
-
-function updateElapsedTimers() {
-
-    const timers = document.querySelectorAll(".elapsed");
-
-    timers.forEach(timer => {
-
-        const start = new Date(
-            timer.dataset.time
-        );
-
-        const now = new Date();
-
-        const diff =
-        Math.floor((now - start) / 1000);
-
-        const hours =
-        String(Math.floor(diff / 3600))
-        .padStart(2, "0");
-
-        const minutes =
-        String(Math.floor((diff % 3600) / 60))
-        .padStart(2, "0");
-
-        const seconds =
-        String(diff % 60)
-        .padStart(2, "0");
-
-        timer.textContent =
-        `${hours}:${minutes}:${seconds}`;
-
-    });
-
-}
-
-setInterval(updateElapsedTimers,1000);
-// =======================================
-// LOAD PROJECT STATS
-// =======================================
-
-async function loadProjectStats(){
-
-    const { data } = await db
-
-    .from("projects")
-
-    .select("*")
-
-    .eq("status","Active");
-
-    runningProjects.textContent =
-    data.length;
-
-}
-// =======================================
-// HOURS TODAY
-// =======================================
-
-function computeHoursToday(){
-
-    const timers =
-    document.querySelectorAll(".elapsed");
-
-    hoursToday.textContent =
-    timers.length;
-
-}
-// =======================================
-// LOAD LIVE ASSIGNMENTS
-// =======================================
+// =====================================================
+// LOAD ASSIGNMENTS
+// =====================================================
 
 async function loadAssignments() {
 
@@ -412,15 +336,17 @@ async function loadAssignments() {
 
     if (error) {
 
-        console.log(error);
+        console.error(error);
 
         return;
 
     }
 
-    assignmentCount.textContent = data.length;
+    assignmentCount.textContent =
+    data.length;
 
-    workingEmployees.textContent = data.length;
+    workingEmployees.textContent =
+    data.length;
 
     data.forEach(assign => {
 
@@ -436,12 +362,13 @@ async function loadAssignments() {
 
 <td>
 
-${new Date(assign.start_time).toLocaleTimeString()}
+${new Date(assign.start_time)
+.toLocaleTimeString()}
 
 </td>
 
-<td class="elapsed"
-
+<td
+class="elapsed"
 data-time="${assign.start_time}">
 
 00:00:00
@@ -461,6 +388,7 @@ ${assign.status}
 <td>
 
 <button
+
 class="btn btn-warning btn-sm transfer-btn"
 
 data-id="${assign.id}">
@@ -480,20 +408,199 @@ Transfer
     });
 
 }
-// =======================================
-// INITIALIZE
-// =======================================
 
-async function initialize(){
+// =====================================================
+// PROJECT STATS
+// =====================================================
 
-    await loadEmployees();
+async function loadProjectStats() {
 
-    await loadProjects();
+    const { data } = await db
 
-    await loadAssignments();
+        .from("projects")
 
-    await loadProjectStats();
+        .select("*")
+
+        .eq("status", "Active");
+
+    runningProjects.textContent =
+    data.length;
 
 }
 
-initialize();
+// =====================================================
+// LIVE TIMER
+// =====================================================
+
+function updateElapsedTimers() {
+
+    const timers = document.querySelectorAll(".elapsed");
+
+    timers.forEach(timer => {
+
+        const start = new Date(timer.dataset.time);
+
+        const now = new Date();
+
+        const diff = Math.floor((now - start) / 1000);
+
+        const hours = String(
+            Math.floor(diff / 3600)
+        ).padStart(2, "0");
+
+        const minutes = String(
+            Math.floor((diff % 3600) / 60)
+        ).padStart(2, "0");
+
+        const seconds = String(
+            diff % 60
+        ).padStart(2, "0");
+
+        timer.textContent =
+        `${hours}:${minutes}:${seconds}`;
+
+    });
+
+}
+
+setInterval(updateElapsedTimers,1000);
+
+// =====================================================
+// HOURS TODAY
+// =====================================================
+
+function computeHoursToday(){
+
+    hoursToday.textContent =
+    document.querySelectorAll(".elapsed").length;
+
+}
+
+// =====================================================
+// SEARCH ASSIGNMENT
+// =====================================================
+
+const searchAssignment =
+document.getElementById("searchAssignment");
+
+searchAssignment.addEventListener("keyup",()=>{
+
+    const keyword =
+    searchAssignment.value.toLowerCase();
+
+    const rows =
+    assignmentTable.querySelectorAll("tr");
+
+    rows.forEach(row=>{
+
+        const employee =
+        row.children[0].textContent.toLowerCase();
+
+        if(employee.includes(keyword)){
+
+            row.style.display="";
+
+        }
+
+        else{
+
+            row.style.display="none";
+
+        }
+
+    });
+
+});
+
+// =====================================================
+// FILTER PROJECT
+// =====================================================
+
+const filterProject =
+document.getElementById("filterProject");
+
+filterProject.addEventListener("change",()=>{
+
+    const keyword =
+    filterProject.options[
+    filterProject.selectedIndex
+    ].text.toLowerCase();
+
+    const rows =
+    assignmentTable.querySelectorAll("tr");
+
+    rows.forEach(row=>{
+
+        if(filterProject.value==""){
+
+            row.style.display="";
+
+            return;
+
+        }
+
+        const project =
+        row.children[1].textContent.toLowerCase();
+
+        if(project==keyword){
+
+            row.style.display="";
+
+        }
+
+        else{
+
+            row.style.display="none";
+
+        }
+
+    });
+
+});
+
+// =====================================================
+// FILTER STATUS
+// =====================================================
+
+const filterStatus =
+document.getElementById("filterStatus");
+
+filterStatus.addEventListener("change",()=>{
+
+    const keyword =
+    filterStatus.value.toLowerCase();
+
+    const rows =
+    assignmentTable.querySelectorAll("tr");
+
+    rows.forEach(row=>{
+
+        if(keyword==""){
+
+            row.style.display="";
+
+            return;
+
+        }
+
+        const status =
+        row.children[5]
+        .textContent
+        .trim()
+        .toLowerCase();
+
+        if(status==keyword){
+
+            row.style.display="";
+
+        }
+
+        else{
+
+            row.style.display="none";
+
+        }
+
+    });
+
+});
