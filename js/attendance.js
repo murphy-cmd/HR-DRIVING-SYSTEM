@@ -145,6 +145,23 @@ async function recordAttendance(
 
     const now = new Date();
 
+    const { data: employee } =
+    await supabaseClient
+        .from("employees")
+        .select("*")
+        .eq("employee_id", employeeId)
+        .single();
+
+if (!employee) {
+
+    alert("Employee not found.");
+
+    checkbox.checked = false;
+
+    return;
+
+}
+
     const philippinesTime =
         new Date().toLocaleString(
             "sv-SE",
