@@ -172,4 +172,3 @@ async function loadAttendanceBoard() {
 
 }
 
-}
