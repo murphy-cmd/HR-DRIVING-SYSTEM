@@ -44,6 +44,24 @@ const hoursToday =
 document.getElementById("hoursToday");
 
 // =======================================
+// TRANSFER
+// =======================================
+
+const transferProject =
+document.getElementById("transferProject");
+
+const transferProcedure =
+document.getElementById("transferProcedure");
+
+const transferRemarks =
+document.getElementById("transferRemarks");
+
+const confirmTransfer =
+document.getElementById("confirmTransfer");
+
+let selectedAssignment = null;
+
+// =======================================
 // LOAD EMPLOYEES
 // =======================================
 
