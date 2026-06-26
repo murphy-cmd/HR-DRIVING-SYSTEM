@@ -1,30 +1,26 @@
-// Procedure List
+// ===============================
+// PROCEDURES SYSTEM
+// ===============================
 
 let procedures = [
-
     {
         name: "Primer Application",
         department: "Painting",
-        duration: "2 Hours"
+        status: "Active"
     },
-
     {
         name: "Putty Application",
         department: "Painting",
-        duration: "1 Hour"
+        status: "Active"
     },
-
     {
         name: "Sanding",
         department: "Finishing",
-        duration: "2 Hours"
+        status: "Active"
     }
-
 ];
 
-
-// Display Procedures
-
+// Load Table
 displayProcedures();
 
 function displayProcedures() {
@@ -43,18 +39,24 @@ function displayProcedures() {
 
             <td>${procedure.department}</td>
 
-            <td>${procedure.duration}</td>
+            <td>
+                <span class="badge ${procedure.status==="Active" ? "bg-success":"bg-danger"}">
+                    ${procedure.status}
+                </span>
+            </td>
 
             <td>
 
-                <button class="btn btn-warning btn-sm"
+                <button
+                class="btn btn-warning btn-sm"
                 onclick="editProcedure(${index})">
 
                     Edit
 
                 </button>
 
-                <button class="btn btn-danger btn-sm"
+                <button
+                class="btn btn-danger btn-sm"
                 onclick="deleteProcedure(${index})">
 
                     Delete
@@ -71,18 +73,21 @@ function displayProcedures() {
 
 }
 
+// =========================
+// SAVE PROCEDURE
+// =========================
 
-// Save Procedure
+document.getElementById("saveProcedure").addEventListener("click",addProcedure);
 
-document.getElementById("saveProcedure").addEventListener("click", function () {
+function addProcedure(){
 
-    const name = document.getElementById("procedureName").value.trim();
+    const name=document.getElementById("procedureName").value.trim();
 
-    const department = document.getElementById("department").value;
+    const department=document.getElementById("department").value;
 
-    const duration = document.getElementById("duration").value.trim();
+    const status=document.getElementById("status").value;
 
-    if (!name || !department || !duration) {
+    if(name===""||department===""){
 
         alert("Please complete all fields.");
 
@@ -92,9 +97,11 @@ document.getElementById("saveProcedure").addEventListener("click", function () {
 
     procedures.push({
 
-        name,
-        department,
-        duration
+        name:name,
+
+        department:department,
+
+        status:status
 
     });
 
@@ -102,55 +109,24 @@ document.getElementById("saveProcedure").addEventListener("click", function () {
 
     clearForm();
 
-});
-
-
-// Clear Form
-
-function clearForm() {
-
-    document.getElementById("procedureName").value = "";
-
-    document.getElementById("department").value = "";
-
-    document.getElementById("duration").value = "";
-
 }
 
+// =========================
+// CLEAR FORM
+// =========================
 
-// Delete
+function clearForm(){
 
-function deleteProcedure(index) {
+    document.getElementById("procedureName").value="";
 
-    if (confirm("Delete this procedure?")) {
+    document.getElementById("department").selectedIndex=0;
 
-        procedures.splice(index, 1);
-
-        displayProcedures();
-
-    }
-
-}
-
-
-// Edit
-
-function editProcedure(index) {
-
-    const newName = prompt("Procedure Name", procedures[index].name);
-
-    if (newName) {
-
-        procedures[index].name = newName;
-
-        displayProcedures();
-
-    }
+    document.getElementById("status").selectedIndex=0;
 
 }
-
-
-// Search
+// =========================
+// SEARCH PROCEDURE
+// =========================
 
 document.getElementById("search").addEventListener("keyup", function () {
 
@@ -161,11 +137,62 @@ document.getElementById("search").addEventListener("keyup", function () {
     rows.forEach(row => {
 
         row.style.display = row.innerText.toLowerCase().includes(keyword)
-
             ? ""
-
             : "none";
 
     });
 
 });
+
+// =========================
+// EDIT PROCEDURE
+// =========================
+
+function editProcedure(index){
+
+    const newName = prompt(
+        "Procedure Name",
+        procedures[index].name
+    );
+
+    if(newName===null) return;
+
+    const newDepartment = prompt(
+        "Department",
+        procedures[index].department
+    );
+
+    if(newDepartment===null) return;
+
+    const newStatus = prompt(
+        "Status (Active / Inactive)",
+        procedures[index].status
+    );
+
+    if(newStatus===null) return;
+
+    procedures[index].name = newName;
+    procedures[index].department = newDepartment;
+    procedures[index].status = newStatus;
+
+    displayProcedures();
+
+}
+
+// =========================
+// DELETE PROCEDURE
+// =========================
+
+function deleteProcedure(index){
+
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this procedure?"
+    );
+
+    if(!confirmDelete) return;
+
+    procedures.splice(index,1);
+
+    displayProcedures();
+
+}
