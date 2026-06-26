@@ -385,7 +385,6 @@ if (lateMinutes <= 0) {
 
     }
 
-}
 
 updateData.attendance_status =
     lateMinutes > 0
