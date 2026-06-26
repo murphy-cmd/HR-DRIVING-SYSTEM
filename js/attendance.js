@@ -6,7 +6,7 @@ console.log("Attendance Board Loaded");
 
 async function loadAttendanceBoard() {
 
-    const today =
+   const today =
         new Date().toLocaleDateString(
             "en-CA",
             {
@@ -14,7 +14,7 @@ async function loadAttendanceBoard() {
             }
         );
 
-    // Employees
+    // Load Employees
 
     const {
         data: employees,
@@ -25,6 +25,9 @@ async function loadAttendanceBoard() {
         .select("*")
         .order("employee_id");
 
+    console.log("Employees:", employees);
+    console.log("Error:", error);
+
     if (error) {
 
         console.error(error);
@@ -33,10 +36,11 @@ async function loadAttendanceBoard() {
 
     }
 
-    // Daily Attendance
+    // Load Today's Attendance
 
     const {
-        data: dailyRecords
+        data: attendance,
+        error: attendanceError
     } =
     await supabaseClient
         .from("attendance_daily")
@@ -46,15 +50,22 @@ async function loadAttendanceBoard() {
             today
         );
 
+    if (attendanceError) {
+
+        console.error(attendanceError);
+
+        return;
+
+    }
+
     let html = "";
 
     employees.forEach(emp => {
 
         const daily =
-            dailyRecords.find(
-                x =>
-                x.employee_id
-                ===
+            attendance.find(
+                record =>
+                record.employee_id ===
                 emp.employee_id
             );
 
@@ -74,45 +85,18 @@ async function loadAttendanceBoard() {
 
 }
 
+// =========================================
+// CREATE ATTENDANCE ROW
+// =========================================
+
 function createAttendanceRow(
     emp,
     daily
-){
+) {
 
     const isDriver =
-        emp.employee_type
-        ===
+        emp.employee_type ===
         "driver";
-
-    const amIn =
-        daily?.am_in
-        ? "checked disabled"
-        : "";
-
-    const breakTime =
-        daily?.break_time
-        ? "checked disabled"
-        : "";
-
-    const pmIn =
-        daily?.pm_in
-        ? "checked disabled"
-        : "";
-
-    const timeout =
-        daily?.time_out
-        ? "checked disabled"
-        : "";
-
-    const startTrip =
-        daily?.start_trip
-        ? "checked disabled"
-        : "";
-
-    const endTrip =
-        daily?.end_trip
-        ? "checked disabled"
-        : "";
 
     return `
 
@@ -128,8 +112,8 @@ function createAttendanceRow(
 
 <input
 type="checkbox"
-${amIn}
-onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','AM_IN',this)">
+${daily?.am_in ? "checked disabled" : ""}
+onclick="recordAttendance('${emp.employee_id}','AM_IN',this)">
 
 </td>
 
@@ -149,8 +133,8 @@ ${daily?.attendance_status ?? "-"}
 
 <input
 type="checkbox"
-${breakTime}
-onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','BREAK',this)">
+${daily?.break_time ? "checked disabled" : ""}
+onclick="recordAttendance('${emp.employee_id}','BREAK',this)">
 
 </td>
 
@@ -158,8 +142,8 @@ onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','BREAK',this)"
 
 <input
 type="checkbox"
-${pmIn}
-onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','PM_IN',this)">
+${daily?.pm_in ? "checked disabled" : ""}
+onclick="recordAttendance('${emp.employee_id}','PM_IN',this)">
 
 </td>
 
@@ -167,8 +151,8 @@ onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','PM_IN',this)"
 
 <input
 type="checkbox"
-${timeout}
-onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','TIME_OUT',this)">
+${daily?.time_out ? "checked disabled" : ""}
+onclick="recordAttendance('${emp.employee_id}','TIME_OUT',this)">
 
 </td>
 
@@ -191,8 +175,8 @@ isDriver
 ?
 `<input
 type="checkbox"
-${startTrip}
-onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','START_TRIP',this)">`
+${daily?.start_trip ? "checked disabled" : ""}
+onclick="recordAttendance('${emp.employee_id}','START_TRIP',this)">`
 :
 "-"
 }
@@ -206,8 +190,8 @@ isDriver
 ?
 `<input
 type="checkbox"
-${endTrip}
-onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','END_TRIP',this)">`
+${daily?.end_trip ? "checked disabled" : ""}
+onclick="recordAttendance('${emp.employee_id}','END_TRIP',this)">`
 :
 "-"
 }
@@ -220,6 +204,28 @@ onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','END_TRIP',thi
 
 }
 
+// =========================================
+// RECORD ATTENDANCE
+// =========================================
+
+async function recordAttendance(
+
+    employeeId,
+    action,
+    checkbox
+
+) {
+
+    if (!checkbox.checked) return;
+
+    const philippinesTime =
+        new Date().toLocaleString(
+            "sv-SE",
+            {
+                timeZone: "Asia/Manila"
+            }
+        );
+
     const today =
         new Date().toLocaleDateString(
             "en-CA",
@@ -228,15 +234,197 @@ onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','END_TRIP',thi
             }
         );
 
-    const { data: employees, error } =
+    // Load Employee
+
+    const {
+
+        data: employee,
+        error: employeeError
+
+    } =
+    await supabaseClient
+        .from("employees")
+        .select("*")
+        .eq(
+            "employee_id",
+            employeeId
+        )
+        .single();
+
+    if (employeeError) {
+
+        console.error(employeeError);
+
+        checkbox.checked = false;
+
+        return;
+
+    }
+
+    // Check today's attendance
+
+    const {
+
+        data: daily
+
+    } =
+    await supabaseClient
+        .from("attendance_daily")
+        .select("*")
+        .eq(
+            "employee_id",
+            employeeId
+        )
+        .eq(
+            "attendance_date",
+            today
+        )
+        .maybeSingle();
+
+    let updateData = {};
+
+    let employeeStatus = "WORKING";
+
+    switch(action){
+
+        case "AM_IN":
+
+            updateData.am_in =
+                philippinesTime;
+
+            employeeStatus =
+                "WORKING";
+
+            break;
+
+        case "BREAK":
+
+            updateData.break_time =
+                philippinesTime;
+
+            employeeStatus =
+                "ON_BREAK";
+
+            break;
+
+        case "PM_IN":
+
+            updateData.pm_in =
+                philippinesTime;
+
+            employeeStatus =
+                "WORKING";
+
+            break;
+
+        case "TIME_OUT":
+
+            updateData.time_out =
+                philippinesTime;
+
+            employeeStatus =
+                "COMPLETED";
+
+            updateData.completed =
+                true;
+
+            break;
+
+        case "START_TRIP":
+
+            updateData.start_trip =
+                philippinesTime;
+
+            employeeStatus =
+                "DRIVING";
+
+            break;
+
+        case "END_TRIP":
+
+            updateData.end_trip =
+                philippinesTime;
+
+            employeeStatus =
+                "AVAILABLE";
+
+            break;
+
+    }
+
+    updateData.status =
+        employeeStatus;
+
+      if (!daily) {
+
+        updateData.employee_id =
+            employee.employee_id;
+
+        updateData.employee_name =
+            employee.full_name;
+
+        updateData.employee_type =
+            employee.employee_type;
+
+        updateData.attendance_date =
+            today;
+
         await supabaseClient
-            .from("employees")
+            .from("attendance_daily")
+            .insert([
+                updateData
+            ]);
+
+    } else {
+
+        await supabaseClient
+            .from("attendance_daily")
+            .update(updateData)
+            .eq(
+                "id",
+                daily.id
+            );
+
+    }
+
+     await supabaseClient
+        .from("employees")
+        .update({
+
+            status:
+                employeeStatus
+
+        })
+        .eq(
+            "employee_id",
+            employeeId
+        );
+
+    checkbox.disabled = true;
+
+    loadAttendanceBoard();
+
+    loadTodayHistory();
+
+}
+
+// ===============================
+// TODAY'S ACTIVITY
+// ===============================
+
+async function loadTodayHistory() {
+
+    const { data, error } =
+        await supabaseClient
+            .from("attendance_logs")
             .select("*")
-            .order("employee_id");
-
-
-        console.log("Employees:", employees);
-        console.log("Error:", error);
+            .order(
+                "log_time",
+                {
+                    ascending: false
+                }
+            )
+            .limit(20);
 
     if (error) {
 
@@ -246,154 +434,33 @@ onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','END_TRIP',thi
 
     }
 
-    const { data: dailyRecords } =
-        await supabaseClient
-            .from("attendance_daily")
-            .select("*")
-            .eq("attendance_date", today);
-
-        console.log("Daily:", dailyRecords);
-        console.log("Daily Error:", dailyError);
-
     let html = "";
 
-    employees.forEach(emp => {
-
-        const daily =
-            dailyRecords?.find(
-                d => d.employee_id === emp.employee_id
-            );
-
-        const isDriver =
-            emp.employee_type === "driver";
-
-        const amInChecked =
-            daily?.am_in ? "checked disabled" : "";
-
-        const breakChecked =
-            daily?.break_time ? "checked disabled" : "";
-
-        const pmInChecked =
-            daily?.pm_in ? "checked disabled" : "";
-
-        const timeoutChecked =
-            daily?.time_out ? "checked disabled" : "";
-
-        const startTripChecked =
-            daily?.start_trip ? "checked disabled" : "";
-
-        const endTripChecked =
-            daily?.end_trip ? "checked disabled" : "";
+    data.forEach(log => {
 
         html += `
-
-        <tr>
-
-            <td>${emp.employee_id}</td>
-
-            <td>${emp.full_name}</td>
-
-            <td>${emp.employee_type}</td>
-
-            <td>
-
-                <input
-                    type="checkbox"
-                    ${amInChecked}
-                    onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','AM_IN',this)">
-
-            </td>
-
-            <td>
-
-                ${daily?.late_minutes ?? "-"}
-
-            </td>
-
-            <td>
-
-                ${daily?.attendance_status ?? "-"}
-
-            </td>
-
-            <td>
-
-                <input
-                    type="checkbox"
-                    ${breakChecked}
-                    onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','BREAK',this)">
-
-            </td>
-
-            <td>
-
-                <input
-                    type="checkbox"
-                    ${pmInChecked}
-                    onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','PM_IN',this)">
-
-            </td>
-
-            <td>
-
-                <input
-                    type="checkbox"
-                    ${timeoutChecked}
-                    onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','TIME_OUT',this)">
-
-            </td>
-
-            <td>
-
-                ${daily?.work_hours ?? "-"}
-
-            </td>
-
-            <td>
-
-                ${daily?.ot_hours ?? "-"}
-
-            </td>
-
-            <td>
-
-                ${
-                    isDriver
-                    ?
-                    `<input
-                        type="checkbox"
-                        ${startTripChecked}
-                        onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','START_TRIP',this)">`
-                    :
-                    "-"
-                }
-
-            </td>
-
-            <td>
-
-                ${
-                    isDriver
-                    ?
-                    `<input
-                        type="checkbox"
-                        ${endTripChecked}
-                        onclick="recordAttendance('${emp.employee_id}','${emp.full_name}','END_TRIP',this)">`
-                    :
-                    "-"
-                }
-
-            </td>
-
-        </tr>
-
+            <tr>
+                <td>${new Date(log.log_time).toLocaleString()}</td>
+                <td>${log.employee_name}</td>
+                <td>${log.action}</td>
+            </tr>
         `;
 
     });
 
-    document.getElementById(
-        "attendanceTable"
-    ).innerHTML = html;
+    document.getElementById("todayHistory").innerHTML = html;
 
 }
+
+loadAttendanceBoard();
+
+loadTodayHistory();
+
+setInterval(() => {
+
+    loadTodayHistory();
+
+}, 5000);
+
+
 
