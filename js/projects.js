@@ -296,6 +296,9 @@ async function deleteProject(id){
     alert("Project deleted successfully.");
 
     loadProjects();
+    
+card.querySelector(".project-progress").style.width="0%";
+    
 
 }
 const deleteBtn = card.querySelector(".delete-project");
