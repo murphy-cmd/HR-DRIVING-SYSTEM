@@ -75,13 +75,15 @@ async function loadEmployees(){
 
     .order("full_name");
 
-    if(error){
+   if(error){
 
-        console.log(error);
+    console.error(error);
 
-        return;
+    alert(error.message);
 
-    }
+    return;
+
+}
 
     employeeSelect.innerHTML =
     '<option value="">Select Employee</option>';
@@ -115,13 +117,15 @@ async function loadProjects(){
 
     .order("project_name");
 
-    if(error){
+   if(error){
 
-        console.log(error);
+    console.error(error);
 
-        return;
+    alert(error.message);
 
-    }
+    return;
+
+}
 
     projectSelect.innerHTML =
     '<option value="">Select Project</option>';
@@ -641,3 +645,4 @@ async function initialize(){
 
 }
 
+initialize();
