@@ -343,15 +343,15 @@ assignEmployee.addEventListener("click", async () => {
 
         .insert({
 
-            employee_id: Number(employeeSelect.value),
+            employee_id: employeeSelect.value,
 
             employee_name: employeeName,
 
-            project_id: Number(projectSelect.value),
+            project_id: projectSelect.value,
 
             project_name: projectName,
 
-            procedure_id: Number(procedureSelect.value),
+            procedure_id: procedureSelect.value,
 
             procedure_name: procedureName,
 
