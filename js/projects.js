@@ -2,7 +2,7 @@
 // RILCO PROJECT MANAGEMENT SYSTEM
 // =====================================================
 
-const supabase = window.supabaseClient;
+const db = window.supabaseClient;
 
 // FORM
 
@@ -36,7 +36,7 @@ const categories = {};
 
 async function loadCategories(){
 
-    const {data,error}=await supabase
+    const {data,error}=await db
 
     .from("project_categories")
 
