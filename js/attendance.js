@@ -219,10 +219,60 @@ if (!employee) {
 
     switch(action){
 
-        case "AM_IN":
-            updateData.am_in = philippinesTime;
-            employeeStatus = "WORKING";
-            break;
+        case "AM_IN": {
+
+    updateData.am_in = philippinesTime;
+    employeeStatus = "WORKING";
+
+    // Driver has no fixed schedule
+    if (employee.employee_type !== "driver") {
+
+        const currentTime = new Date(philippinesTime);
+
+        const schedule = new Date(philippinesTime);
+
+        if (employee.employee_type === "office") {
+
+            schedule.setHours(9, 0, 0, 0);
+
+        } else if (employee.employee_type === "warehouse") {
+
+            schedule.setHours(8, 0, 0, 0);
+
+        }
+
+        let lateMinutes =
+            Math.floor(
+                (currentTime - schedule) / 1000 / 60
+            );
+
+        if (lateMinutes < 0)
+            lateMinutes = 0;
+
+        updateData.late_minutes = lateMinutes;
+
+        if (lateMinutes === 0) {
+
+            updateData.attendance_status = "ON TIME";
+
+        }
+        else if (lateMinutes <= 15) {
+
+            updateData.attendance_status =
+                "GRACE PERIOD";
+
+        }
+        else {
+
+            updateData.attendance_status =
+                "LATE";
+
+        }
+
+    }
+
+    break;
+}
 
         case "BREAK":
             updateData.break_time = philippinesTime;
@@ -234,7 +284,7 @@ if (!employee) {
             employeeStatus = "WORKING";
             break;
             
-case "TIME_OUT":
+case "TIME_OUT": {
 
     updateData.time_out = philippinesTime;
     updateData.completed = true;
@@ -242,74 +292,74 @@ case "TIME_OUT":
 
     if (daily && daily.am_in) {
 
-        const amIn =
-            new Date(daily.am_in);
+        const amIn = new Date(daily.am_in);
+        const timeOut = new Date(philippinesTime);
 
-        const timeOut =
-            new Date(philippinesTime);
-
-        let totalMinutes =
+        let workMinutes =
             Math.floor(
-                (timeOut - amIn)
-                / 1000 / 60
+                (timeOut - amIn) / 1000 / 60
             );
 
-        // Huwag payagan ang negative
+        if (workMinutes < 0)
+            workMinutes = 0;
 
-        if (totalMinutes < 0) {
-            totalMinutes = 0;
-        }
-
-        const workHours =
-            Math.floor(
-                totalMinutes / 60
-            );
-
-        const workMinutes =
-            totalMinutes % 60;
+        updateData.work_minutes = workMinutes;
 
         updateData.work_hours =
-            `${workHours}h ${workMinutes}m`;
+            `${Math.floor(workMinutes / 60)}h ${workMinutes % 60}m`;
 
-        // OT COMPUTATION
-        // Official end of shift = 6:00 PM
+        // Drivers do not have fixed overtime
 
-        const shiftEnd =
-            new Date(amIn);
+        if (employee.employee_type !== "driver") {
 
-        shiftEnd.setHours(
-            18,
-            0,
-            0,
-            0
-        );
+            const shiftEnd =
+                new Date(amIn);
 
-        let otMinutes = 0;
+            if (employee.employee_type === "office") {
 
-        if (timeOut > shiftEnd) {
-
-            otMinutes =
-                Math.floor(
-                    (timeOut - shiftEnd)
-                    / 1000 / 60
+                shiftEnd.setHours(
+                    18,
+                    0,
+                    0,
+                    0
                 );
+
+            }
+
+            else if (employee.employee_type === "warehouse") {
+
+                shiftEnd.setHours(
+                    17,
+                    0,
+                    0,
+                    0
+                );
+
+            }
+
+            let otMinutes = 0;
+
+            if (timeOut > shiftEnd) {
+
+                otMinutes =
+                    Math.floor(
+                        (timeOut - shiftEnd)
+                        / 1000 / 60
+                    );
+
+            }
+
+            updateData.ot_minutes = otMinutes;
+
+            updateData.ot_hours =
+                `${Math.floor(otMinutes / 60)}h ${otMinutes % 60}m`;
 
         }
 
-        const otHours =
-            Math.floor(
-                otMinutes / 60
-            );
-
-        const remainingOtMinutes =
-            otMinutes % 60;
-
-        updateData.ot_hours =
-            `${otHours}h ${remainingOtMinutes}m`;
     }
 
     break;
-
+}
 
         case "START_TRIP":
             updateData.start_trip = philippinesTime;
@@ -329,9 +379,7 @@ case "TIME_OUT":
         updateData.employee_id = employeeId;
         updateData.employee_name = employeeName;
         updateData.employee_type =
-            employeeId.startsWith("DR")
-                ? "driver"
-                : "office";
+            employee.employee_type;
 
         updateData.attendance_date = today;
 
