@@ -293,6 +293,12 @@ async function recordAttendance(
 
       case "AM_IN":
 
+   console.log("Employee ID:", employee.employee_id);
+    console.log("Employee Type:", employee.employee_type);
+    console.log("Schedule In:", employee.schedule_in);
+    console.log("Grace Period:", employee.grace_period);
+
+
     updateData.am_in = philippinesTime;
     employeeStatus = "WORKING";
 
