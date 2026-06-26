@@ -119,7 +119,7 @@ onclick="recordAttendance('${emp.employee_id}','AM_IN',this)">
 
 <td>
 
-${daily?.late_minutes ?? "-"}
+${daily?.late_display ?? "-"}
 
 </td>
 
@@ -291,7 +291,7 @@ async function recordAttendance(
 
     switch(action){
 
-       case "AM_IN":
+       case "AM_IN": 
 
     updateData.am_in = philippinesTime;
 
@@ -327,13 +327,70 @@ async function recordAttendance(
                 )
             );
 
-        updateData.late_minutes =
-            lateMinutes;
+        if (lateMinutes <= 0) {
 
-        updateData.attendance_status =
-            lateMinutes > 0
-                ? "LATE"
-                : "ON TIME";
+    updateData.late_minutes = "On Time";
+
+} else {
+
+    const hrs = Math.floor(lateMinutes / 60);
+    const mins = lateMinutes % 60;
+
+    if (hrs > 0 && mins > 0) {
+
+        updateData.late_minutes =
+            `${hrs} hr ${mins} min`;
+
+    } else if (hrs > 0) {
+
+        updateData.late_minutes =
+            `${hrs} hr`;
+
+    } else {
+
+       updateData.late_minutes =
+    lateMinutes;
+
+if (lateMinutes <= 0) {
+
+    updateData.late_display =
+        "On Time";
+
+} else {
+
+    const hrs =
+        Math.floor(lateMinutes / 60);
+
+    const mins =
+        lateMinutes % 60;
+
+    if (hrs > 0 && mins > 0) {
+
+        updateData.late_display =
+            `${hrs} hr ${mins} min`;
+
+    }
+
+    else if (hrs > 0) {
+
+        updateData.late_display =
+            `${hrs} hr`;
+
+    }
+
+    else {
+
+        updateData.late_display =
+            `${mins} min`;
+
+    }
+
+}
+
+updateData.attendance_status =
+    lateMinutes > 0
+        ? "LATE"
+        : "ON TIME";
     }
 
 break;
