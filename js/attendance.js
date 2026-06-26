@@ -281,6 +281,10 @@ async function recordAttendance(
         )
         .maybeSingle();
 
+   console.log("TODAY:", today);
+   console.log("EMPLOYEE:", employeeId);
+   console.log("DAILY RECORD:", daily);
+
     let updateData = {};
 
     let employeeStatus = "WORKING";
