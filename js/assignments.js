@@ -74,6 +74,8 @@ async function loadEmployees(){
     .select("*")
 
     .order("full_name");
+ console.log("Employees:", data);
+console.log("Employee Error:", error);
 
    if(error){
 
@@ -116,6 +118,8 @@ async function loadProjects(){
     .select("*")
 
     .order("project_name");
+console.log("Projects:", data);
+console.log("Project Error:", error);
 
    if(error){
 
