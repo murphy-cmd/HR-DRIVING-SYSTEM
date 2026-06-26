@@ -16,6 +16,10 @@ async function loadAttendanceBoard() {
             .select("*")
             .order("employee_id");
 
+
+        console.log("Employees:", employees);
+        console.log("Error:", error);
+
     if (error) {
 
         console.error(error);
@@ -29,6 +33,9 @@ async function loadAttendanceBoard() {
             .from("attendance_daily")
             .select("*")
             .eq("attendance_date", today);
+
+        console.log("Daily:", dailyRecords);
+        console.log("Daily Error:", dailyError);
 
     let html = "";
 
