@@ -285,78 +285,63 @@ projectSelect.addEventListener("change", async () => {
 // ASSIGN EMPLOYEE
 // =======================================
 
-assignEmployee.addEventListener("click", async ()=>{
+assignEmployee.addEventListener("click", async () => {
 
-    if(employeeSelect.value==""){
-
-        alert("Select Employee");
-
+    if (employeeSelect.value === "") {
+        alert("Please select an employee.");
         return;
-
     }
 
-    if(projectSelect.value==""){
-
-        alert("Select Project");
-
+    if (projectSelect.value === "") {
+        alert("Please select a project.");
         return;
-
     }
 
-    if(procedureSelect.value==""){
-
-        alert("Select Procedure");
-
+    if (procedureSelect.value === "") {
+        alert("Please select a procedure.");
         return;
-
     }
 
     const employeeName =
-    employeeSelect.options[
-    employeeSelect.selectedIndex
-    ].text;
+        employeeSelect.options[employeeSelect.selectedIndex].text;
 
     const projectName =
-    projectSelect.options[
-    projectSelect.selectedIndex
-    ].text;
+        projectSelect.options[projectSelect.selectedIndex].text;
 
     const procedureName =
-    procedureSelect.options[
-    procedureSelect.selectedIndex
-    ].text;
+        procedureSelect.options[procedureSelect.selectedIndex].text;
 
     const { error } = await db
 
-    .from("assignments")
+        .from("assignments")
 
-    .insert({
+        .insert({
 
-        employee_id: employeeSelect.value,
+            employee_id: Number(employeeSelect.value),
 
-        employee_name: employeeName,
+            employee_name: employeeName,
 
-        project_id: projectSelect.value,
+            project_id: Number(projectSelect.value),
 
-        project_name: projectName,
+            project_name: projectName,
 
-        procedure_id: procedureSelect.value,
+            procedure_id: Number(procedureSelect.value),
 
-        procedure_name: procedureName,
+            procedure_name: procedureName,
 
-        notes: assignmentNotes.value,
+            start_time: new Date().toISOString(),
 
-        status: "WORKING",
+            status: "WORKING",
 
-        start_time: new Date(),
+            notes: assignmentNotes.value,
 
-        assigned_by: "Supervisor"
+            assigned_by: "Supervisor"
 
-    });
+        });
 
-    if(error){
+    if (error) {
 
-        console.log(error);
+        console.error(error);
 
         alert(error.message);
 
@@ -364,18 +349,20 @@ assignEmployee.addEventListener("click", async ()=>{
 
     }
 
-    alert("Employee Assigned Successfully!");
+    alert("Employee assigned successfully!");
 
-    employeeSelect.value="";
-    projectSelect.value="";
-    procedureSelect.innerHTML=
-    '<option>Select Procedure</option>';
-    assignmentNotes.value="";
+    employeeSelect.value = "";
+
+    projectSelect.value = "";
+
+    procedureSelect.innerHTML =
+    '<option value="">Select Procedure</option>';
+
+    assignmentNotes.value = "";
 
     loadAssignments();
 
 });
-
 // =======================================
 // LOAD ASSIGNMENTS
 // =======================================
@@ -461,6 +448,166 @@ Transfer
 
 }
 // =======================================
+// LIVE TIMER
+// =======================================
+
+function updateElapsedTimers() {
+
+    const timers = document.querySelectorAll(".elapsed");
+
+    timers.forEach(timer => {
+
+        const start = new Date(
+            timer.dataset.time
+        );
+
+        const now = new Date();
+
+        const diff =
+        Math.floor((now - start) / 1000);
+
+        const hours =
+        String(Math.floor(diff / 3600))
+        .padStart(2, "0");
+
+        const minutes =
+        String(Math.floor((diff % 3600) / 60))
+        .padStart(2, "0");
+
+        const seconds =
+        String(diff % 60)
+        .padStart(2, "0");
+
+        timer.textContent =
+        `${hours}:${minutes}:${seconds}`;
+
+    });
+
+}
+
+setInterval(updateElapsedTimers,1000);
+// =======================================
+// LOAD PROJECT STATS
+// =======================================
+
+async function loadProjectStats(){
+
+    const { data } = await db
+
+    .from("projects")
+
+    .select("*")
+
+    .eq("status","Active");
+
+    runningProjects.textContent =
+    data.length;
+
+}
+// =======================================
+// HOURS TODAY
+// =======================================
+
+function computeHoursToday(){
+
+    const timers =
+    document.querySelectorAll(".elapsed");
+
+    hoursToday.textContent =
+    timers.length;
+
+}
+// =======================================
+// LOAD LIVE ASSIGNMENTS
+// =======================================
+
+async function loadAssignments() {
+
+    assignmentTable.innerHTML = "";
+
+    const { data, error } = await db
+
+        .from("assignments")
+
+        .select("*")
+
+        .eq("status", "WORKING")
+
+        .order("created_at", {
+            ascending: false
+        });
+
+    if (error) {
+
+        console.log(error);
+
+        return;
+
+    }
+
+    assignmentCount.textContent = data.length;
+
+    workingEmployees.textContent = data.length;
+
+    data.forEach(assign => {
+
+        assignmentTable.innerHTML += `
+
+<tr>
+
+<td>${assign.employee_name}</td>
+
+<td>${assign.project_name}</td>
+
+<td>${assign.procedure_name}</td>
+
+<td>
+
+${new Date(assign.start_time).toLocaleTimeString()}
+
+</td>
+
+<td class="elapsed"
+
+data-time="${assign.start_time}">
+
+00:00:00
+
+</td>
+
+<td>
+
+<span class="badge bg-success">
+
+${assign.status}
+
+</span>
+
+</td>
+
+<td>
+
+<button
+class="btn btn-warning btn-sm transfer-btn"
+
+data-id="${assign.id}">
+
+<i class="fa-solid fa-right-left"></i>
+
+Transfer
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+    });
+
+}
+// =======================================
 // INITIALIZE
 // =======================================
 
@@ -472,7 +619,7 @@ async function initialize(){
 
     await loadAssignments();
 
-}
+    await loadProjectStats();
 
-initialize();
+}
 
