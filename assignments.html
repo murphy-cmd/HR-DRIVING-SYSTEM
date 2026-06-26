@@ -1,1 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Employee Assignments</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<link rel="stylesheet"
+href="css/style.css">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+
+<div class="container-fluid">
+
+<a class="navbar-brand"
+href="index.html">
+
+<img src="./asset/rilco-logo.png"
+class="logo">
+
+</a>
+
+<button
+class="navbar-toggler"
+data-bs-toggle="collapse"
+data-bs-target="#navbarNav">
+
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<div
+class="collapse navbar-collapse"
+id="navbarNav">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+<a class="nav-link"
+href="dashboard.html">
+Dashboard
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link"
+href="employees.html">
+Employees
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link"
+href="projects.html">
+Projects
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link"
+href="procedures.html">
+Procedures
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link active"
+href="assignments.html">
+Assignments
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link"
+href="attendance.html">
+Attendance
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link"
+href="payroll.html">
+Payroll
+</a>
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+  <div class="container py-4">
+
+<div
+class="d-flex justify-content-between align-items-center mb-4">
+
+<div>
+
+<h2 class="fw-bold">
+
+<i class="fa-solid fa-clipboard-list"></i>
+
+Employee Assignments
+
+</h2>
+
+<p class="text-muted">
+
+Assign employees to projects and procedures.
+
+</p>
+
+</div>
+
+</div>
+
+    <div class="card shadow-sm mb-4">
+
+<div class="card-header bg-primary text-white">
+
+Assign Employee
+
+</div>
+
+<div class="card-body">
+
+<div class="row">
+
+<div class="col-md-3">
+
+<label>Employee</label>
+
+<select
+class="form-select"
+id="employeeSelect">
+
+<option>
+
+Loading...
+
+</option>
+
+</select>
+
+</div>
+
+<div class="col-md-3">
+
+<label>Project</label>
+
+<select
+class="form-select"
+id="projectSelect">
+
+<option>
+
+Loading...
+
+</option>
+
+</select>
+
+</div>
+
+<div class="col-md-3">
+
+<label>Procedure</label>
+
+<select
+class="form-select"
+id="procedureSelect">
+
+<option>
+
+Select Procedure
+
+</option>
+
+</select>
+
+</div>
+
+<div class="col-md-3">
+
+<label>Notes</label>
+
+<input
+type="text"
+class="form-control"
+id="assignmentNotes">
+
+</div>
+
+</div>
+
+<div class="text-end mt-4">
+
+<button
+class="btn btn-success"
+id="assignEmployee">
+
+<i class="fa-solid fa-user-check"></i>
+
+Assign Now
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+    <!-- LIVE ASSIGNMENTS -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header bg-dark text-white">
+
+        <i class="fa-solid fa-users"></i>
+
+        Live Employee Assignments
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row mb-3">
+
+            <div class="col-md-4">
+
+                <input
+                type="text"
+                class="form-control"
+                id="searchAssignment"
+                placeholder="Search Employee">
+
+            </div>
+
+            <div class="col-md-4">
+
+                <select
+                class="form-select"
+                id="filterProject">
+
+                    <option value="">
+
+                        All Projects
+
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <select
+                class="form-select"
+                id="filterStatus">
+
+                    <option value="">
+
+                        All Status
+
+                    </option>
+
+                    <option>
+
+                        WORKING
+
+                    </option>
+
+                    <option>
+
+                        TRANSFERRED
+
+                    </option>
+
+                    <option>
+
+                        COMPLETED
+
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-primary">
+
+                    <tr>
+
+                        <th>Employee</th>
+
+                        <th>Project</th>
+
+                        <th>Procedure</th>
+
+                        <th>Time In</th>
+
+                        <th>Elapsed</th>
+
+                        <th>Status</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="assignmentTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- TODAY HISTORY -->
+
+<div class="card shadow-sm mb-4">
+
+<div class="card-header bg-success text-white">
+
+Today's Assignment History
+
+</div>
+
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+<thead>
+
+<tr>
+
+<th>Employee</th>
+
+<th>Project</th>
+
+<th>Procedure</th>
+
+<th>Time In</th>
+
+<th>Time Out</th>
+
+<th>Total Hours</th>
+
+</tr>
+
+</thead>
+
+<tbody id="historyTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+<!-- PROJECT OVERVIEW -->
+
+<div class="row">
+
+<div class="col-md-3">
+
+<div class="card text-center shadow">
+
+<div class="card-body">
+
+<h6>
+
+Running Projects
+
+</h6>
+
+<h2 id="runningProjects">
+
+0
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-center shadow">
+
+<div class="card-body">
+
+<h6>
+
+Employees Working
+
+</h6>
+
+<h2 id="workingEmployees">
+
+0
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-center shadow">
+
+<div class="card-body">
+
+<h6>
+
+Assignments Today
+
+</h6>
+
+<h2 id="assignmentCount">
+
+0
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-center shadow">
+
+<div class="card-body">
+
+<h6>
+
+Hours Today
+
+</h6>
+
+<h2 id="hoursToday">
+
+0
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase-config.js"></script>
+
+<script src="js/assignments.js"></script>
+
+</body>
+
+</html>
