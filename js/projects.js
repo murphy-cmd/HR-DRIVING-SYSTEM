@@ -221,17 +221,20 @@ async function loadProjects(){
 
         }
 
-        card.querySelector(".project-progress").style.width="0%";
+       card.querySelector(".edit-project").dataset.id = project.id;
 
-        card.querySelector(".edit-project").dataset.id =
-        project.id;
+const deleteBtn = card.querySelector(".delete-project");
 
-        card.querySelector(".delete-project").dataset.id =
-        project.id;
+deleteBtn.dataset.id = project.id;
 
-        projectsContainer.appendChild(card);
+deleteBtn.addEventListener("click", () => {
 
-    });
+    deleteProject(project.id);
+
+});
+
+projectsContainer.appendChild(card);
+
 
 }
 // ============================================
@@ -297,21 +300,6 @@ async function deleteProject(id){
 
     loadProjects();
     
-    card.querySelector(".delete-project").dataset.id =
-project.id;
-
-    card.querySelector(".project-progress").style.width = "0%";
-
-const deleteBtn = card.querySelector(".delete-project");
-
-deleteBtn.dataset.id = project.id;
-
-deleteBtn.addEventListener("click", () => {
-
-    deleteProject(project.id);
-
-});
-
-projectsContainer.appendChild(card);
+   
 
 }
