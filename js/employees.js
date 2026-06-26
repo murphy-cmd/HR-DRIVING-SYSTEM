@@ -10,10 +10,7 @@ async function saveEmployee() {
 
     const position =
         document.getElementById("position").value;
-
-    const department =
-        document.getElementById("department").value;
-
+    
     const employeeType =
         document.getElementById("employeeType").value;
 
@@ -34,8 +31,30 @@ async function saveEmployee() {
                 employee_id: employeeId,
                 full_name: fullName,
                 position: position,
-                department: department,
                 employee_type: employeeType,
+                
+                 schedule_in:
+        employeeType === "Warehouse Staff"
+            ? "08:00:00"
+            : employeeType === "Office Staff"
+            ? "09:00:00"
+            : null,
+
+    schedule_out:
+        employeeType === "Warehouse Staff"
+            ? "17:00:00"
+            : employeeType === "Office Staff"
+            ? "18:00:00"
+            : null,
+
+    grace_period:
+        employeeType === "Driver"
+            ? 0
+            : 15,
+
+    status: "ACTIVE"
+
+                
                 status: "ACTIVE"
             }
         ]);
@@ -63,9 +82,7 @@ async function saveEmployee() {
         "position"
     ).value = "";
 
-    document.getElementById(
-        "department"
-    ).value = "";
+   
 
     loadEmployees();
 }
