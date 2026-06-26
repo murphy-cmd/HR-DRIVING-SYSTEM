@@ -463,18 +463,6 @@ break;
         .update(updateData)
         .eq("id", daily.id);
 
-}
-
-    } else {
-
-        await supabaseClient
-            .from("attendance_daily")
-            .update(updateData)
-            .eq(
-                "id",
-                daily.id
-            );
-
     }
 
      await supabaseClient
