@@ -4,10 +4,9 @@ const SUPABASE_URL =
 const SUPABASE_ANON_KEY =
 "sb_publishable_lK2ut9NJnOaZFJaZMDabmw_qSZxP6L6";
 
-const supabaseClient =
-supabase.createClient(
+window.supabaseClient = supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
 );
 
-console.log("Supabase Connected");
+console.log("✅ Supabase Connected");
