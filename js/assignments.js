@@ -137,6 +137,80 @@ async function loadProjects(){
 
 }
 // =======================================
+// LOAD PROCEDURES BASED ON PROJECT
+// =======================================
+
+projectSelect.addEventListener("change", async () => {
+
+    procedureSelect.innerHTML =
+    '<option value="">Loading...</option>';
+
+    if (projectSelect.value == "") {
+
+        procedureSelect.innerHTML =
+        '<option value="">Select Procedure</option>';
+
+        return;
+
+    }
+
+    // Kunin ang category ng project
+
+    const { data: project, error: projectError } = await db
+
+        .from("projects")
+
+        .select("category_id")
+
+        .eq("id", projectSelect.value)
+
+        .single();
+
+    if (projectError) {
+
+        console.log(projectError);
+
+        return;
+
+    }
+
+    // Kunin ang lahat ng procedures ng category
+
+    const { data: procedures, error } = await db
+
+        .from("procedures")
+
+        .select("*")
+
+        .eq("category", project.category_id)
+
+        .order("order_no");
+
+    if (error) {
+
+        console.log(error);
+
+        return;
+
+    }
+
+    procedureSelect.innerHTML =
+    '<option value="">Select Procedure</option>';
+
+    procedures.forEach(proc => {
+
+        procedureSelect.innerHTML += `
+
+<option value="${proc.id}">
+${proc.procedure_name}
+</option>
+
+`;
+
+    });
+
+});
+// =======================================
 // LOAD PROCEDURES
 // =======================================
 
