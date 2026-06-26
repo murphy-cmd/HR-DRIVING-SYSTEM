@@ -287,27 +287,20 @@ async function recordAttendance(
 
     switch(action){
 
-        case "AM_IN":
-
-           case "AM_IN":
+       case "AM_IN":
 
     updateData.am_in = philippinesTime;
 
     employeeStatus = "WORKING";
 
-    const scheduleIn =
-        employee.schedule_in;
+    if (employee.schedule_in) {
 
-    if (scheduleIn) {
+        const actualTime = new Date(philippinesTime);
 
-        const actualTime =
-            new Date(philippinesTime);
-
-        const scheduledTime =
-            new Date(philippinesTime);
+        const scheduledTime = new Date(philippinesTime);
 
         const [hour, minute] =
-            scheduleIn.split(":");
+            employee.schedule_in.split(":");
 
         scheduledTime.setHours(
             Number(hour),
@@ -316,11 +309,9 @@ async function recordAttendance(
             0
         );
 
-        const grace =
-            employee.grace_period || 0;
-
         scheduledTime.setMinutes(
-            scheduledTime.getMinutes() + grace
+            scheduledTime.getMinutes() +
+            (employee.grace_period || 0)
         );
 
         const lateMinutes =
@@ -339,10 +330,9 @@ async function recordAttendance(
             lateMinutes > 0
                 ? "LATE"
                 : "ON TIME";
-
     }
 
-    break;
+break;
 
         case "BREAK":
 
@@ -466,6 +456,15 @@ async function recordAttendance(
                 updateData
             ]);
 
+         } else {
+
+    await supabaseClient
+        .from("attendance_daily")
+        .update(updateData)
+        .eq("id", daily.id);
+
+}
+
     } else {
 
         await supabaseClient
@@ -549,9 +548,9 @@ loadTodayHistory();
 
 setInterval(() => {
 
+    loadAttendanceBoard();
+
     loadTodayHistory();
 
 }, 5000);
-
-
 
