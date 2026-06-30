@@ -1,9 +1,12 @@
-/* =====================================================
-   RILCO BUILDERS PAYROLL SYSTEM
-   GLOBAL STYLE.CSS
-===================================================== */
+/* ==========================================
+   GOOGLE FONT
+========================================== */
 
-/* RESET */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* ==========================================
+   RESET
+========================================== */
 
 *{
     margin:0;
@@ -11,114 +14,120 @@
     box-sizing:border-box;
 }
 
-/* BODY */
+html{
+    scroll-behavior:smooth;
+}
 
 body{
-    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-    background:#f4f7fb;
-    color:#222;
-}
 
-/* =====================================================
-   NAVBAR
-===================================================== */
+    font-family:'Poppins',sans-serif;
 
-.navbar{
-    background:linear-gradient(90deg,#0b1220,#111827);
-    padding:12px 45px;
-    box-shadow:0 5px 18px rgba(0,0,0,.25);
-}
+    background:#f1f5f9;
 
-/* Container */
+    color:#1e293b;
 
-.navbar .container-fluid{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-/* Logo */
-
-.navbar-brand{
-    display:flex;
-    align-items:center;
-    margin-right:40px;
-}
-
-.logo{
-    height:60px;
-    width:auto;
-    cursor:pointer;
-    transition:.35s ease;
-}
-
-.logo:hover{
-    transform:scale(1.08);
-    filter:
-        drop-shadow(0 0 10px #7C5CFF)
-        drop-shadow(0 0 20px #7C5CFF);
-}
-
-/* Navigation */
-
-.navbar-collapse{
-    justify-content:flex-end;
-}
-
-.navbar-nav{
-    display:flex;
-    align-items:center;
-    gap:18px;
-}
-
-.nav-link{
-
-    color:white !important;
-
-    font-size:18px;
-
-    font-weight:500;
-
-    transition:.3s;
+    overflow-x:hidden;
 
 }
 
-.nav-link:hover{
+/* ==========================================
+   VARIABLES
+========================================== */
 
-    color:#8B5CF6 !important;
+:root{
+
+    --primary:#2563eb;
+    --primary-dark:#1d4ed8;
+
+    --success:#22c55e;
+    --warning:#f59e0b;
+    --danger:#ef4444;
+
+    --dark:#0f172a;
+
+    --gray:#64748b;
+
+    --white:#ffffff;
+
+    --shadow:0 8px 25px rgba(15,23,42,.08);
+
+    --radius:18px;
 
 }
 
-.nav-link.active{
+/* ==========================================
+   LINKS
+========================================== */
 
-    color:#8B5CF6 !important;
+a{
+
+    text-decoration:none;
+
+}
+
+/* ==========================================
+   CONTENT
+========================================== */
+
+.content{
+
+    padding:35px;
+
+}
+
+/* ==========================================
+   PAGE TITLE
+========================================== */
+
+.page-title{
+
+    margin-bottom:30px;
+
+}
+
+.page-title h1{
+
+    font-size:30px;
+
+    font-weight:700;
+
+}
+
+.page-title p{
+
+    color:#64748b;
+
+    margin-top:8px;
+
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.btn-primary{
+
+    background:var(--primary);
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:12px 22px;
 
     font-weight:600;
 
 }
 
-/* =====================================================
-   PAGE TITLE
-===================================================== */
+.btn-primary:hover{
 
-h1,h2,h3,h4,h5{
-    font-weight:700;
-    color:#111827;
-}
-
-/* =====================================================
-   CONTAINER
-===================================================== */
-
-.container{
-
-    max-width:1500px;
+    background:var(--primary-dark);
 
 }
 
-/* =====================================================
+/* ==========================================
    CARDS
-===================================================== */
+========================================== */
 
 .card{
 
@@ -126,39 +135,49 @@ h1,h2,h3,h4,h5{
 
     border-radius:18px;
 
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    box-shadow:var(--shadow);
 
-    padding:20px;
+    transition:.3s;
 
 }
 
-/* =====================================================
-   TABLE
-===================================================== */
+.card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.card-body{
+
+    padding:25px;
+
+}
+
+/* ==========================================
+   TABLES
+========================================== */
 
 .table{
 
-    border-radius:12px;
+    border-radius:18px;
 
     overflow:hidden;
-
-    background:white;
 
 }
 
 .table thead{
 
-    background:#111827;
+    background:#0f172a;
 
-    color:white;
+    color:#fff;
 
 }
 
 .table th{
 
-    font-weight:600;
+    padding:16px;
 
-    text-align:center;
+    font-weight:600;
 
 }
 
@@ -166,118 +185,42 @@ h1,h2,h3,h4,h5{
 
     vertical-align:middle;
 
-    text-align:center;
+}
+
+/* ==========================================
+   BADGES
+========================================== */
+
+.badge{
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+    font-size:12px;
 
 }
 
-/* =====================================================
-   BUTTONS
-===================================================== */
-
-.btn{
-
-    border-radius:10px;
-
-    font-weight:600;
-
-    transition:.3s;
-
-}
-
-.btn-primary{
-
-    background:#6C4DFF;
-
-    border:none;
-
-}
-
-.btn-primary:hover{
-
-    background:#5738E8;
-
-}
-
-.btn-success:hover{
-
-    transform:translateY(-2px);
-
-}
-
-/* =====================================================
-   INPUTS
-===================================================== */
-
-.form-control{
-
-    border-radius:10px;
-
-    padding:10px;
-
-}
-
-.form-control:focus{
-
-    box-shadow:0 0 0 .2rem rgba(124,92,255,.2);
-
-    border-color:#7C5CFF;
-
-}
-
-/* =====================================================
+/* ==========================================
    SCROLLBAR
-===================================================== */
+========================================== */
 
 ::-webkit-scrollbar{
 
-    width:8px;
+    width:10px;
 
 }
 
 ::-webkit-scrollbar-thumb{
 
-    background:#7C5CFF;
+    background:#cbd5e1;
 
-    border-radius:10px;
-
-}
-
-::-webkit-scrollbar-track{
-
-    background:#ececec;
+    border-radius:30px;
 
 }
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
+::-webkit-scrollbar-thumb:hover{
 
-@media(max-width:991px){
-
-.navbar{
-
-padding:10px 20px;
-
-}
-
-.logo{
-
-height:50px;
-
-}
-
-.navbar-nav{
-
-gap:10px;
-
-margin-top:15px;
-
-}
-
-.nav-link{
-
-font-size:17px;
-
-}
+    background:#94a3b8;
 
 }
