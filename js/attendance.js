@@ -375,25 +375,51 @@ async function recordAttendance(
 
         case "BREAK":
 
-            updateData.break_time =
-                philippinesTime;
+    if (!daily?.am_in) {
 
-            employeeStatus =
-                "ON_BREAK";
+        alert("Employee must AM IN first.");
 
-            break;
+        checkbox.checked = false;
+
+        return;
+
+    }
+
+    updateData.break_time = philippinesTime;
+
+    employeeStatus = "ON_BREAK";
+
+    break;
 
         case "PM_IN":
 
-            updateData.pm_in =
-                philippinesTime;
+    if (!daily?.break_time) {
 
-            employeeStatus =
-                "WORKING";
+        alert("Employee must take BREAK first.");
 
-            break;
+        checkbox.checked = false;
+
+        return;
+
+    }
+
+    updateData.pm_in = philippinesTime;
+
+    employeeStatus = "WORKING";
+
+    break;
 
        case "TIME_OUT":
+
+          if (!daily?.pm_in) {
+
+        alert("Employee must PM IN first.");
+
+        checkbox.checked = false;
+
+        return;
+
+    }
 
     updateData.time_out = philippinesTime;
     updateData.completed = true;
@@ -408,6 +434,19 @@ async function recordAttendance(
             Math.floor(
                 (timeOut - amIn) / 1000 / 60
             );
+       if (daily.break_time && daily.pm_in) {
+
+    const breakOut = new Date(daily.break_time);
+    const pmIn = new Date(daily.pm_in);
+
+    const breakMinutes =
+        Math.floor(
+            (pmIn - breakOut) / 1000 / 60
+        );
+
+    totalMinutes -= breakMinutes;
+
+}
 
         if (totalMinutes < 0) {
             totalMinutes = 0;
