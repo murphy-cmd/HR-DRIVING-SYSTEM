@@ -1,1 +1,97 @@
+/* ==========================================
+   HEADER
+========================================== */
 
+.main{
+
+    margin-left:270px;
+
+    min-height:100vh;
+
+    background:#f8fafc;
+
+}
+
+.header{
+
+    height:80px;
+
+    background:#fff;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 35px;
+
+    box-shadow:0 2px 15px rgba(0,0,0,.08);
+
+}
+
+.header h2{
+
+    font-weight:700;
+
+    color:#0f172a;
+
+}
+
+.header-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:30px;
+
+}
+
+.header-right i{
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    color:#475569;
+
+}
+
+.profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.profile img{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+}
+
+.profile h5{
+
+    margin:0;
+
+    font-size:15px;
+
+    font-weight:700;
+
+}
+
+.profile span{
+
+    color:#64748b;
+
+    font-size:13px;
+
+}
