@@ -61,6 +61,17 @@ async function loadEmployeeSummary(){
         breakEmployees ?? 0;
 
 }
+// Completed Today
+const { count: completedEmployees } = await supabaseClient
+    .from("employees")
+    .select("*", {
+        count: "exact",
+        head: true
+    })
+    .eq("status", "COMPLETED");
+
+document.getElementById("completedEmployees").innerText =
+    completedEmployees ?? 0;
 
 // ==========================================
 // DRIVER SUMMARY
@@ -96,6 +107,17 @@ async function loadDriverSummary(){
         drivingDrivers ?? 0;
 
 }
+// Completed Today
+const { count: completedEmployees } = await supabaseClient
+    .from("employees")
+    .select("*", {
+        count: "exact",
+        head: true
+    })
+    .eq("status", "COMPLETED");
+
+document.getElementById("completedEmployees").innerText =
+    completedEmployees ?? 0;
 
 // ==========================================
 // DATE
@@ -258,3 +280,4 @@ async function loadRecentActivities() {
     });
 
 }
+
