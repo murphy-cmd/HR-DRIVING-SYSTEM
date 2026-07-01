@@ -1,30 +1,29 @@
 /* ==========================================
-   MAIN CONTENT
-========================================== */
-
-.main-content{
-    margin-left:270px;
-    min-height:100vh;
-    background:#F8FAFC;
-    display:flex;
-    flex-direction:column;
-}
-
-/* ==========================================
    HEADER
 ========================================== */
 
 .header{
+
     height:80px;
+
     background:#FFFFFF;
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
-    padding:0 30px;
+
+    padding:0 35px;
+
     border-bottom:1px solid #E2E8F0;
+
     position:sticky;
+
     top:0;
-    z-index:100;
+
+    z-index:999;
+
 }
 
 /* ==========================================
@@ -32,16 +31,23 @@
 ========================================== */
 
 .header-left h2{
-    margin:0;
+
     font-size:28px;
+
     font-weight:700;
+
     color:#0F172A;
+
+    margin-bottom:5px;
+
 }
 
 .header-left p{
-    margin-top:5px;
-    font-size:14px;
+
     color:#64748B;
+
+    font-size:14px;
+
 }
 
 /* ==========================================
@@ -49,9 +55,13 @@
 ========================================== */
 
 .header-right{
+
     display:flex;
+
     align-items:center;
+
     gap:18px;
+
 }
 
 /* ==========================================
@@ -59,26 +69,43 @@
 ========================================== */
 
 .search-box{
-    width:320px;
+
+    width:330px;
+
     height:46px;
+
     background:#F1F5F9;
+
     border-radius:12px;
+
     display:flex;
+
     align-items:center;
-    padding:0 16px;
-    gap:10px;
+
+    padding:0 15px;
+
+    gap:12px;
+
 }
 
 .search-box i{
+
     color:#94A3B8;
+
 }
 
 .search-box input{
-    flex:1;
+
+    width:100%;
+
     border:none;
+
     outline:none;
+
     background:transparent;
+
     font-size:14px;
+
 }
 
 /* ==========================================
@@ -86,18 +113,29 @@
 ========================================== */
 
 .notification-btn{
+
     width:46px;
+
     height:46px;
+
     border:none;
+
     border-radius:12px;
+
     background:#F1F5F9;
+
     cursor:pointer;
-    transition:.25s;
+
+    transition:.3s;
+
 }
 
 .notification-btn:hover{
+
     background:#2563EB;
+
     color:#fff;
+
 }
 
 /* ==========================================
@@ -105,55 +143,83 @@
 ========================================== */
 
 .profile{
+
     display:flex;
+
     align-items:center;
-    gap:15px;
-    min-width:230px;
+
+    gap:12px;
+
+    min-width:220px;
+
 }
 
 .profile img{
+
     width:48px;
+
     height:48px;
+
     border-radius:50%;
+
     object-fit:cover;
+
 }
 
-.profile h5{
-    margin:0;
-    font-size:15px;
-    font-weight:700;
-    color:#0F172A;
-}
-
-.profile span{
-    font-size:13px;
-    color:#64748B;
-}
 .profile div{
+
     display:flex;
+
     flex-direction:column;
+
 }
 
 .profile h5{
+
+    margin:0;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    color:#0F172A;
+
     white-space:nowrap;
+
 }
 
 .profile span{
+
+    color:#64748B;
+
+    font-size:13px;
+
     white-space:nowrap;
+
 }
 
 /* ==========================================
-   MOBILE
+   RESPONSIVE
 ========================================== */
 
-@media(max-width:992px){
+@media(max-width:991px){
 
-    .main-content{
-        margin-left:85px;
-    }
+.search-box{
 
-    .search-box{
-        display:none;
-    }
+display:none;
+
+}
+
+.header{
+
+padding:0 20px;
+
+}
+
+.profile{
+
+min-width:auto;
+
+}
 
 }
