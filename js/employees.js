@@ -188,3 +188,22 @@ async function saveEmployee(){
     loadEmployees();
 
 }
+// ==========================================
+// CLEAR FORM
+// ==========================================
+
+function clearEmployeeForm(){
+
+document.getElementById("employeeId").value="";
+
+document.getElementById("fullName").value="";
+
+document.getElementById("position").value="";
+
+document.getElementById("department").value="";
+
+document.getElementById("employeeType").selectedIndex=0;
+
+document.getElementById("status").selectedIndex=0;
+
+}
