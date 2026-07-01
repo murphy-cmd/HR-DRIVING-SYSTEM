@@ -1,168 +1,567 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
 
-<link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RILCO HR Driving System</title>
+
+<link rel="icon" href="data:,">
+
+<!-- Bootstrap -->
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
+<!-- Google Font -->
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<!-- CSS -->
+
+<link rel="stylesheet" href="css/style.css">
 
 </head>
 
 <body>
 
-<div class="topbar">
+<div class="dashboard">
 
-    <div class="logo-area">
+    <!-- ===========================
+            SIDEBAR
+    ============================ -->
 
-        <img src="asset/rilco-logo.png" class="logo">
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+
+            <img
+            src="asset/rilco-logo.png"
+            class="logo">
+
+            <h2>RILCO BUILDERS</h2>
+
+            <p>HR Driving System</p>
+
+        </div>
+
+        <ul class="sidebar-menu">
+
+            <li class="active">
+
+                <a href="index.html">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    <span>Dashboard</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="employees.html">
+
+                    <i class="fa-solid fa-users"></i>
+
+                    <span>Employees</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="projects.html">
+
+                    <i class="fa-solid fa-diagram-project"></i>
+
+                    <span>Projects</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="procedures.html">
+
+                    <i class="fa-solid fa-list-check"></i>
+
+                    <span>Procedures</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="assignments.html">
+
+                    <i class="fa-solid fa-user-check"></i>
+
+                    <span>Assignments</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="attendance.html">
+
+                    <i class="fa-solid fa-clock"></i>
+
+                    <span>Attendance</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="drivers.html">
+
+                    <i class="fa-solid fa-truck"></i>
+
+                    <span>Drivers</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="dtr.html">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                    <span>DTR</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="payroll.html">
+
+                    <i class="fa-solid fa-money-bill-wave"></i>
+
+                    <span>Payroll</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="leave.html">
+
+                    <i class="fa-solid fa-calendar-xmark"></i>
+
+                    <span>Leave</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="#">
+
+                    <i class="fa-solid fa-chart-column"></i>
+
+                    <span>Reports</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="#">
+
+                    <i class="fa-solid fa-gear"></i>
+
+                    <span>Settings</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="#">
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    <span>Logout</span>
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- ===========================
+            MAIN
+    ============================ -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <header class="header">
+
+            <div>
+
+                <h2>Dashboard</h2>
+
+                <span>
+
+                    Welcome to RILCO HR Driving System
+
+                </span>
+
+            </div>
+
+            <div class="header-right">
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                    type="text"
+                    placeholder="Search...">
+
+                </div>
+
+                <button class="notification">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                </button>
+
+                <div class="profile">
+
+                    <img src="asset/default-avatar.png">
+
+                    <div>
+
+                        <h5>Administrator</h5>
+
+                        <span>HR Manager</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- CONTENT -->
+
+        <section class="content">
+            <!-- ==========================================
+WELCOME SECTION
+========================================== -->
+
+<div class="welcome-card">
+
+    <div>
+
+        <h1>
+            Welcome Back, Administrator 👋
+        </h1>
+
+        <p>
+
+            Monitor employees, attendance, payroll,
+            projects and daily company activities
+            from one centralized dashboard.
+
+        </p>
+
+    </div>
+
+    <div class="welcome-date">
+
+        <h3 id="currentDate">
+            Loading...
+        </h3>
+
+        <span>
+            RILCO HR Driving System
+        </span>
+
+    </div>
+
+</div>
+
+<!-- ==========================================
+EMPLOYEE DASHBOARD
+========================================== -->
+
+<h3 class="section-title">
+
+    Employee Overview
+
+</h3>
+
+<div class="dashboard-grid">
+
+    <div class="dashboard-card blue">
 
         <div>
 
-            <h3>RILCO BUILDERS</h3>
+            <span>Total Employees</span>
 
-            <span>HR Driving Management System</span>
+            <h2 id="totalEmployees">
+
+                0
+
+            </h2>
 
         </div>
 
+        <i class="fa-solid fa-users"></i>
+
     </div>
 
-    <div class="top-menu">
+    <div class="dashboard-card green">
 
-        <a href="index.html" class="active">Dashboard</a>
+        <div>
 
-        <a href="employees.html">Employees</a>
+            <span>Working</span>
 
-        <a href="projects.html">Projects</a>
+            <h2 id="workingEmployees">
 
-        <a href="procedures.html">Procedures</a>
+                0
 
-        <a href="assignments.html">Assignments</a>
+            </h2>
 
-        <a href="attendance.html">Attendance</a>
+        </div>
 
-        <a href="drivers.html">Drivers</a>
+        <i class="fa-solid fa-user-check"></i>
 
-        <a href="payroll.html">Payroll</a>
+    </div>
+
+    <div class="dashboard-card orange">
+
+        <div>
+
+            <span>On Break</span>
+
+            <h2 id="breakEmployees">
+
+                0
+
+            </h2>
+
+        </div>
+
+        <i class="fa-solid fa-mug-hot"></i>
+
+    </div>
+
+    <div class="dashboard-card red">
+
+        <div>
+
+            <span>Completed Today</span>
+
+            <h2 id="completedEmployees">
+
+                0
+
+            </h2>
+
+        </div>
+
+        <i class="fa-solid fa-circle-check"></i>
 
     </div>
 
 </div>
 
-<div class="dashboard-container">
+<!-- ==========================================
+DRIVER DASHBOARD
+========================================== -->
 
+<h3 class="section-title mt-5">
 
-<h2 class="mb-4">Dashboard</h2>
+    Driver Overview
 
-<!-- EMPLOYEE OVERVIEW -->
+</h3>
 
-<h4 class="mb-3">Employee Overview</h4>
+<div class="dashboard-grid">
 
-<div class="row mb-4">
+    <div class="dashboard-card dark">
 
-    <div class="col-md-3 mb-3">
-        <div class="card text-center">
-            <div class="card-body">
-                <h5>Total Employees</h5>
-                <h2 id="totalEmployees">0</h2>
-            </div>
+        <div>
+
+            <span>Total Drivers</span>
+
+            <h2 id="totalDrivers">
+
+                0
+
+            </h2>
+
         </div>
+
+        <i class="fa-solid fa-truck"></i>
+
     </div>
 
-    <div class="col-md-3 mb-3">
-        <div class="card text-center">
-            <div class="card-body">
-                <h5>Working</h5>
-                <h2 id="workingEmployees">0</h2>
-            </div>
+    <div class="dashboard-card blue">
+
+        <div>
+
+            <span>Available</span>
+
+            <h2 id="availableDrivers">
+
+                0
+
+            </h2>
+
         </div>
+
+        <i class="fa-solid fa-road"></i>
+
     </div>
 
-    <div class="col-md-3 mb-3">
-        <div class="card text-center">
-            <div class="card-body">
-                <h5>On Break</h5>
-                <h2 id="breakEmployees">0</h2>
-            </div>
+    <div class="dashboard-card orange">
+
+        <div>
+
+            <span>Driving</span>
+
+            <h2 id="drivingEmployees">
+
+                0
+
+            </h2>
+
         </div>
+
+        <i class="fa-solid fa-steering-wheel"></i>
+
     </div>
 
-    <div class="col-md-3 mb-3">
-        <div class="card text-center border-success">
-            <div class="card-body">
-                <h5>Completed Today</h5>
-                <h2 id="completedEmployees">0</h2>
-            </div>
+    <div class="dashboard-card green">
+
+        <div>
+
+            <span>Completed Trips</span>
+
+            <h2 id="completedTrips">
+
+                0
+
+            </h2>
+
         </div>
-    </div>
 
-</div>
+        <i class="fa-solid fa-flag-checkered"></i>
 
-<!-- DRIVER OVERVIEW -->
-
-<h4 class="mb-3">Driver Overview</h4>
-
-<div class="row">
-
-    <div class="col-md-3 mb-3">
-        <div class="card text-center">
-            <div class="card-body">
-                <h5>Total Drivers</h5>
-                <h2 id="totalDrivers">0</h2>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 mb-3">
-        <div class="card text-center">
-            <div class="card-body">
-                <h5>Available Drivers</h5>
-                <h2 id="availableDrivers">0</h2>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 mb-3">
-        <div class="card text-center">
-            <div class="card-body">
-                <h5>Driving Now</h5>
-                <h2 id="drivingEmployees">0</h2>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3 mb-3">
-        <div class="card text-center border-primary">
-            <div class="card-body">
-                <h5>Completed Trips</h5>
-                <h2 id="completedTrips">0</h2>
-            </div>
-        </div>
     </div>
 
 </div>
+  <!-- ==========================================
+QUICK ACTIONS
+========================================== -->
 
-<hr class="mt-4">
+<h3 class="section-title mt-5">
 
-<h4 class="mt-4">Employee Daily Summary</h4>
+    Quick Actions
 
-<div class="table-responsive">
+</h3>
 
-    <table class="table table-bordered table-striped">
+<div class="quick-actions">
 
-        <thead class="table-dark">
+    <a href="employees.html" class="action-card">
+
+        <i class="fa-solid fa-user-plus"></i>
+
+        <h4>Add Employee</h4>
+
+        <p>Create a new employee record.</p>
+
+    </a>
+
+    <a href="attendance.html" class="action-card">
+
+        <i class="fa-solid fa-clock"></i>
+
+        <h4>Attendance</h4>
+
+        <p>Monitor today's attendance.</p>
+
+    </a>
+
+    <a href="projects.html" class="action-card">
+
+        <i class="fa-solid fa-diagram-project"></i>
+
+        <h4>Projects</h4>
+
+        <p>Manage ongoing projects.</p>
+
+    </a>
+
+    <a href="payroll.html" class="action-card">
+
+        <i class="fa-solid fa-money-bill-wave"></i>
+
+        <h4>Payroll</h4>
+
+        <p>Manage payroll information.</p>
+
+    </a>
+
+</div>
+
+<!-- ==========================================
+EMPLOYEE SUMMARY
+========================================== -->
+
+<h3 class="section-title mt-5">
+
+    Employee Daily Summary
+
+</h3>
+
+<div class="table-card">
+
+    <table class="table table-hover align-middle">
+
+        <thead>
 
             <tr>
+
                 <th>Employee</th>
+
                 <th>Status</th>
+
                 <th>Work Hours</th>
+
                 <th>OT Hours</th>
+
             </tr>
 
         </thead>
@@ -175,22 +574,34 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </div>
 
-<hr class="mt-4">
+<!-- ==========================================
+DRIVER SUMMARY
+========================================== -->
 
-<h4 class="mt-4">Driver Daily Summary</h4>
+<h3 class="section-title mt-5">
 
-<div class="table-responsive">
+    Driver Daily Summary
 
-    <table class="table table-bordered table-striped">
+</h3>
 
-        <thead class="table-dark">
+<div class="table-card">
+
+    <table class="table table-hover align-middle">
+
+        <thead>
 
             <tr>
+
                 <th>Driver</th>
+
                 <th>Status</th>
+
                 <th>Start Trip</th>
+
                 <th>End Trip</th>
+
                 <th>Work Hours</th>
+
             </tr>
 
         </thead>
@@ -201,9 +612,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
     </table>
 
-</div>
+</div>      
+
+                    </section>
+
+    </main>
 
 </div>
+
+<!-- Bootstrap -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Supabase -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -211,10 +632,28 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 <script src="js/dashboard.js"></script>
 
-</main>
+</body>
+
+</html>
+        </section>
+
+    </main>
 
 </div>
+
+<!-- Bootstrap -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Supabase -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase-config.js"></script>
+
+<script src="js/dashboard.js"></script>
 
 </body>
 
 </html>
+ 
