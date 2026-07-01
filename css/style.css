@@ -351,3 +351,63 @@ a{
     border-radius:20px;
 
 }
+
+/* ==========================================
+   DASHBOARD HEADER
+========================================== */
+
+.dashboard-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin:35px 0;
+
+}
+
+.dashboard-header h1{
+
+    font-size:34px;
+
+    font-weight:700;
+
+    color:#0F172A;
+
+    margin-bottom:10px;
+
+}
+
+.dashboard-header p{
+
+    color:#64748B;
+
+    margin:0;
+
+}
+
+.dashboard-date{
+
+    text-align:right;
+
+}
+
+.dashboard-date h4{
+
+    margin:0;
+
+    color:#2563EB;
+
+    font-weight:700;
+
+}
+
+.dashboard-date span{
+
+    color:#94A3B8;
+
+    font-size:13px;
+
+}
