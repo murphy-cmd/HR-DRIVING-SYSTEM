@@ -8,7 +8,24 @@ async function loadAttendanceSummary() {
 
     const tbody = document.getElementById("summaryTable");
 
-    tbody.innerHTML = "";
+tbody.innerHTML = "";
+
+const searchValue =
+    document
+        .getElementById("searchEmployee")
+        .value
+        .trim()
+        .toLowerCase();
+
+const selectedDate =
+    document
+        .getElementById("summaryDate")
+        .value;
+
+const selectedStatus =
+    document
+        .getElementById("statusFilter")
+        .value;
 
     const {
         data,
@@ -37,6 +54,36 @@ async function loadAttendanceSummary() {
     let late = 0;
 
     data.forEach(record => {
+if (
+    searchValue &&
+    !record.employee_name
+        .toLowerCase()
+        .includes(searchValue) &&
+    !record.employee_id
+        .toLowerCase()
+        .includes(searchValue)
+) {
+    return;
+}
+
+// Date Filter
+
+if (
+    selectedDate &&
+    record.attendance_date !== selectedDate
+) {
+    return;
+}
+
+// Status Filter
+
+if (
+    selectedStatus &&
+    record.attendance_status !== selectedStatus
+) {
+    return;
+}
+        
 
         if (record.am_in) {
 
@@ -105,5 +152,9 @@ function formatTime(value) {
     });
 
 }
+
+document
+    .getElementById("searchBtn")
+    .addEventListener("click", loadAttendanceSummary);
 
 loadAttendanceSummary();
