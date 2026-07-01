@@ -3,28 +3,36 @@
 ========================================== */
 
 .sidebar{
-    width:270px;
-    height:100vh;
-    background:#0F172A;
-    color:#fff;
 
     position:fixed;
+
     top:0;
+
     left:0;
 
+    width:270px;
+
+    height:100vh;
+
+    background:#0F172A;
+
     display:flex;
+
     flex-direction:column;
 
-    box-shadow:5px 0 20px rgba(0,0,0,.15);
+    justify-content:space-between;
+
+    box-shadow:4px 0 25px rgba(0,0,0,.15);
 
     z-index:999;
+
 }
 
 /* ==========================================
    LOGO
 ========================================== */
 
-.logo{
+.sidebar-logo{
 
     padding:30px 20px;
 
@@ -34,15 +42,17 @@
 
 }
 
-.logo img{
+.sidebar-logo img{
 
-    width:90px;
+    width:75px;
 
     margin-bottom:15px;
 
 }
 
-.logo h3{
+.sidebar-logo h2{
+
+    color:#fff;
 
     font-size:20px;
 
@@ -52,11 +62,11 @@
 
 }
 
-.logo span{
-
-    font-size:13px;
+.sidebar-logo span{
 
     color:#94A3B8;
+
+    font-size:13px;
 
 }
 
@@ -64,25 +74,25 @@
    MENU
 ========================================== */
 
-.menu{
+.sidebar-menu{
 
     list-style:none;
 
-    padding:20px 15px;
-
     margin:0;
+
+    padding:20px 15px;
 
     flex:1;
 
 }
 
-.menu li{
+.sidebar-menu li{
 
     margin-bottom:8px;
 
 }
 
-.menu li a{
+.sidebar-menu li a{
 
     display:flex;
 
@@ -92,21 +102,21 @@
 
     padding:15px 18px;
 
-    border-radius:12px;
-
     text-decoration:none;
 
     color:#CBD5E1;
+
+    border-radius:14px;
+
+    transition:.3s;
 
     font-size:15px;
 
     font-weight:500;
 
-    transition:.3s;
-
 }
 
-.menu li a i{
+.sidebar-menu li a i{
 
     width:22px;
 
@@ -118,7 +128,7 @@
 
 /* Hover */
 
-.menu li a:hover{
+.sidebar-menu li a:hover{
 
     background:#2563EB;
 
@@ -130,7 +140,7 @@
 
 /* Active */
 
-.menu li.active a{
+.sidebar-menu li.active a{
 
     background:#2563EB;
 
@@ -138,16 +148,50 @@
 
 }
 
-/* Logout */
+/* ==========================================
+   FOOTER
+========================================== */
 
-.menu li:last-child{
+.sidebar-footer{
 
-    margin-top:30px;
+    padding:20px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+.sidebar-footer button{
+
+    width:100%;
+
+    height:50px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#1E293B;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+.sidebar-footer button:hover{
+
+    background:#DC2626;
 
 }
 
 /* ==========================================
-   SCROLL
+   SCROLLBAR
 ========================================== */
 
 .sidebar::-webkit-scrollbar{
@@ -161,49 +205,5 @@
     background:#334155;
 
     border-radius:20px;
-
-}
-
-/* ==========================================
-   MOBILE
-========================================== */
-
-@media(max-width:992px){
-
-.sidebar{
-
-    width:90px;
-
-}
-
-.logo h3,
-.logo span,
-.menu li a span{
-
-    display:none;
-
-}
-
-.logo img{
-
-    width:55px;
-
-}
-
-.menu li a{
-
-    justify-content:center;
-
-    padding:16px;
-
-}
-
-.menu li a i{
-
-    margin:0;
-
-    font-size:20px;
-
-}
 
 }
