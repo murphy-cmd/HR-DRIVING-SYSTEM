@@ -1,6 +1,9 @@
 <div class="page dashboard-page">
 
-    <!-- Welcome Banner -->
+    <!-- ==========================
+            WELCOME BANNER
+    =========================== -->
+
     <section class="welcome-banner">
 
         <div class="welcome-left">
@@ -13,78 +16,169 @@
 
         <div class="welcome-right">
 
-            <h2 id="currentDate">Loading...</h2>
+            <h2 id="currentDate">July 1, 2026</h2>
 
-            <span id="currentDay">Loading...</span>
+            <span id="currentDay">Tuesday</span>
 
         </div>
 
     </section>
 
-    <!-- Employee Overview -->
-    <h2 class="section-title">Employee Overview</h2>
+    <!-- ==========================
+            EMPLOYEE OVERVIEW
+    =========================== -->
+
+    <h2 class="section-title">
+
+        Employee Overview
+
+    </h2>
 
     <div class="grid-4">
 
-        <div class="card">
-            <h5>Total Employees</h5>
-            <h1 id="totalEmployees">0</h1>
+        <div class="stat-card blue">
+
+            <div>
+
+                <span>Total Employees</span>
+
+                <h1 id="totalEmployees">0</h1>
+
+            </div>
+
+            <i class="fa-solid fa-users"></i>
+
         </div>
 
-        <div class="card">
-            <h5>Working</h5>
-            <h1 id="workingEmployees">0</h1>
+        <div class="stat-card green">
+
+            <div>
+
+                <span>Working</span>
+
+                <h1 id="workingEmployees">0</h1>
+
+            </div>
+
+            <i class="fa-solid fa-user-check"></i>
+
         </div>
 
-        <div class="card">
-            <h5>On Break</h5>
-            <h1 id="breakEmployees">0</h1>
+        <div class="stat-card orange">
+
+            <div>
+
+                <span>On Break</span>
+
+                <h1 id="breakEmployees">0</h1>
+
+            </div>
+
+            <i class="fa-solid fa-mug-hot"></i>
+
         </div>
 
-        <div class="card">
-            <h5>Completed Today</h5>
-            <h1 id="completedEmployees">0</h1>
+        <div class="stat-card red">
+
+            <div>
+
+                <span>Completed Today</span>
+
+                <h1 id="completedEmployees">0</h1>
+
+            </div>
+
+            <i class="fa-solid fa-circle-check"></i>
+
         </div>
 
     </div>
 
-    <br>
+    <!-- ==========================
+            DRIVER OVERVIEW
+    =========================== -->
 
-    <!-- Driver Overview -->
-    <h2 class="section-title">Driver Overview</h2>
+    <h2 class="section-title">
+
+        Driver Overview
+
+    </h2>
 
     <div class="grid-4">
 
-        <div class="card">
-            <h5>Total Drivers</h5>
-            <h1 id="totalDrivers">0</h1>
+        <div class="stat-card blue">
+
+            <div>
+
+                <span>Total Drivers</span>
+
+                <h1 id="totalDrivers">0</h1>
+
+            </div>
+
+            <i class="fa-solid fa-truck"></i>
+
         </div>
 
-        <div class="card">
-            <h5>Available</h5>
-            <h1 id="availableDrivers">0</h1>
+        <div class="stat-card green">
+
+            <div>
+
+                <span>Available</span>
+
+                <h1 id="availableDrivers">0</h1>
+
+            </div>
+
+            <i class="fa-solid fa-road"></i>
+
         </div>
 
-        <div class="card">
-            <h5>Driving</h5>
-            <h1 id="drivingDrivers">0</h1>
+        <div class="stat-card orange">
+
+            <div>
+
+                <span>Driving</span>
+
+                <h1 id="drivingDrivers">0</h1>
+
+            </div>
+
+            <i class="fa-solid fa-truck-fast"></i>
+
         </div>
 
-        <div class="card">
-            <h5>Completed Trips</h5>
-            <h1 id="completedTrips">0</h1>
+        <div class="stat-card green">
+
+            <div>
+
+                <span>Completed Trips</span>
+
+                <h1 id="completedTrips">0</h1>
+
+            </div>
+
+            <i class="fa-solid fa-flag-checkered"></i>
+
         </div>
 
     </div>
 
-    <br>
+    <!-- ==========================
+            BOTTOM WIDGETS
+    =========================== -->
 
-    <!-- Bottom Widgets -->
     <div class="grid-3">
 
         <div class="card">
 
-            <h3>Today's Attendance</h3>
+            <h3>
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                Today's Attendance
+
+            </h3>
 
             <h1 id="todayAttendance">0</h1>
 
@@ -94,7 +188,13 @@
 
         <div class="card">
 
-            <h3>Pending Leave</h3>
+            <h3>
+
+                <i class="fa-solid fa-calendar-xmark"></i>
+
+                Pending Leave
+
+            </h3>
 
             <h1 id="pendingLeave">0</h1>
 
@@ -104,7 +204,11 @@
 
         <div class="card">
 
-            <h3>Recent Activities</h3>
+            <h3>
+
+                Recent Activities
+
+            </h3>
 
             <div id="recentActivities">
 
