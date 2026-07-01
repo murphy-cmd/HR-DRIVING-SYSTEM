@@ -1,143 +1,63 @@
-console.log("Employees JS Loaded");
-
-async function saveEmployee() {
-
-    const employeeId =
-        document.getElementById("employeeId").value.trim();
-
-    const fullName =
-        document.getElementById("fullName").value.trim();
-
-    const position =
-        document.getElementById("position").value.trim();
-
-    const employeeType =
-        document.getElementById("employeeType").value;
-
-    if (!employeeId || !fullName || !employeeType) {
-
-        alert("Please complete all required fields.");
-
-        return;
-    }
-
-    let scheduleIn = null;
-    let scheduleOut = null;
-    let gracePeriod = 15;
-
-    // OFFICE STAFF
-    if (employeeType === "office") {
-
-        scheduleIn = "09:00:00";
-        scheduleOut = "18:00:00";
-        gracePeriod = 15;
-
-    }
-
-    // WAREHOUSE STAFF
-    else if (employeeType === "warehouse") {
-
-        scheduleIn = "08:00:00";
-        scheduleOut = "17:00:00";
-        gracePeriod = 15;
-
-    }
-
-    // DRIVER
-    else if (employeeType === "driver") {
-
-        scheduleIn = null;
-        scheduleOut = null;
-        gracePeriod = 0;
-
-    }
-
-    const { error } =
-        await supabaseClient
-            .from("employees")
-            .insert([
-                {
-                    employee_id: employeeId,
-                    full_name: fullName,
-                    position: position,
-                    employee_type: employeeType,
-                    schedule_in: scheduleIn,
-                    schedule_out: scheduleOut,
-                    grace_period: gracePeriod,
-                    status: "ACTIVE"
-                }
-            ]);
-
-    if (error) {
-
-        console.error(error);
-
-        alert(error.message);
-
-        return;
-    }
-
-    alert("Employee Saved Successfully!");
-
-    document.getElementById("employeeId").value = "";
-    document.getElementById("fullName").value = "";
-    document.getElementById("position").value = "";
-    document.getElementById("employeeType").selectedIndex = 0;
+document.addEventListener("DOMContentLoaded", () => {
 
     loadEmployees();
 
-}
+});
 
 async function loadEmployees() {
 
-    const { data, error } =
-        await supabaseClient
-            .from("employees")
-            .select("*")
-            .order("id", {
-                ascending: false
-            });
+    const {
+
+        data,
+
+        error
+
+    } = await db
+
+        .from("employees")
+
+        .select("*")
+
+        .order("id");
 
     if (error) {
 
         console.error(error);
 
         return;
+
     }
 
-    let html = "";
+    const tbody = document.getElementById("employeeTable");
+
+    tbody.innerHTML = "";
 
     data.forEach(emp => {
 
-        let type = "";
+        tbody.innerHTML += `
 
-        if (emp.employee_type === "office") {
+        <tr>
 
-            type = "Office Staff";
+            <td>${emp.employee_id}</td>
 
-        } else if (emp.employee_type === "warehouse") {
+            <td>${emp.full_name}</td>
 
-            type = "Warehouse Staff";
+            <td>${emp.department ?? "-"}</td>
 
-        } else if (emp.employee_type === "driver") {
+            <td>${emp.position ?? "-"}</td>
 
-            type = "Driver";
+            <td>${emp.status}</td>
 
-        }
+            <td>
 
-        html += `
-            <tr>
-                <td>${emp.employee_id}</td>
-                <td>${emp.full_name}</td>
-                <td>${emp.position || ""}</td>
-                <td>${emp.status || ""}</td>
-            </tr>
+                <button>Edit</button>
+
+            </td>
+
+        </tr>
+
         `;
 
     });
 
-    document.getElementById("employeeTable").innerHTML = html;
-
 }
-
-loadEmployees();
