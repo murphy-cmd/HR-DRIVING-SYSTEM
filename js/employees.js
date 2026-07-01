@@ -207,3 +207,35 @@ document.getElementById("employeeType").selectedIndex=0;
 document.getElementById("status").selectedIndex=0;
 
 }
+// ==========================================
+// LIVE SEARCH
+// ==========================================
+
+document
+.getElementById("employeeSearch")
+.addEventListener("input", searchEmployee);
+
+function searchEmployee(){
+
+    const keyword =
+        document
+        .getElementById("employeeSearch")
+        .value
+        .toLowerCase();
+
+    const rows =
+        document
+        .querySelectorAll("#employeeTable tr");
+
+    rows.forEach(row=>{
+
+        row.style.display =
+            row.innerText
+            .toLowerCase()
+            .includes(keyword)
+            ? ""
+            : "none";
+
+    });
+
+}
