@@ -19,17 +19,39 @@ body{
 
     width:100%;
     height:100%;
-
     font-family:'Poppins',sans-serif;
-
-    background:#F8FAFC;
-
-    overflow-x:hidden;
+    background:#F5F7FB;
+    overflow:hidden;
 
 }
 
 /* ==========================================
-   DASHBOARD
+   ROOT COLORS
+========================================== */
+
+:root{
+
+    --primary:#2563EB;
+    --primary-dark:#1D4ED8;
+
+    --sidebar:#0F172A;
+
+    --background:#F5F7FB;
+
+    --white:#FFFFFF;
+
+    --text:#0F172A;
+
+    --gray:#64748B;
+
+    --border:#E2E8F0;
+
+    --shadow:0 10px 30px rgba(0,0,0,.08);
+
+}
+
+/* ==========================================
+   MAIN LAYOUT
 ========================================== */
 
 .dashboard{
@@ -38,70 +60,98 @@ body{
 
     width:100%;
 
-    min-height:100vh;
+    height:100vh;
 
 }
 
-/* ==========================================
-   MAIN CONTENT
-========================================== */
+.main{
 
-.main-content{
-
-    margin-left:270px;
-
-    width:calc(100% - 270px);
-
-    min-height:100vh;
+    flex:1;
 
     display:flex;
 
     flex-direction:column;
 
-    background:#F8FAFC;
+    overflow:hidden;
 
 }
-
-/* ==========================================
-   CONTENT
-========================================== */
 
 .content{
 
     flex:1;
 
-    padding:35px;
+    overflow-y:auto;
+
+    padding:30px;
+
+    background:var(--background);
 
 }
 
 /* ==========================================
-   CONTAINER
-========================================== */
-
-.container-fluid{
-
-    padding:0;
-
-}
-
-/* ==========================================
-   LINK
+   LINKS
 ========================================== */
 
 a{
 
     text-decoration:none;
 
+    color:inherit;
+
 }
 
 /* ==========================================
-   IMAGE
+   BUTTON
 ========================================== */
 
-img{
+button{
 
-    max-width:100%;
+    border:none;
 
-    display:block;
+    outline:none;
+
+    cursor:pointer;
+
+    font-family:inherit;
+
+}
+
+/* ==========================================
+   INPUT
+========================================== */
+
+input{
+
+    font-family:inherit;
+
+}
+
+/* ==========================================
+   LOADING
+========================================== */
+
+.loading{
+
+    height:70vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:20px;
+
+    color:var(--gray);
+
+}
+
+.loading i{
+
+    font-size:45px;
+
+    color:var(--primary);
 
 }
