@@ -168,56 +168,74 @@
             BOTTOM WIDGETS
     =========================== -->
 
-    <div class="grid-3">
+  <div class="grid-3">
 
-        <div class="card">
+    <!-- Today's Attendance -->
 
-            <h3>
+    <div class="card widget-card">
 
-                <i class="fa-solid fa-calendar-check"></i>
+        <div class="widget-icon blue-bg">
 
-                Today's Attendance
-
-            </h3>
-
-            <h1 id="todayAttendance">0</h1>
-
-            <p>Employees who already timed in today.</p>
+            <i class="fa-solid fa-calendar-check"></i>
 
         </div>
 
-        <div class="card">
+        <h3>Today's Attendance</h3>
 
-            <h3>
+        <h1 id="todayAttendance">0</h1>
 
-                <i class="fa-solid fa-calendar-xmark"></i>
+        <p>Employees who already timed in today.</p>
 
-                Pending Leave
+        <a href="#">View Attendance →</a>
 
-            </h3>
+    </div>
 
-            <h1 id="pendingLeave">0</h1>
+    <!-- Pending Leave -->
 
-            <p>Waiting for approval.</p>
+    <div class="card widget-card">
 
-        </div>
+        <div class="widget-icon orange-bg">
 
-        <div class="card">
-
-            <h3>
-
-                Recent Activities
-
-            </h3>
-
-            <div id="recentActivities">
-
-                <p>No recent activities.</p>
-
-            </div>
+            <i class="fa-solid fa-calendar-xmark"></i>
 
         </div>
+
+        <h3>Pending Leave</h3>
+
+        <h1 id="pendingLeave">0</h1>
+
+        <p>Leave requests awaiting approval.</p>
+
+        <a href="#">View Leave Requests →</a>
+
+    </div>
+
+    <!-- Recent Activities -->
+
+    <div class="card">
+
+        <h3>Recent Activities</h3>
+
+        <div id="recentActivities"></div>
 
     </div>
 
 </div>
+
+<footer class="dashboard-footer">
+
+    <span>
+
+        © 2026 RILCO Builders Contractors • Engineers.
+
+        All Rights Reserved.
+
+    </span>
+
+    <span>
+
+        Version 2.0
+
+    </span>
+
+</footer>
