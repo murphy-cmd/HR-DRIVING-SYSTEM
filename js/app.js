@@ -1,35 +1,70 @@
 // ==========================================
-// PAGE NAVIGATION
+// HR DRIVING SYSTEM V2
+// APP CONTROLLER
 // ==========================================
 
-function showPage(pageId) {
+const app = document.getElementById("app");
+const pageTitle = document.getElementById("pageTitle");
+const menuItems = document.querySelectorAll(".menu li");
 
-    // Itago lahat ng pages
-    document.querySelectorAll(".page").forEach(page => {
-        page.classList.remove("active");
-    });
+// ==========================================
+// LOAD PAGE
+// ==========================================
 
-    // Ipakita ang napiling page
-    document.getElementById(pageId).classList.add("active");
+async function loadPage(page){
 
-    // Active menu
-    document.querySelectorAll(".sidebar-menu li").forEach(item => {
-        item.classList.remove("active");
-    });
+    try{
 
-    const activeMenu = document.querySelector(
-        `[data-page="${pageId}"]`
-    );
+        const response = await fetch(`pages/${page}.html`);
 
-    if (activeMenu) {
-        activeMenu.classList.add("active");
+        const html = await response.text();
+
+        app.innerHTML = html;
+
+        pageTitle.textContent =
+            page.charAt(0).toUpperCase() +
+            page.slice(1);
+
+    }
+
+    catch(error){
+
+        app.innerHTML = `
+            <div class="card">
+
+                <h2>Page Not Found</h2>
+
+                <p>${page}.html not found.</p>
+
+            </div>
+        `;
+
+        console.error(error);
+
     }
 
 }
 
-// Default page
-document.addEventListener("DOMContentLoaded", () => {
+// ==========================================
+// MENU CLICK
+// ==========================================
 
-    showPage("dashboardPage");
+menuItems.forEach(item=>{
+
+    item.addEventListener("click",()=>{
+
+        menuItems.forEach(i=>i.classList.remove("active"));
+
+        item.classList.add("active");
+
+        loadPage(item.dataset.page);
+
+    });
 
 });
+
+// ==========================================
+// DEFAULT PAGE
+// ==========================================
+
+loadPage("dashboard");
