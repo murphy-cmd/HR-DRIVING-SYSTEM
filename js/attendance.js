@@ -485,60 +485,8 @@ async function recordAttendance(
 
     }
 
-    break;
-       {
-
-    const breakOut = new Date(daily.break_time);
-    const pmIn = new Date(daily.pm_in);
-
-    const breakMinutes =
-        Math.floor(
-            (pmIn - breakOut) / 1000 / 60
-        );
-
-    totalMinutes -= breakMinutes;
-
-}
-
-        if (totalMinutes < 0) {
-            totalMinutes = 0;
-        }
-
-        updateData.work_hours =
-            `${Math.floor(totalMinutes / 60)}h ${totalMinutes % 60}m`;
-
-        const shiftEnd = new Date(amIn);
-
-        if (employee.employee_type === "office") {
-
-            shiftEnd.setHours(18, 0, 0, 0);
-
-        } else if (employee.employee_type === "warehouse") {
-
-            shiftEnd.setHours(17, 0, 0, 0);
-
-        } else {
-
-            shiftEnd.setHours(18, 0, 0, 0);
-
-        }
-
-        let otMinutes = 0;
-
-        if (timeOut > shiftEnd) {
-
-            otMinutes =
-                Math.floor(
-                    (timeOut - shiftEnd) / 1000 / 60
-                );
-
-        }
-
-        updateData.ot_hours =
-            `${Math.floor(otMinutes / 60)}h ${otMinutes % 60}m`;
-
-    }
-
+  
+    
     break;
 
         case "START_TRIP":
