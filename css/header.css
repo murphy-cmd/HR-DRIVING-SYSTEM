@@ -18,43 +18,15 @@
 
     border-bottom:1px solid #E2E8F0;
 
-    position:sticky;
-
-    top:0;
-
-    z-index:999;
+    box-shadow:0 2px 15px rgba(0,0,0,.05);
 
 }
 
 /* ==========================================
-   LEFT
+LEFT
 ========================================== */
 
-.header-left h2{
-
-    font-size:28px;
-
-    font-weight:700;
-
-    color:#0F172A;
-
-    margin-bottom:5px;
-
-}
-
-.header-left p{
-
-    color:#64748B;
-
-    font-size:14px;
-
-}
-
-/* ==========================================
-   RIGHT
-========================================== */
-
-.header-right{
+.header-left{
 
     display:flex;
 
@@ -64,25 +36,87 @@
 
 }
 
-/* ==========================================
-   SEARCH
-========================================== */
+.menu-toggle{
 
-.search-box{
+    width:45px;
 
-    width:330px;
+    height:45px;
 
-    height:46px;
+    border-radius:12px;
 
     background:#F1F5F9;
 
-    border-radius:12px;
+    font-size:18px;
+
+    color:#334155;
+
+    transition:.3s;
+
+}
+
+.menu-toggle:hover{
+
+    background:#2563EB;
+
+    color:white;
+
+}
+
+.header-left h2{
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:#0F172A;
+
+    margin:0;
+
+}
+
+.header-left span{
+
+    color:#64748B;
+
+    font-size:14px;
+
+}
+
+/* ==========================================
+RIGHT
+========================================== */
+
+.header-right{
 
     display:flex;
 
     align-items:center;
 
-    padding:0 15px;
+    gap:20px;
+
+}
+
+/* ==========================================
+SEARCH
+========================================== */
+
+.search-box{
+
+    width:320px;
+
+    height:48px;
+
+    background:#F8FAFC;
+
+    border:1px solid #E2E8F0;
+
+    border-radius:14px;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:0 18px;
 
     gap:12px;
 
@@ -96,50 +130,48 @@
 
 .search-box input{
 
-    width:100%;
+    flex:1;
 
     border:none;
 
-    outline:none;
-
     background:transparent;
 
-    font-size:14px;
+    outline:none;
+
+    font-size:15px;
 
 }
 
 /* ==========================================
-   NOTIFICATION
+ICON BUTTON
 ========================================== */
 
-.notification-btn{
+.icon-btn{
 
-    width:46px;
+    width:48px;
 
-    height:46px;
+    height:48px;
 
-    border:none;
+    border-radius:14px;
 
-    border-radius:12px;
+    background:#F8FAFC;
 
-    background:#F1F5F9;
-
-    cursor:pointer;
+    color:#334155;
 
     transition:.3s;
 
 }
 
-.notification-btn:hover{
+.icon-btn:hover{
 
     background:#2563EB;
 
-    color:#fff;
+    color:white;
 
 }
 
 /* ==========================================
-   PROFILE
+PROFILE
 ========================================== */
 
 .profile{
@@ -148,9 +180,9 @@
 
     align-items:center;
 
-    gap:12px;
+    gap:15px;
 
-    min-width:220px;
+    cursor:pointer;
 
 }
 
@@ -164,17 +196,11 @@
 
     object-fit:cover;
 
-}
-
-.profile div{
-
-    display:flex;
-
-    flex-direction:column;
+    border:3px solid #E2E8F0;
 
 }
 
-.profile h5{
+.profile h4{
 
     margin:0;
 
@@ -184,42 +210,12 @@
 
     color:#0F172A;
 
-    white-space:nowrap;
-
 }
 
 .profile span{
 
-    color:#64748B;
-
     font-size:13px;
 
-    white-space:nowrap;
-
-}
-
-/* ==========================================
-   RESPONSIVE
-========================================== */
-
-@media(max-width:991px){
-
-.search-box{
-
-display:none;
-
-}
-
-.header{
-
-padding:0 20px;
-
-}
-
-.profile{
-
-min-width:auto;
-
-}
+    color:#64748B;
 
 }
