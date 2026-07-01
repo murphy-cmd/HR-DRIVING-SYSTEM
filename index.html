@@ -1,38 +1,24 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>
-
-        Dashboard | RILCO HR Driving System
-
-    </title>
+    <title>RILCO HR Driving System</title>
 
     <!-- Bootstrap -->
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Font Awesome -->
-
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- CSS -->
-
     <link rel="stylesheet" href="css/style.css">
-
     <link rel="stylesheet" href="css/sidebar.css">
-
     <link rel="stylesheet" href="css/header.css">
-
     <link rel="stylesheet" href="css/dashboard.css">
 
 </head>
@@ -41,204 +27,175 @@
 
 <div class="dashboard">
 
-    <!-- Sidebar -->
+    <!-- SIDEBAR -->
 
     <aside class="sidebar">
 
+        <div class="sidebar-top">
+
+            <img src="assets/images/rilco-logo.png"
+                class="sidebar-logo"
+                alt="Logo">
+
+            <h2>RILCO BUILDERS</h2>
+
+            <p>HR Driving System</p>
+
+        </div>
+
+        <ul class="sidebar-menu">
+
+            <li class="active">
+
+                <a href="index.html">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    <span>Dashboard</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="employees.html">
+
+                    <i class="fa-solid fa-users"></i>
+
+                    <span>Employees</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="projects.html">
+
+                    <i class="fa-solid fa-diagram-project"></i>
+
+                    <span>Projects</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="procedures.html">
+
+                    <i class="fa-solid fa-list-check"></i>
+
+                    <span>Procedures</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="assignments.html">
+
+                    <i class="fa-solid fa-user-check"></i>
+
+                    <span>Assignments</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="attendance.html">
+
+                    <i class="fa-solid fa-clock"></i>
+
+                    <span>Attendance</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="drivers.html">
+
+                    <i class="fa-solid fa-truck"></i>
+
+                    <span>Drivers</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="dtr.html">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                    <span>DTR</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="payroll.html">
+
+                    <i class="fa-solid fa-money-bill-wave"></i>
+
+                    <span>Payroll</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="leave.html">
+
+                    <i class="fa-solid fa-calendar-xmark"></i>
+
+                    <span>Leave</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="reports.html">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    <span>Reports</span>
+
+                </a>
+
+            </li>
+
+        </ul>
+
+        <div class="sidebar-footer">
+
+            <button id="logoutBtn">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                Logout
+
+            </button>
+
+        </div>
+
     </aside>
+    <!-- ===========================
+        MAIN CONTENT
+=========================== -->
 
-    <!-- Main -->
-
-    <main class="main-content">
-
-    </main>
-
-</div>
-
-<!-- Bootstrap -->
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Supabase -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script src="js/supabase-config.js"></script>
-
-<script src="js/dashboard.js"></script>
-
-</body>
-
-</html>
-<aside class="sidebar">
-
-    <!-- LOGO -->
-
-    <div class="sidebar-top">
-
-        <img src="assets/images/rilco-logo.png"
-             alt="RILCO Logo"
-             class="sidebar-logo">
-
-        <h2>RILCO BUILDERS</h2>
-
-        <p>HR Driving System</p>
-
-    </div>
-
-    <!-- MENU -->
-
-    <ul class="sidebar-menu">
-
-        <li class="active">
-
-            <a href="index.html">
-
-                <i class="fa-solid fa-house"></i>
-
-                <span>Dashboard</span>
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="employees.html">
-
-                <i class="fa-solid fa-users"></i>
-
-                <span>Employees</span>
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="projects.html">
-
-                <i class="fa-solid fa-diagram-project"></i>
-
-                <span>Projects</span>
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="procedures.html">
-
-                <i class="fa-solid fa-list-check"></i>
-
-                <span>Procedures</span>
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="assignments.html">
-
-                <i class="fa-solid fa-user-check"></i>
-
-                <span>Assignments</span>
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="attendance.html">
-
-                <i class="fa-solid fa-clock"></i>
-
-                <span>Attendance</span>
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="drivers.html">
-
-                <i class="fa-solid fa-truck"></i>
-
-                <span>Drivers</span>
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="dtr.html">
-
-                <i class="fa-solid fa-calendar-days"></i>
-
-                <span>DTR</span>
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="payroll.html">
-
-                <i class="fa-solid fa-money-bill-wave"></i>
-
-                <span>Payroll</span>
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="leave.html">
-
-                <i class="fa-solid fa-calendar-xmark"></i>
-
-                <span>Leave</span>
-
-            </a>
-
-        </li>
-
-        <li>
-
-            <a href="reports.html">
-
-                <i class="fa-solid fa-chart-line"></i>
-
-                <span>Reports</span>
-
-            </a>
-
-        </li>
-
-    </ul>
-
-    <!-- FOOTER -->
-
-    <div class="sidebar-footer">
-
-        <button>
-
-            <i class="fa-solid fa-right-from-bracket"></i>
-
-            Logout
-
-        </button>
-
-    </div>
-
-</aside>
 <main class="main-content">
 
     <!-- HEADER -->
@@ -247,17 +204,9 @@
 
         <div class="header-left">
 
-            <h2>
+            <h2>Dashboard</h2>
 
-                Dashboard
-
-            </h2>
-
-            <p>
-
-                Welcome back, Administrator
-
-            </p>
+            <p>Welcome back, Administrator</p>
 
         </div>
 
@@ -269,8 +218,7 @@
 
                 <input
                     type="text"
-                    placeholder="Search here..."
-                >
+                    placeholder="Search here...">
 
             </div>
 
@@ -282,24 +230,14 @@
 
             <div class="profile">
 
-                <img
-                    src="assets/images/default-avatar.png"
-                    alt="Profile"
-                >
+                <img src="assets/images/default-avatar.png"
+                    alt="Profile">
 
                 <div>
 
-                    <h5>
+                    <h5>Administrator</h5>
 
-                        Administrator
-
-                    </h5>
-
-                    <span>
-
-                        HR Manager
-
-                    </span>
+                    <span>HR Manager</span>
 
                 </div>
 
@@ -313,180 +251,142 @@
 
     <section class="content">
 
-    </section>
+        <!-- WELCOME -->
 
-</main>
-<section class="content">
+        <section class="welcome-card">
 
-    <!-- =====================================
-            WELCOME CARD
-    ====================================== -->
+            <div class="welcome-left">
 
-    <section class="welcome-card">
+                <h1>
 
-        <div class="welcome-left">
+                    Welcome Back 👋
 
-            <h1>
+                </h1>
 
-                Welcome Back 👋
+                <p>
 
-            </h1>
+                    Manage employees, attendance, payroll,
+                    drivers, projects and company operations
+                    from one professional dashboard.
 
-            <p>
+                </p>
 
-                Manage employees, attendance, drivers, payroll,
-                projects, procedures, and daily operations from
-                one professional dashboard.
+                <div class="welcome-buttons">
 
-            </p>
+                    <a href="employees.html"
+                        class="btn-primary">
 
-            <div class="welcome-buttons">
+                        <i class="fa-solid fa-users"></i>
 
-                <a href="employees.html" class="btn-primary">
+                        Employees
 
-                    <i class="fa-solid fa-users"></i>
+                    </a>
 
-                    Employees
+                    <a href="attendance.html"
+                        class="btn-secondary">
 
-                </a>
+                        <i class="fa-solid fa-clock"></i>
 
-                <a href="attendance.html" class="btn-secondary">
+                        Attendance
 
-                    <i class="fa-solid fa-clock"></i>
+                    </a>
 
-                    Attendance
+                </div>
 
-                </a>
+            </div>
+
+            <div class="welcome-date">
+
+                <h2 id="currentDate">
+
+                    July 2026
+
+                </h2>
+
+                <span>
+
+                    Today's Date
+
+                </span>
+
+            </div>
+
+        </section>
+
+        <!-- EMPLOYEE OVERVIEW -->
+
+        <h2 class="section-title">
+
+            Employee Overview
+
+        </h2>
+
+        <div class="stats-grid">
+
+            <div class="stat-card blue">
+
+                <div>
+
+                    <span>Total Employees</span>
+
+                    <h2 id="totalEmployees">0</h2>
+
+                </div>
+
+                <i class="fa-solid fa-users"></i>
+
+            </div>
+
+            <div class="stat-card green">
+
+                <div>
+
+                    <span>Working</span>
+
+                    <h2 id="workingEmployees">0</h2>
+
+                </div>
+
+                <i class="fa-solid fa-user-check"></i>
+
+            </div>
+
+            <div class="stat-card orange">
+
+                <div>
+
+                    <span>On Break</span>
+
+                    <h2 id="breakEmployees">0</h2>
+
+                </div>
+
+                <i class="fa-solid fa-mug-hot"></i>
+
+            </div>
+
+            <div class="stat-card red">
+
+                <div>
+
+                    <span>Completed Today</span>
+
+                    <h2 id="completedEmployees">0</h2>
+
+                </div>
+
+                <i class="fa-solid fa-circle-check"></i>
 
             </div>
 
         </div>
-
-        <div class="welcome-date">
-
-            <h2 id="currentDate">
-
-                July 2026
-
-            </h2>
-
-            <span>
-
-                Today's Date
-
-            </span>
-
-        </div>
-
-    </section>
-
-</section>
-<!-- =====================================
-        EMPLOYEE OVERVIEW
-====================================== -->
-
-<h2 class="section-title">
-
-    Employee Overview
-
-</h2>
-
-<div class="stats-grid">
-
-    <!-- Total Employees -->
-
-    <div class="stat-card blue">
-
-        <div>
-
-            <span>Total Employees</span>
-
-            <h2 id="totalEmployees">
-
-                0
-
-            </h2>
-
-        </div>
-
-        <i class="fa-solid fa-users"></i>
-
-    </div>
-
-    <!-- Working -->
-
-    <div class="stat-card green">
-
-        <div>
-
-            <span>Working</span>
-
-            <h2 id="workingEmployees">
-
-                0
-
-            </h2>
-
-        </div>
-
-        <i class="fa-solid fa-user-check"></i>
-
-    </div>
-
-    <!-- On Break -->
-
-    <div class="stat-card orange">
-
-        <div>
-
-            <span>On Break</span>
-
-            <h2 id="breakEmployees">
-
-                0
-
-            </h2>
-
-        </div>
-
-        <i class="fa-solid fa-mug-hot"></i>
-
-    </div>
-
-    <!-- Completed -->
-
-    <div class="stat-card red">
-
-        <div>
-
-            <span>Completed Today</span>
-
-            <h2 id="completedEmployees">
-
-                0
-
-            </h2>
-
-        </div>
-
-        <i class="fa-solid fa-circle-check"></i>
-
-    </div>
-
-</div>
-<!-- =====================================
+        <!-- =====================================
         DRIVER OVERVIEW
 ====================================== -->
 
-<h2 class="section-title">
-
-    Driver Overview
-
-</h2>
+<h2 class="section-title">Driver Overview</h2>
 
 <div class="stats-grid">
-
-    <!-- Total Drivers -->
 
     <div class="stat-card blue">
 
@@ -494,11 +394,7 @@
 
             <span>Total Drivers</span>
 
-            <h2 id="totalDrivers">
-
-                0
-
-            </h2>
+            <h2 id="totalDrivers">0</h2>
 
         </div>
 
@@ -506,19 +402,13 @@
 
     </div>
 
-    <!-- Available -->
-
     <div class="stat-card green">
 
         <div>
 
             <span>Available</span>
 
-            <h2 id="availableDrivers">
-
-                0
-
-            </h2>
+            <h2 id="availableDrivers">0</h2>
 
         </div>
 
@@ -526,19 +416,13 @@
 
     </div>
 
-    <!-- Driving -->
-
     <div class="stat-card orange">
 
         <div>
 
             <span>Driving</span>
 
-            <h2 id="drivingEmployees">
-
-                0
-
-            </h2>
+            <h2 id="drivingDrivers">0</h2>
 
         </div>
 
@@ -546,19 +430,13 @@
 
     </div>
 
-    <!-- Completed Trips -->
-
     <div class="stat-card red">
 
         <div>
 
             <span>Completed Trips</span>
 
-            <h2 id="completedTrips">
-
-                0
-
-            </h2>
+            <h2 id="completedTrips">0</h2>
 
         </div>
 
@@ -567,131 +445,7 @@
     </div>
 
 </div>
-<!-- =====================================
-        QUICK DASHBOARD WIDGETS
-====================================== -->
 
-<h2 class="section-title">
-
-    Dashboard Overview
-
-</h2>
-
-<div class="quick-grid">
-
-    <!-- Attendance -->
-
-    <div class="quick-card">
-
-        <div class="quick-icon blue-bg">
-
-            <i class="fa-solid fa-calendar-check"></i>
-
-        </div>
-
-        <div class="quick-info">
-
-            <h3 id="attendanceToday">
-
-                0
-
-            </h3>
-
-            <p>
-
-                Today's Attendance
-
-            </p>
-
-        </div>
-
-    </div>
-
-    <!-- Leave -->
-
-    <div class="quick-card">
-
-        <div class="quick-icon orange-bg">
-
-            <i class="fa-solid fa-calendar-xmark"></i>
-
-        </div>
-
-        <div class="quick-info">
-
-            <h3 id="pendingLeave">
-
-                0
-
-            </h3>
-
-            <p>
-
-                Pending Leave
-
-            </p>
-
-        </div>
-
-    </div>
-
-    <!-- Payroll -->
-
-    <div class="quick-card">
-
-        <div class="quick-icon green-bg">
-
-            <i class="fa-solid fa-money-bill-wave"></i>
-
-        </div>
-
-        <div class="quick-info">
-
-            <h3>
-
-                Ready
-
-            </h3>
-
-            <p>
-
-                Payroll Status
-
-            </p>
-
-        </div>
-
-    </div>
-
-    <!-- Drivers -->
-
-    <div class="quick-card">
-
-        <div class="quick-icon red-bg">
-
-            <i class="fa-solid fa-truck"></i>
-
-        </div>
-
-        <div class="quick-info">
-
-            <h3 id="driverTrips">
-
-                0
-
-            </h3>
-
-            <p>
-
-                Today's Trips
-
-            </p>
-
-        </div>
-
-    </div>
-
-</div>
 <!-- =====================================
         EMPLOYEE DAILY SUMMARY
 ====================================== -->
@@ -700,17 +454,7 @@
 
     <div class="summary-header">
 
-        <h2>
-
-            Employee Daily Summary
-
-        </h2>
-
-        <a href="attendance.html">
-
-            View All
-
-        </a>
+        <h2>Employee Daily Summary</h2>
 
     </div>
 
@@ -743,6 +487,7 @@
     </div>
 
 </section>
+
 <!-- =====================================
         DRIVER DAILY SUMMARY
 ====================================== -->
@@ -751,17 +496,7 @@
 
     <div class="summary-header">
 
-        <h2>
-
-            Driver Daily Summary
-
-        </h2>
-
-        <a href="drivers.html">
-
-            View All
-
-        </a>
+        <h2>Driver Daily Summary</h2>
 
     </div>
 
@@ -796,24 +531,34 @@
     </div>
 
 </section>
+
 <!-- =====================================
         FOOTER
 ====================================== -->
 
 <footer class="footer">
 
-    <p>
+    <p>© 2026 RILCO BUILDERS CONTRACTORS & ENGINEERS</p>
 
-        © 2026 RILCO BUILDERS CONTRACTORS & ENGINEERS
-
-    </p>
-
-    <span>
-
-        HR Driving System Version 1.0
-
-    </span>
+    <span>HR Driving System Version 1.0</span>
 
 </footer>
 
 </section>
+
+</main>
+
+</div>
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase-config.js"></script>
+<script src="js/dashboard.js"></script>
+
+</body>
+
+</html>
