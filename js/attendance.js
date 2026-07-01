@@ -579,17 +579,22 @@ if (actualTime > graceLimit) {
 
 async function loadTodayHistory() {
 
-    const { data, error } =
-        await supabaseClient
-            .from("attendance_logs")
-            .select("*")
-            .order(
-                "log_time",
-                {
-                    ascending: false
-                }
-            )
-            .limit(20);
+    const today =
+    new Date().toLocaleDateString(
+        "en-CA",
+        {
+            timeZone: "Asia/Manila"
+        }
+    );
+
+const { data, error } =
+    await supabaseClient
+        .from("attendance_logs")
+        .select("*")
+        .eq("action_date", today)
+        .order("log_time", {
+            ascending: false
+        });
 
     if (error) {
 
