@@ -35,7 +35,7 @@ async function loadDashboard(){
 async function loadEmployeeSummary(){
 
     // Total Employees
-    const { count: totalEmployees } = await db
+    const { count: totalEmployees } = await supabaseClient
         .from("employees")
         .select("*", { count: "exact", head: true });
 
@@ -43,7 +43,7 @@ async function loadEmployeeSummary(){
         totalEmployees ?? 0;
 
     // Working Employees
-    const { count: workingEmployees } = await db
+    const { count: workingEmployees } = await supabaseClient
         .from("employees")
         .select("*", { count: "exact", head: true })
         .eq("status", "WORKING");
@@ -52,7 +52,7 @@ async function loadEmployeeSummary(){
         workingEmployees ?? 0;
 
     // On Break
-    const { count: breakEmployees } = await db
+    const { count: breakEmployees } = await supabaseClient
         .from("employees")
         .select("*", { count: "exact", head: true })
         .eq("status", "BREAK");
@@ -69,7 +69,7 @@ async function loadEmployeeSummary(){
 async function loadDriverSummary(){
 
     // Total Drivers
-    const { count: totalDrivers } = await db
+    const { count: totalDrivers } = await supabaseClient
         .from("employees")
         .select("*", { count: "exact", head: true })
         .eq("employee_type", "driver");
@@ -78,7 +78,7 @@ async function loadDriverSummary(){
         totalDrivers ?? 0;
 
     // Available Drivers
-    const { count: availableDrivers } = await db
+    const { count: availableDrivers } = await supabaseClient
         .from("employees")
         .select("*", { count: "exact", head: true })
         .eq("status", "AVAILABLE");
@@ -87,7 +87,7 @@ async function loadDriverSummary(){
         availableDrivers ?? 0;
 
     // Driving
-    const { count: drivingDrivers } = await db
+    const { count: drivingDrivers } = await supabaseClient
         .from("employees")
         .select("*", { count: "exact", head: true })
         .eq("status", "DRIVING");
@@ -142,7 +142,7 @@ async function loadTodayAttendance() {
 
     const today = new Date().toISOString().split("T")[0];
 
-    const { count, error } = await db
+    const { count, error } = await supabaseClient
         .from("attendance")
         .select("*", {
             count: "exact",
@@ -169,7 +169,7 @@ async function loadTodayAttendance() {
 
 async function loadPendingLeave() {
 
-    const { count, error } = await db
+    const { count, error } = await supabaseClient
         .from("leave_requests")
         .select("*", {
             count: "exact",
@@ -195,7 +195,7 @@ async function loadPendingLeave() {
 
 async function loadRecentActivities() {
 
-    const { data, error } = await db
+    const { data, error } = await supabaseClient
 
         .from("attendance_logs")
 
