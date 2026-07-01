@@ -3,48 +3,71 @@
 ========================================== */
 
 .sidebar{
+
     position:fixed;
+
     top:0;
+
     left:0;
+
     width:270px;
+
     height:100vh;
+
     background:#0F172A;
+
     display:flex;
+
     flex-direction:column;
-    z-index:1000;
-    overflow:hidden;
+
+    justify-content:space-between;
+
     box-shadow:4px 0 20px rgba(0,0,0,.15);
+
+    z-index:1000;
+
 }
 
 /* ==========================================
    LOGO
 ========================================== */
 
-.sidebar-logo{
-    padding:25px 20px;
+.sidebar-top{
+
+    padding:30px 20px;
+
     text-align:center;
+
     border-bottom:1px solid rgba(255,255,255,.08);
+
 }
 
-.sidebar-logo img{
+.sidebar-logo{
+
     width:80px;
-    height:auto;
-    display:block;
+
     margin:0 auto 15px;
+
 }
 
-.sidebar-logo h2{
+.sidebar-top h2{
+
     color:#fff;
+
     font-size:20px;
+
     font-weight:700;
-    margin:0;
+
+    margin-bottom:5px;
+
 }
 
-.sidebar-logo span{
-    display:block;
-    margin-top:6px;
+.sidebar-top p{
+
     color:#94A3B8;
+
     font-size:13px;
+
 }
 
 /* ==========================================
@@ -52,57 +75,69 @@
 ========================================== */
 
 .sidebar-menu{
+
     list-style:none;
+
     padding:20px 15px;
+
     margin:0;
+
     flex:1;
-    overflow-y:auto;
-}
 
-.sidebar-menu::-webkit-scrollbar{
-    width:5px;
-}
-
-.sidebar-menu::-webkit-scrollbar-thumb{
-    background:#334155;
-    border-radius:20px;
 }
 
 .sidebar-menu li{
+
     margin-bottom:8px;
+
 }
 
 .sidebar-menu li a{
+
     display:flex;
+
     align-items:center;
+
     gap:14px;
-    text-decoration:none;
-    color:#CBD5E1;
-    padding:14px 16px;
+
+    padding:15px 18px;
+
     border-radius:12px;
+
+    color:#CBD5E1;
+
     transition:.25s;
+
     font-size:15px;
+
     font-weight:500;
+
 }
 
 .sidebar-menu li a i{
+
     width:22px;
+
     text-align:center;
+
     font-size:17px;
+
 }
 
 .sidebar-menu li:hover a{
+
     background:#1E293B;
+
     color:#fff;
+
 }
 
 .sidebar-menu li.active a{
-    background:#2563EB;
-    color:#fff;
-}
 
-.sidebar-menu li.active a i{
+    background:#2563EB;
+
     color:#fff;
+
 }
 
 /* ==========================================
@@ -110,45 +145,75 @@
 ========================================== */
 
 .sidebar-footer{
+
     padding:20px;
+
     border-top:1px solid rgba(255,255,255,.08);
+
 }
 
 .sidebar-footer button{
+
     width:100%;
+
     height:48px;
+
     border:none;
+
     border-radius:12px;
-    background:#EF4444;
+
+    background:#DC2626;
+
     color:#fff;
+
     font-size:15px;
+
     font-weight:600;
+
     cursor:pointer;
-    transition:.25s;
+
+    transition:.3s;
+
 }
 
 .sidebar-footer button:hover{
-    background:#DC2626;
+
+    background:#B91C1C;
+
 }
 
 /* ==========================================
    RESPONSIVE
 ========================================== */
 
-@media(max-width:992px){
+@media(max-width:991px){
 
-    .sidebar{
-        width:85px;
-    }
+.sidebar{
 
-    .sidebar-logo h2,
-    .sidebar-logo span,
-    .sidebar-menu li a span{
-        display:none;
-    }
+width:90px;
 
-    .sidebar-menu li a{
-        justify-content:center;
-    }
+}
+
+.sidebar-top h2,
+.sidebar-top p,
+.sidebar-menu span{
+
+display:none;
+
+}
+
+.main-content{
+
+margin-left:90px;
+
+width:calc(100% - 90px);
+
+}
+
+.sidebar-menu li a{
+
+justify-content:center;
+
+}
 
 }
