@@ -334,3 +334,122 @@ STAT CARD
     color:#EF4444;
 
 }
+/* ==========================================
+WIDGET CARD
+========================================== */
+
+.widget-card{
+
+    position:relative;
+
+}
+
+.widget-icon{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin-bottom:18px;
+
+}
+
+.widget-icon i{
+
+    font-size:26px;
+
+    color:white;
+
+}
+
+.blue-bg{
+
+    background:#2563EB;
+
+}
+
+.orange-bg{
+
+    background:#F59E0B;
+
+}
+
+.widget-card a{
+
+    display:inline-block;
+
+    margin-top:18px;
+
+    text-decoration:none;
+
+    color:#2563EB;
+
+    font-weight:600;
+
+}
+
+.widget-card a:hover{
+
+    text-decoration:underline;
+
+}
+
+/* ==========================================
+RECENT ACTIVITY
+========================================== */
+
+.activity{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:14px;
+
+    margin-top:12px;
+
+    border-radius:12px;
+
+    background:#F8FAFC;
+
+}
+
+.activity strong{
+
+    font-size:15px;
+
+}
+
+.activity small{
+
+    color:#64748B;
+
+}
+
+/* ==========================================
+FOOTER
+========================================== */
+
+.dashboard-footer{
+
+    margin-top:35px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    color:#64748B;
+
+    font-size:14px;
+
+}
