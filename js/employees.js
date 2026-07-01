@@ -7,6 +7,25 @@ document.addEventListener("DOMContentLoaded", () => {
     loadEmployees();
 
 });
+const modal = document.getElementById("employeeModal");
+
+document.getElementById("addEmployeeBtn").onclick = () => {
+
+    modal.classList.add("show");
+
+};
+
+document.getElementById("closeEmployeeModal").onclick = () => {
+
+    modal.classList.remove("show");
+
+};
+
+document.getElementById("cancelEmployee").onclick = () => {
+
+    modal.classList.remove("show");
+
+};
 
 // ==========================================
 // LOAD EMPLOYEES
