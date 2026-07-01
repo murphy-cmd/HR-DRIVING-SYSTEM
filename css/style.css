@@ -12,13 +12,30 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
 }
 
 body{
-    background:#F1F5F9;
-    color:#1E293B;
+    font-family:'Poppins',sans-serif;
+    background:#F8FAFC;
     overflow-x:hidden;
+}
+
+.dashboard{
+    display:flex;
+    min-height:100vh;
+}
+
+.main-content{
+    margin-left:270px;
+    width:calc(100% - 270px);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+.content{
+    flex:1;
+    padding:30px;
 }
 
 /* ==========================================
