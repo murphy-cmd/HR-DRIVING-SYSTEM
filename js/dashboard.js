@@ -16,9 +16,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadDashboard(){
 
-    loadEmployeeSummary();
+    await loadEmployeeSummary();
 
-    loadDriverSummary();
+    await loadDriverSummary();
+
+    await loadTodayAttendance();
+
+    await loadPendingLeave();
+
+    await loadRecentActivities();
 
 }
 
@@ -126,5 +132,129 @@ function updateDate(){
         });
 
     }
+
+}
+// ==========================================
+// TODAY ATTENDANCE
+// ==========================================
+
+async function loadTodayAttendance() {
+
+    const today = new Date().toISOString().split("T")[0];
+
+    const { count, error } = await db
+        .from("attendance")
+        .select("*", {
+            count: "exact",
+            head: true
+        })
+        .gte("created_at", today + "T00:00:00")
+        .lt("created_at", today + "T23:59:59");
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+
+    }
+
+    document.getElementById("todayAttendance").innerText =
+        count || 0;
+
+}
+// ==========================================
+// PENDING LEAVE
+// ==========================================
+
+async function loadPendingLeave() {
+
+    const { count, error } = await db
+        .from("leave_requests")
+        .select("*", {
+            count: "exact",
+            head: true
+        })
+        .eq("status", "Pending");
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+
+    }
+
+    document.getElementById("pendingLeave").innerText =
+        count || 0;
+
+}
+// ==========================================
+// RECENT ACTIVITIES
+// ==========================================
+
+async function loadRecentActivities() {
+
+    const { data, error } = await db
+
+        .from("attendance_logs")
+
+        .select("*")
+
+        .order("log_time", {
+            ascending: false
+        })
+
+        .limit(5);
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+
+    }
+
+    const container = document.getElementById("recentActivities");
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    if (data.length === 0) {
+
+        container.innerHTML = "<p>No recent activities.</p>";
+
+        return;
+
+    }
+
+    data.forEach(item => {
+
+        container.innerHTML += `
+
+        <div class="activity">
+
+            <div>
+
+                <strong>${item.employee_name}</strong>
+
+                <br>
+
+                <small>${item.action}</small>
+
+            </div>
+
+            <span>
+
+                ${new Date(item.log_time).toLocaleTimeString()}
+
+            </span>
+
+        </div>
+
+        `;
+
+    });
 
 }
