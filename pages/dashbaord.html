@@ -1,5 +1,119 @@
-<div class="page">
+<div class="page dashboard-page">
 
-    <h1>Dashboard Loaded Successfully</h1>
+    <!-- Welcome Banner -->
+    <section class="welcome-banner">
+
+        <div class="welcome-left">
+
+            <h1>Welcome Back, Administrator! 👋</h1>
+
+            <p>Here's what's happening in your HR Driving System today.</p>
+
+        </div>
+
+        <div class="welcome-right">
+
+            <h2 id="currentDate">Loading...</h2>
+
+            <span id="currentDay">Loading...</span>
+
+        </div>
+
+    </section>
+
+    <!-- Employee Overview -->
+    <h2 class="section-title">Employee Overview</h2>
+
+    <div class="grid-4">
+
+        <div class="card">
+            <h5>Total Employees</h5>
+            <h1 id="totalEmployees">0</h1>
+        </div>
+
+        <div class="card">
+            <h5>Working</h5>
+            <h1 id="workingEmployees">0</h1>
+        </div>
+
+        <div class="card">
+            <h5>On Break</h5>
+            <h1 id="breakEmployees">0</h1>
+        </div>
+
+        <div class="card">
+            <h5>Completed Today</h5>
+            <h1 id="completedEmployees">0</h1>
+        </div>
+
+    </div>
+
+    <br>
+
+    <!-- Driver Overview -->
+    <h2 class="section-title">Driver Overview</h2>
+
+    <div class="grid-4">
+
+        <div class="card">
+            <h5>Total Drivers</h5>
+            <h1 id="totalDrivers">0</h1>
+        </div>
+
+        <div class="card">
+            <h5>Available</h5>
+            <h1 id="availableDrivers">0</h1>
+        </div>
+
+        <div class="card">
+            <h5>Driving</h5>
+            <h1 id="drivingDrivers">0</h1>
+        </div>
+
+        <div class="card">
+            <h5>Completed Trips</h5>
+            <h1 id="completedTrips">0</h1>
+        </div>
+
+    </div>
+
+    <br>
+
+    <!-- Bottom Widgets -->
+    <div class="grid-3">
+
+        <div class="card">
+
+            <h3>Today's Attendance</h3>
+
+            <h1 id="todayAttendance">0</h1>
+
+            <p>Employees who already timed in today.</p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Pending Leave</h3>
+
+            <h1 id="pendingLeave">0</h1>
+
+            <p>Waiting for approval.</p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Recent Activities</h3>
+
+            <div id="recentActivities">
+
+                <p>No recent activities.</p>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
