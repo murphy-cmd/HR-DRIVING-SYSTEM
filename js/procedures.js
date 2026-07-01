@@ -3,7 +3,7 @@
 // RILCO HR SYSTEM
 // ==========================================
 
-const supabase = window.supabaseClient;
+const db = window.supabaseClient;
 
 let procedures = [];
 let editId = null;
@@ -42,7 +42,7 @@ async function loadProcedures() {
         </tr>
     `;
 
-    const { data, error } = await supabase
+    const { data, error } = await db
 
         .from("procedures")
 
@@ -171,7 +171,7 @@ async function saveProcedure() {
 
     // Duplicate Checking
     const { data: duplicate, error: duplicateError } =
-        await supabase
+        await db
 
             .from("procedures")
 
@@ -208,7 +208,7 @@ async function saveProcedure() {
 
     if (editId !== null) {
 
-        const { error } = await supabase
+        const { error } = await db
 
             .from("procedures")
 
@@ -246,7 +246,7 @@ async function saveProcedure() {
 
     else {
 
-        const { error } = await supabase
+        const { error } = await db
 
             .from("procedures")
 
@@ -379,7 +379,7 @@ async function deleteProcedure(id) {
         return;
     }
 
-    const { error } = await supabase
+    const { error } = await db
 
         .from("procedures")
 
