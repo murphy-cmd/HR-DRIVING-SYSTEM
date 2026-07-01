@@ -230,3 +230,20 @@ COLORS
     color:white;
 
 }
+
+.driver{
+    border-left:6px solid #2563EB;
+    background:#fff;
+}
+
+.driver span{
+    color:#64748B;
+}
+
+.driver h2{
+    color:#0F172A;
+}
+
+.driver i{
+    color:#2563EB;
+}
