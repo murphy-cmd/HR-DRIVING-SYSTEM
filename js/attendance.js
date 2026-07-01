@@ -306,30 +306,39 @@ async function recordAttendance(
 
         const actualTime = new Date(philippinesTime);
 
-        const scheduledTime = new Date(philippinesTime);
+       const [hour, minute] =
+    employee.schedule_in.split(":");
 
-        const [hour, minute] =
-            employee.schedule_in.split(":");
+// Original schedule (9:00 AM)
+const scheduledTime = new Date(philippinesTime);
 
-        scheduledTime.setHours(
-            Number(hour),
-            Number(minute),
-            0,
-            0
-        );
+scheduledTime.setHours(
+    Number(hour),
+    Number(minute),
+    0,
+    0
+);
 
-        scheduledTime.setMinutes(
-            scheduledTime.getMinutes() +
-            (employee.grace_period || 0)
-        );
+// Grace limit (9:15 AM)
+const graceLimit = new Date(scheduledTime);
 
-        const lateMinutes = Math.max(
-            0,
-            Math.floor(
-                (actualTime - scheduledTime) /
-                1000 / 60
-            )
-        );
+graceLimit.setMinutes(
+    graceLimit.getMinutes() +
+    (employee.grace_period || 0)
+);
+
+let lateMinutes = 0;
+
+// Kung lumagpas sa grace period,
+// doon lang bibilang ang late
+if (actualTime > graceLimit) {
+
+    lateMinutes = Math.floor(
+        (actualTime - scheduledTime) /
+        1000 / 60
+    );
+
+}
 
         updateData.late_minutes = lateMinutes;
 
