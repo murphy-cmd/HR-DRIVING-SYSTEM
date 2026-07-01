@@ -460,43 +460,43 @@ if (actualTime > graceLimit) {
             totalMinutes = 0;
         }
 
-        updateData.work_hours =
-            `${Math.floor(totalMinutes / 60)}h ${totalMinutes % 60}m`;
+      updateData.work_hours =
+    `${Math.floor(totalMinutes / 60)}h ${totalMinutes % 60}m`;
 
-        const shiftEnd = new Date(amIn);
+const shiftEnd = new Date(amIn);
 
-        if (employee.employee_type === "office") {
+if (employee.employee_type === "office") {
 
-            shiftEnd.setHours(18, 0, 0, 0);
+    shiftEnd.setHours(18, 0, 0, 0);
 
-        } else if (employee.employee_type === "warehouse") {
+} else if (employee.employee_type === "warehouse") {
 
-            shiftEnd.setHours(17, 0, 0, 0);
+    shiftEnd.setHours(17, 0, 0, 0);
 
-        } else {
+} else {
 
-            shiftEnd.setHours(18, 0, 0, 0);
+    shiftEnd.setHours(18, 0, 0, 0);
 
-        }
+}
 
-        let otMinutes = 0;
+let otMinutes = 0;
 
-        if (timeOut > shiftEnd) {
+if (timeOut > shiftEnd) {
 
-            otMinutes = Math.floor(
-                (timeOut - shiftEnd) / 1000 / 60
-            );
+    otMinutes = Math.floor(
+        (timeOut - shiftEnd) / 1000 / 60
+    );
 
-        }
+}
 
-        updateData.ot_hours =
-            `${Math.floor(otMinutes / 60)}h ${otMinutes % 60}m`;
+updateData.ot_hours =
+    `${Math.floor(otMinutes / 60)}h ${otMinutes % 60}m`;
 
-    }
 
-  
-    
-    break;
+updateData.work_minutes = totalMinutes;
+updateData.ot_minutes = otMinutes;
+
+}
 
         case "START_TRIP":
 
