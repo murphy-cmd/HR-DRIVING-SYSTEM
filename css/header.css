@@ -107,12 +107,13 @@
 .profile{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:15px;
+    min-width:230px;
 }
 
 .profile img{
-    width:45px;
-    height:45px;
+    width:48px;
+    height:48px;
     border-radius:50%;
     object-fit:cover;
 }
@@ -127,6 +128,18 @@
 .profile span{
     font-size:13px;
     color:#64748B;
+}
+.profile div{
+    display:flex;
+    flex-direction:column;
+}
+
+.profile h5{
+    white-space:nowrap;
+}
+
+.profile span{
+    white-space:nowrap;
 }
 
 /* ==========================================
