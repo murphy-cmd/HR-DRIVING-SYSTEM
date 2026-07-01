@@ -121,3 +121,70 @@ async function loadEmployees() {
     });
 
 }
+// ==========================================
+// SAVE EMPLOYEE
+// ==========================================
+
+document
+.getElementById("saveEmployee")
+.addEventListener("click", saveEmployee);
+
+async function saveEmployee(){
+
+    const employee = {
+
+        employee_id:
+        document.getElementById("employeeId").value.trim(),
+
+        full_name:
+        document.getElementById("fullName").value.trim(),
+
+        position:
+        document.getElementById("position").value.trim(),
+
+        department:
+        document.getElementById("department").value.trim(),
+
+        employee_type:
+        document.getElementById("employeeType").value,
+
+        status:
+        document.getElementById("status").value
+
+    };
+
+    // Validation
+
+    if(
+        employee.employee_id==="" ||
+        employee.full_name===""){
+        
+        alert("Please complete the required fields.");
+
+        return;
+
+    }
+
+    const { error } = await db
+
+        .from("employees")
+
+        .insert(employee);
+
+    if(error){
+
+        console.error(error);
+
+        alert(error.message);
+
+        return;
+
+    }
+
+    modal.classList.remove("show");
+
+    clearEmployeeForm();
+
+    loadEmployees();
+
+}
