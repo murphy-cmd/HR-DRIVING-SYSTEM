@@ -9,17 +9,34 @@
     <title>RILCO HR Driving System</title>
 
     <!-- Bootstrap -->
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Font Awesome -->
+
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
+    <!-- Google Font -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- CSS -->
+
     <link rel="stylesheet" href="css/style.css">
+
     <link rel="stylesheet" href="css/sidebar.css">
+
     <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+
+    <link rel="stylesheet" href="css/app.css">
 
 </head>
 
@@ -27,186 +44,116 @@
 
 <div class="dashboard">
 
-    <!-- SIDEBAR -->
+    <!-- =========================
+            SIDEBAR
+    ========================== -->
 
     <aside class="sidebar">
 
-        <div class="sidebar-top">
+        <div class="logo">
 
-           <img src="assets/images/RILCO_logo_transparent.png"
-     class="sidebar-logo"
-     alt="RILCO Logo">
+            <img src="asset/rilco-logo.png"
+                alt="RILCO Logo">
 
-            <h2>RILCO BUILDERS</h2>
+            <h2>RILCO</h2>
 
-            <p>HR Driving System</p>
+            <span>HR Driving System</span>
 
         </div>
 
-        <ul class="sidebar-menu">
+        <ul class="menu">
 
-            <li class="active">
-
-                <a href="index.html">
-
-                    <i class="fa-solid fa-house"></i>
-
-                    <span>Dashboard</span>
-
-                </a>
-
+            <li class="active" data-page="dashboard">
+                <i class="fa-solid fa-house"></i>
+                Dashboard
             </li>
 
-            <li>
-
-                <a href="employees.html">
-
-                    <i class="fa-solid fa-users"></i>
-
-                    <span>Employees</span>
-
-                </a>
-
+            <li data-page="employees">
+                <i class="fa-solid fa-users"></i>
+                Employees
             </li>
 
-            <li>
-
-                <a href="projects.html">
-
-                    <i class="fa-solid fa-diagram-project"></i>
-
-                    <span>Projects</span>
-
-                </a>
-
+            <li data-page="projects">
+                <i class="fa-solid fa-diagram-project"></i>
+                Projects
             </li>
 
-            <li>
-
-                <a href="procedures.html">
-
-                    <i class="fa-solid fa-list-check"></i>
-
-                    <span>Procedures</span>
-
-                </a>
-
+            <li data-page="procedures">
+                <i class="fa-solid fa-list-check"></i>
+                Procedures
             </li>
 
-            <li>
-
-                <a href="assignments.html">
-
-                    <i class="fa-solid fa-user-check"></i>
-
-                    <span>Assignments</span>
-
-                </a>
-
+            <li data-page="assignments">
+                <i class="fa-solid fa-user-check"></i>
+                Assignments
             </li>
 
-            <li>
-
-                <a href="attendance.html">
-
-                    <i class="fa-solid fa-clock"></i>
-
-                    <span>Attendance</span>
-
-                </a>
-
+            <li data-page="attendance">
+                <i class="fa-solid fa-clock"></i>
+                Attendance
             </li>
 
-            <li>
-
-                <a href="drivers.html">
-
-                    <i class="fa-solid fa-truck"></i>
-
-                    <span>Drivers</span>
-
-                </a>
-
+            <li data-page="drivers">
+                <i class="fa-solid fa-truck"></i>
+                Drivers
             </li>
 
-            <li>
-
-                <a href="dtr.html">
-
-                    <i class="fa-solid fa-calendar-days"></i>
-
-                    <span>DTR</span>
-
-                </a>
-
+            <li data-page="dtr">
+                <i class="fa-solid fa-calendar-days"></i>
+                DTR
             </li>
 
-            <li>
-
-                <a href="payroll.html">
-
-                    <i class="fa-solid fa-money-bill-wave"></i>
-
-                    <span>Payroll</span>
-
-                </a>
-
+            <li data-page="payroll">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                Payroll
             </li>
 
-            <li>
-
-                <a href="leave.html">
-
-                    <i class="fa-solid fa-calendar-xmark"></i>
-
-                    <span>Leave</span>
-
-                </a>
-
+            <li data-page="leave">
+                <i class="fa-solid fa-calendar-xmark"></i>
+                Leave
             </li>
 
-            <li>
-
-                <a href="reports.html">
-
-                    <i class="fa-solid fa-chart-line"></i>
-
-                    <span>Reports</span>
-
-                </a>
-
+            <li data-page="reports">
+                <i class="fa-solid fa-chart-column"></i>
+                Reports
             </li>
 
         </ul>
 
-        <div class="sidebar-footer">
+        <button class="logout">
 
-            <button id="logoutBtn">
+            <i class="fa-solid fa-right-from-bracket"></i>
 
-                <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
 
-                Logout
-
-            </button>
-
-        </div>
+        </button>
 
     </aside>
-    <!-- ===========================
-        MAIN CONTENT
-=========================== -->
 
-<main class="main-content">
+    <!-- =========================
+            MAIN
+    ========================== -->
 
-    <!-- HEADER -->
+    <div class="main">
+            <!-- =========================
+            HEADER
+    ========================== -->
 
     <header class="header">
 
         <div class="header-left">
 
-            <h2>Dashboard</h2>
+            <button id="menuToggle" class="menu-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
 
-            <p>Welcome back, Administrator</p>
+            <div>
+
+                <h2 id="pageTitle">Dashboard</h2>
+
+                <span>Welcome back, Administrator</span>
+
+            </div>
 
         </div>
 
@@ -218,11 +165,12 @@
 
                 <input
                     type="text"
-                    placeholder="Search here...">
+                    id="globalSearch"
+                    placeholder="Search...">
 
             </div>
 
-            <button class="notification-btn">
+            <button class="icon-btn">
 
                 <i class="fa-solid fa-bell"></i>
 
@@ -230,13 +178,13 @@
 
             <div class="profile">
 
-               <img src="asset/rilco-logo.png"
-     class="sidebar-logo"
-     alt="RILCO Logo">
+                <img
+                    src="asset/avatar.png"
+                    alt="Administrator">
 
                 <div>
 
-                    <h5>Administrator</h5>
+                    <h4>Administrator</h4>
 
                     <span>HR Manager</span>
 
@@ -248,313 +196,37 @@
 
     </header>
 
-    <!-- CONTENT -->
+    <!-- =========================
+            CONTENT
+    ========================== -->
 
-    <section class="content">
+    <main class="content">
 
-        <!-- WELCOME -->
+        <!-- Dynamic page will load here -->
 
-        <section class="welcome-card">
+        <div id="app">
 
-            <div class="welcome-left">
+            <div class="loading">
 
-                <h1>
+                <i class="fa-solid fa-spinner fa-spin"></i>
 
-                    Welcome Back 👋
-
-                </h1>
-
-                <p>
-
-                    Manage employees, attendance, payroll,
-                    drivers, projects and company operations
-                    from one professional dashboard.
-
-                </p>
-
-                <div class="welcome-buttons">
-
-                    <a href="employees.html"
-                        class="btn-primary">
-
-                        <i class="fa-solid fa-users"></i>
-
-                        Employees
-
-                    </a>
-
-                    <a href="attendance.html"
-                        class="btn-secondary">
-
-                        <i class="fa-solid fa-clock"></i>
-
-                        Attendance
-
-                    </a>
-
-                </div>
-
-            </div>
-
-            <div class="welcome-date">
-
-                <h2 id="currentDate"></h2>
-
-                <span>
-
-                    Today's Date
-
-                </span>
-
-            </div>
-
-        </section>
-
-        <!-- EMPLOYEE OVERVIEW -->
-
-        <h2 class="section-title">
-
-            Employee Overview
-
-        </h2>
-
-        <div class="stats-grid">
-
-            <div class="stat-card blue">
-
-                <div>
-
-                    <span>Total Employees</span>
-
-                    <h2 id="totalEmployees">0</h2>
-
-                </div>
-
-                <i class="fa-solid fa-users"></i>
-
-            </div>
-
-            <div class="stat-card green">
-
-                <div>
-
-                    <span>Working</span>
-
-                    <h2 id="workingEmployees">0</h2>
-
-                </div>
-
-                <i class="fa-solid fa-user-check"></i>
-
-            </div>
-
-            <div class="stat-card orange">
-
-                <div>
-
-                    <span>On Break</span>
-
-                    <h2 id="breakEmployees">0</h2>
-
-                </div>
-
-                <i class="fa-solid fa-mug-hot"></i>
-
-            </div>
-
-            <div class="stat-card red">
-
-                <div>
-
-                    <span>Completed Today</span>
-
-                    <h2 id="completedEmployees">0</h2>
-
-                </div>
-
-                <i class="fa-solid fa-circle-check"></i>
+                <p>Loading Dashboard...</p>
 
             </div>
 
         </div>
-        <!-- =====================================
-        DRIVER OVERVIEW
-====================================== -->
 
-<h2 class="section-title">Driver Overview</h2>
-
-<div class="stats-grid">
-
-    <div class="stat-card blue">
-
-        <div>
-
-            <span>Total Drivers</span>
-
-            <h2 id="totalDrivers">0</h2>
-
-        </div>
-
-        <i class="fa-solid fa-truck"></i>
-
-    </div>
-
-    <div class="stat-card green">
-
-        <div>
-
-            <span>Available</span>
-
-            <h2 id="availableDrivers">0</h2>
-
-        </div>
-
-        <i class="fa-solid fa-road"></i>
-
-    </div>
-
-    <div class="stat-card orange">
-
-        <div>
-
-            <span>Driving</span>
-
-            <h2 id="drivingDrivers">0</h2>
-
-        </div>
-
-        <i class="fa-solid fa-truck-fast"></i>
-
-    </div>
-
-    <div class="stat-card red">
-
-        <div>
-
-            <span>Completed Trips</span>
-
-            <h2 id="completedTrips">0</h2>
-
-        </div>
-
-        <i class="fa-solid fa-flag-checkered"></i>
-
-    </div>
+    </main>
 
 </div>
 
-<!-- =====================================
-        EMPLOYEE DAILY SUMMARY
-====================================== -->
-
-<section class="summary-section">
-
-    <div class="summary-header">
-
-        <h2>Employee Daily Summary</h2>
-
-    </div>
-
-    <div class="table-responsive">
-
-        <table class="table summary-table">
-
-            <thead>
-
-                <tr>
-
-                    <th>Employee</th>
-
-                    <th>Status</th>
-
-                    <th>Work Hours</th>
-
-                    <th>OT Hours</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody id="employeeSummaryTable">
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-</section>
-
-<!-- =====================================
-        DRIVER DAILY SUMMARY
-====================================== -->
-
-<section class="summary-section">
-
-    <div class="summary-header">
-
-        <h2>Driver Daily Summary</h2>
-
-    </div>
-
-    <div class="table-responsive">
-
-        <table class="table summary-table">
-
-            <thead>
-
-                <tr>
-
-                    <th>Driver</th>
-
-                    <th>Status</th>
-
-                    <th>Start Trip</th>
-
-                    <th>End Trip</th>
-
-                    <th>Work Hours</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody id="driverSummaryTable">
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-</section>
-
-<!-- =====================================
-        FOOTER
-====================================== -->
-
-<footer class="footer">
-
-    <p>© 2026 RILCO BUILDERS CONTRACTORS & ENGINEERS</p>
-
-    <span>HR Driving System Version 1.0</span>
-
-</footer>
-
-</section>
-
-</main>
-
 </div>
 
-<!-- Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- =========================
+        JAVASCRIPT
+========================== -->
 
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script src="js/supabase-config.js"></script>
-<script src="js/dashboard.js"></script>
+<script src="js/app.js"></script>
 
 </body>
 
