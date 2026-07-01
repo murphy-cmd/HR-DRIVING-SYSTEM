@@ -1,63 +1,133 @@
-// ===============================
-// PROCEDURES SYSTEM
-// ===============================
+// ==========================================
+// PROCEDURES MODULE - PART 1
+// Supabase Connection & Load Data
+// ==========================================
 
-let procedures = [
-    {
-        name: "Primer Application",
-        department: "Painting",
-        status: "Active"
-    },
-    {
-        name: "Putty Application",
-        department: "Painting",
-        status: "Active"
-    },
-    {
-        name: "Sanding",
-        department: "Finishing",
-        status: "Active"
+const supabase = window.supabaseClient;
+
+let procedures = [];
+let editId = null;
+
+// ==========================================
+// PAGE LOAD
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadProcedures();
+
+    document
+        .getElementById("saveProcedure")
+        .addEventListener("click", saveProcedure);
+
+    document
+        .getElementById("search")
+        .addEventListener("keyup", searchProcedure);
+});
+
+// ==========================================
+// LOAD PROCEDURES
+// ==========================================
+
+async function loadProcedures() {
+
+    const table = document.getElementById("procedureTable");
+
+    table.innerHTML = `
+        <tr>
+            <td colspan="4" class="text-center">
+                Loading...
+            </td>
+        </tr>
+    `;
+
+    const { data, error } = await supabase
+        .from("procedures")
+        .select("*")
+        .order("id", { ascending: true });
+
+    if (error) {
+
+        console.error(error);
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-danger text-center">
+                    Failed to load procedures.
+                </td>
+            </tr>
+        `;
+
+        return;
+
     }
-];
 
-// Load Table
-displayProcedures();
+    procedures = data || [];
 
-function displayProcedures() {
+    displayProcedures(procedures);
+
+}
+
+// ==========================================
+// DISPLAY TABLE
+// ==========================================
+
+function displayProcedures(data) {
 
     const table = document.getElementById("procedureTable");
 
     table.innerHTML = "";
 
-    procedures.forEach((procedure, index) => {
+    if (data.length === 0) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-center">
+                    No procedures found.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+    data.forEach((procedure) => {
 
         table.innerHTML += `
 
         <tr>
 
-            <td>${procedure.name}</td>
+            <td>${procedure.procedure_name}</td>
 
             <td>${procedure.department}</td>
 
             <td>
-                <span class="badge ${procedure.status==="Active" ? "bg-success":"bg-danger"}">
+
+                <span class="badge ${
+                    procedure.status === "Active"
+                        ? "bg-success"
+                        : "bg-danger"
+                }">
+
                     ${procedure.status}
+
                 </span>
+
             </td>
 
             <td>
 
                 <button
-                class="btn btn-warning btn-sm"
-                onclick="editProcedure(${index})">
+                    class="btn btn-warning btn-sm"
+                    onclick="editProcedure(${procedure.id})">
 
                     Edit
 
                 </button>
 
                 <button
-                class="btn btn-danger btn-sm"
-                onclick="deleteProcedure(${index})">
+                    class="btn btn-danger btn-sm"
+                    onclick="deleteProcedure(${procedure.id})">
 
                     Delete
 
@@ -72,127 +142,285 @@ function displayProcedures() {
     });
 
 }
-
-// =========================
+// ==========================================
 // SAVE PROCEDURE
-// =========================
+// ==========================================
 
-document.getElementById("saveProcedure").addEventListener("click",addProcedure);
+async function saveProcedure() {
 
-function addProcedure(){
+    const procedureName = document
+        .getElementById("procedureName")
+        .value
+        .trim();
 
-    const name=document.getElementById("procedureName").value.trim();
+    const department = document
+        .getElementById("department")
+        .value;
 
-    const department=document.getElementById("department").value;
+    const status = document
+        .getElementById("status")
+        .value;
 
-    const status=document.getElementById("status").value;
-
-    if(name===""||department===""){
-
+    // Validation
+    if (
+        procedureName === "" ||
+        department === "" ||
+        status === ""
+    ) {
         alert("Please complete all fields.");
+        return;
+    }
+
+    // Duplicate Checking
+    const { data: duplicate } = await supabase
+        .from("procedures")
+        .select("*")
+        .eq("procedure_name", procedureName)
+        .eq("department", department);
+
+    if (duplicate.length > 0 && editId === null) {
+
+        alert("Procedure already exists.");
 
         return;
 
     }
 
-    procedures.push({
+    // ==========================
+    // UPDATE
+    // ==========================
 
-        name:name,
+    if (editId !== null) {
 
-        department:department,
+        const { error } = await supabase
 
-        status:status
+            .from("procedures")
 
-    });
+            .update({
 
-    displayProcedures();
+                procedure_name: procedureName,
+                department: department,
+                status: status
+
+            })
+
+            .eq("id", editId);
+
+        if (error) {
+
+            console.error(error);
+
+            alert("Failed to update procedure.");
+
+            return;
+
+        }
+
+        alert("Procedure updated successfully.");
+
+        editId = null;
+
+    }
+
+    // ==========================
+    // INSERT
+    // ==========================
+
+    else {
+
+        const { error } = await supabase
+
+            .from("procedures")
+
+            .insert([
+
+                {
+
+                    procedure_name: procedureName,
+                    department: department,
+                    status: status
+
+                }
+
+            ]);
+
+        if (error) {
+
+            console.error(error);
+
+            alert("Failed to save procedure.");
+
+            return;
+
+        }
+
+        alert("Procedure added successfully.");
+
+    }
 
     clearForm();
 
+    loadProcedures();
+
 }
 
-// =========================
+// ==========================================
 // CLEAR FORM
-// =========================
+// ==========================================
 
-function clearForm(){
+function clearForm() {
 
-    document.getElementById("procedureName").value="";
+    document.getElementById("procedureName").value = "";
 
-    document.getElementById("department").selectedIndex=0;
+    document.getElementById("department").selectedIndex = 0;
 
-    document.getElementById("status").selectedIndex=0;
+    document.getElementById("status").selectedIndex = 0;
 
 }
-// =========================
-// SEARCH PROCEDURE
-// =========================
 
-document.getElementById("search").addEventListener("keyup", function () {
+// ==========================================
+// SEARCH
+// ==========================================
 
-    const keyword = this.value.toLowerCase();
+function searchProcedure() {
 
-    const rows = document.querySelectorAll("#procedureTable tr");
+    const keyword = document
 
-    rows.forEach(row => {
+        .getElementById("search")
 
-        row.style.display = row.innerText.toLowerCase().includes(keyword)
-            ? ""
-            : "none";
+        .value
+
+        .toLowerCase();
+
+    const filtered = procedures.filter((procedure) => {
+
+        return (
+
+            procedure.procedure_name
+                .toLowerCase()
+                .includes(keyword)
+
+            ||
+
+            procedure.department
+                .toLowerCase()
+                .includes(keyword)
+
+            ||
+
+            procedure.status
+                .toLowerCase()
+                .includes(keyword)
+
+        );
 
     });
 
-});
+    displayProcedures(filtered);
 
-// =========================
+}
+// ==========================================
 // EDIT PROCEDURE
-// =========================
+// ==========================================
 
-function editProcedure(index){
+function editProcedure(id) {
 
-    const newName = prompt(
-        "Procedure Name",
-        procedures[index].name
-    );
+    const procedure = procedures.find(item => item.id === id);
 
-    if(newName===null) return;
+    if (!procedure) return;
 
-    const newDepartment = prompt(
-        "Department",
-        procedures[index].department
-    );
+    document.getElementById("procedureName").value =
+        procedure.procedure_name;
 
-    if(newDepartment===null) return;
+    document.getElementById("department").value =
+        procedure.department;
 
-    const newStatus = prompt(
-        "Status (Active / Inactive)",
-        procedures[index].status
-    );
+    document.getElementById("status").value =
+        procedure.status;
 
-    if(newStatus===null) return;
+    editId = id;
 
-    procedures[index].name = newName;
-    procedures[index].department = newDepartment;
-    procedures[index].status = newStatus;
+    window.scrollTo({
 
-    displayProcedures();
+        top: 0,
+
+        behavior: "smooth"
+
+    });
 
 }
 
-// =========================
+// ==========================================
 // DELETE PROCEDURE
-// =========================
+// ==========================================
 
-function deleteProcedure(index){
+async function deleteProcedure(id) {
 
     const confirmDelete = confirm(
         "Are you sure you want to delete this procedure?"
     );
 
-    if(!confirmDelete) return;
+    if (!confirmDelete) return;
 
-    procedures.splice(index,1);
+    const { error } = await supabase
 
-    displayProcedures();
+        .from("procedures")
+
+        .delete()
+
+        .eq("id", id);
+
+    if (error) {
+
+        console.error(error);
+
+        alert("Failed to delete procedure.");
+
+        return;
+
+    }
+
+    alert("Procedure deleted successfully.");
+
+    loadProcedures();
 
 }
+
+// ==========================================
+// REFRESH TABLE
+// ==========================================
+
+async function refreshTable() {
+
+    await loadProcedures();
+
+}
+
+// ==========================================
+// RESET FORM AFTER UPDATE
+// ==========================================
+
+function resetEditMode() {
+
+    editId = null;
+
+    clearForm();
+
+}
+
+// ==========================================
+// OPTIONAL
+// PRESS ENTER TO SAVE
+// ==========================================
+
+document.addEventListener("keypress", function (event) {
+
+    if (event.key === "Enter") {
+
+        event.preventDefault();
+
+        saveProcedure();
+
+    }
+
+});
