@@ -425,16 +425,30 @@ async function recordAttendance(
     updateData.completed = true;
     employeeStatus = "COMPLETED";
 
-    if (daily && daily.am_in) {
+   let totalMinutes =
+    Math.floor(
+        (timeOut - amIn) / 1000 / 60
+    );
 
-        const amIn = new Date(daily.am_in);
-        const timeOut = new Date(philippinesTime);
 
-        let totalMinutes =
-            Math.floor(
-                (timeOut - amIn) / 1000 / 60
-            );
-       if (daily.break_time && daily.pm_in) {
+if (daily.break_time && daily.pm_in) {
+
+    const breakStart = new Date(daily.break_time);
+    const breakEnd = new Date(daily.pm_in);
+
+    const breakMinutes =
+        Math.floor(
+            (breakEnd - breakStart) / 1000 / 60
+        );
+
+    totalMinutes -= breakMinutes;
+
+}
+
+if (totalMinutes < 0) {
+    totalMinutes = 0;
+}
+       {
 
     const breakOut = new Date(daily.break_time);
     const pmIn = new Date(daily.pm_in);
