@@ -38,11 +38,11 @@ async function loadAttendanceSummary() {
 
     data.forEach(record => {
 
-        if (record.completed) {
+        if (record.am_in) {
 
-            present++;
+    present++;
 
-        }
+}
 
         if (record.attendance_status === "LATE") {
 
