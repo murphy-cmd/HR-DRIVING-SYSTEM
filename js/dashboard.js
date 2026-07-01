@@ -202,3 +202,22 @@ setInterval(() => {
     loadDriverSummary();
 
 }, 3000);
+// ===============================
+// CURRENT DATE
+// ===============================
+
+const dateElement = document.getElementById("currentDate");
+
+if (dateElement) {
+
+    const today = new Date();
+
+    const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    };
+
+    dateElement.textContent = today.toLocaleDateString("en-US", options);
+
+}
