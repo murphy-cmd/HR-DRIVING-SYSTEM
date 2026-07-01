@@ -231,3 +231,106 @@ font-size:34px;
 }
 
 }
+/* ==========================================
+STAT CARD
+========================================== */
+
+.stat-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+    border-left:6px solid #2563EB;
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.stat-card span{
+
+    color:#64748B;
+
+    font-size:15px;
+
+}
+
+.stat-card h1{
+
+    font-size:46px;
+
+    margin-top:12px;
+
+    font-weight:700;
+
+}
+
+.stat-card i{
+
+    font-size:42px;
+
+}
+
+.blue{
+
+    border-color:#2563EB;
+
+}
+
+.blue i{
+
+    color:#2563EB;
+
+}
+
+.green{
+
+    border-color:#22C55E;
+
+}
+
+.green i{
+
+    color:#22C55E;
+
+}
+
+.orange{
+
+    border-color:#F59E0B;
+
+}
+
+.orange i{
+
+    color:#F59E0B;
+
+}
+
+.red{
+
+    border-color:#EF4444;
+
+}
+
+.red i{
+
+    color:#EF4444;
+
+}
