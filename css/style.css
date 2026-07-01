@@ -504,3 +504,14 @@ CARD COLORS
     background:linear-gradient(135deg,#334155,#0F172A);
 
 }
+.page{
+
+    display:none;
+
+}
+
+.page.active{
+
+    display:block;
+
+}
