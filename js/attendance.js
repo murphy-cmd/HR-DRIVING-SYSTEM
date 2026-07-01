@@ -409,9 +409,9 @@ async function recordAttendance(
 
     break;
 
-       case "TIME_OUT":
+      case "TIME_OUT":
 
-          if (!daily?.pm_in) {
+    if (!daily?.pm_in) {
 
         alert("Employee must PM IN first.");
 
@@ -425,29 +425,67 @@ async function recordAttendance(
     updateData.completed = true;
     employeeStatus = "COMPLETED";
 
-   let totalMinutes =
-    Math.floor(
-        (timeOut - amIn) / 1000 / 60
-    );
+    if (daily && daily.am_in) {
 
+        const amIn = new Date(daily.am_in);
+        const timeOut = new Date(philippinesTime);
 
-if (daily.break_time && daily.pm_in) {
-
-    const breakStart = new Date(daily.break_time);
-    const breakEnd = new Date(daily.pm_in);
-
-    const breakMinutes =
-        Math.floor(
-            (breakEnd - breakStart) / 1000 / 60
+        let totalMinutes = Math.floor(
+            (timeOut - amIn) / 1000 / 60
         );
 
-    totalMinutes -= breakMinutes;
+        // Ibawas ang lunch break
+        if (daily.break_time && daily.pm_in) {
 
-}
+            const breakStart = new Date(daily.break_time);
+            const breakEnd = new Date(daily.pm_in);
 
-if (totalMinutes < 0) {
-    totalMinutes = 0;
-}
+            const breakMinutes = Math.floor(
+                (breakEnd - breakStart) / 1000 / 60
+            );
+
+            totalMinutes -= breakMinutes;
+        }
+
+        if (totalMinutes < 0) {
+            totalMinutes = 0;
+        }
+
+        updateData.work_hours =
+            `${Math.floor(totalMinutes / 60)}h ${totalMinutes % 60}m`;
+
+        const shiftEnd = new Date(amIn);
+
+        if (employee.employee_type === "office") {
+
+            shiftEnd.setHours(18, 0, 0, 0);
+
+        } else if (employee.employee_type === "warehouse") {
+
+            shiftEnd.setHours(17, 0, 0, 0);
+
+        } else {
+
+            shiftEnd.setHours(18, 0, 0, 0);
+
+        }
+
+        let otMinutes = 0;
+
+        if (timeOut > shiftEnd) {
+
+            otMinutes = Math.floor(
+                (timeOut - shiftEnd) / 1000 / 60
+            );
+
+        }
+
+        updateData.ot_hours =
+            `${Math.floor(otMinutes / 60)}h ${otMinutes % 60}m`;
+
+    }
+
+    break;
        {
 
     const breakOut = new Date(daily.break_time);
