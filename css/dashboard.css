@@ -1,1 +1,55 @@
+/* ===================================
+   WELCOME CARD
+=================================== */
 
+.welcome-card{
+
+    background:linear-gradient(135deg,#2563EB,#1D4ED8);
+
+    color:white;
+
+    border-radius:20px;
+
+    padding:35px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:35px;
+
+}
+
+.welcome-card h1{
+
+    font-size:34px;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.welcome-card p{
+
+    max-width:600px;
+
+    opacity:.9;
+
+}
+
+.welcome-date{
+
+    text-align:right;
+
+}
+
+.welcome-date h3{
+
+    font-size:26px;
+
+    margin-bottom:5px;
+
+}
