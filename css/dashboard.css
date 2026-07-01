@@ -1,47 +1,69 @@
 /* ==========================================
-   DASHBOARD CONTENT
+   CONTENT
 ========================================== */
 
 .content{
-    padding:30px;
-    display:flex;
-    flex-direction:column;
-    gap:30px;
+
+    padding:35px;
+
 }
 
 /* ==========================================
-   WELCOME
+   WELCOME CARD
 ========================================== */
 
 .welcome-card{
-    width:100%;
+
     background:linear-gradient(135deg,#2563EB,#1D4ED8);
+
+    color:white;
+
     border-radius:20px;
-    color:#fff;
+
     padding:35px;
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
-    box-shadow:0 15px 30px rgba(37,99,235,.25);
+
+    box-shadow:0 20px 40px rgba(37,99,235,.18);
+
+    margin-bottom:35px;
+
 }
 
 .welcome-left h1{
-    font-size:42px;
+
+    font-size:40px;
+
     font-weight:700;
-    margin-bottom:10px;
+
+    margin-bottom:12px;
+
 }
 
 .welcome-left p{
-    max-width:650px;
+
+    width:600px;
+
+    max-width:100%;
+
     line-height:1.8;
-    font-size:17px;
-    opacity:.95;
+
+    opacity:.9;
+
 }
 
 .welcome-buttons{
+
     display:flex;
+
     gap:15px;
+
     margin-top:25px;
+
 }
 
 .btn-primary,
@@ -49,9 +71,7 @@
 
     padding:12px 24px;
 
-    border-radius:10px;
-
-    text-decoration:none;
+    border-radius:12px;
 
     display:flex;
 
@@ -61,21 +81,35 @@
 
     font-weight:600;
 
+    transition:.3s;
+
 }
 
 .btn-primary{
 
-    background:#fff;
+    background:white;
 
     color:#2563EB;
 
 }
 
+.btn-primary:hover{
+
+    transform:translateY(-4px);
+
+}
+
 .btn-secondary{
 
-    color:#fff;
+    color:white;
 
     border:1px solid rgba(255,255,255,.35);
+
+}
+
+.btn-secondary:hover{
+
+    background:rgba(255,255,255,.12);
 
 }
 
@@ -87,17 +121,13 @@
 
 .welcome-date h2{
 
-    font-size:40px;
-
-    margin-bottom:10px;
+    font-size:36px;
 
 }
 
 .welcome-date span{
 
-    font-size:15px;
-
-    opacity:.9;
+    opacity:.8;
 
 }
 
@@ -107,7 +137,9 @@ SECTION TITLE
 
 .section-title{
 
-    font-size:30px;
+    margin:35px 0 20px;
+
+    font-size:26px;
 
     font-weight:700;
 
@@ -116,7 +148,7 @@ SECTION TITLE
 }
 
 /* ==========================================
-STAT GRID
+GRID
 ========================================== */
 
 .stats-grid{
@@ -127,15 +159,17 @@ STAT GRID
 
     gap:22px;
 
+    margin-bottom:35px;
+
 }
 
 /* ==========================================
-STAT CARD
+CARD
 ========================================== */
 
 .stat-card{
 
-    background:#fff;
+    background:white;
 
     border-radius:18px;
 
@@ -147,9 +181,13 @@ STAT CARD
 
     align-items:center;
 
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    position:relative;
 
-    transition:.25s;
+    overflow:hidden;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    transition:.3s;
 
 }
 
@@ -159,9 +197,23 @@ STAT CARD
 
 }
 
-.stat-card span{
+.stat-card::before{
 
-    display:block;
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+    width:6px;
+
+    height:100%;
+
+}
+
+.stat-card span{
 
     color:#64748B;
 
@@ -173,15 +225,15 @@ STAT CARD
 
     margin-top:12px;
 
-    font-size:42px;
+    font-size:44px;
 
-    font-weight:700;
+    color:#0F172A;
 
 }
 
 .stat-card i{
 
-    font-size:42px;
+    font-size:44px;
 
 }
 
@@ -189,61 +241,50 @@ STAT CARD
 COLORS
 ========================================== */
 
-.blue{
+.blue::before{
 
-    border-left:6px solid #2563EB;
-
-}
-
-.green{
-
-    border-left:6px solid #22C55E;
+    background:#2563EB;
 
 }
 
-.orange{
+.blue i{
 
-    border-left:6px solid #F59E0B;
-
-}
-
-.red{
-
-    border-left:6px solid #EF4444;
-
-}
-
-.dark{
-
-    background:#1E293B;
-
-    color:white;
-
-    border-left:6px solid #475569;
-
-}
-
-.dark span,
-.dark h2,
-.dark i{
-
-    color:white;
-
-}
-
-.driver{
-    border-left:6px solid #2563EB;
-    background:#fff;
-}
-
-.driver span{
-    color:#64748B;
-}
-
-.driver h2{
-    color:#0F172A;
-}
-
-.driver i{
     color:#2563EB;
+
+}
+
+.green::before{
+
+    background:#22C55E;
+
+}
+
+.green i{
+
+    color:#22C55E;
+
+}
+
+.orange::before{
+
+    background:#F59E0B;
+
+}
+
+.orange i{
+
+    color:#F59E0B;
+
+}
+
+.red::before{
+
+    background:#EF4444;
+
+}
+
+.red i{
+
+    color:#EF4444;
+
 }
