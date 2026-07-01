@@ -264,3 +264,50 @@ TABLE
     border-top:1px solid #E2E8F0;
 
 }
+/* ==========================================
+EMPLOYEE TABLE
+========================================== */
+
+.table-photo{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:2px solid #E2E8F0;
+
+}
+
+.view-btn{
+
+    color:#2563EB;
+
+}
+
+.edit-btn{
+
+    color:#F59E0B;
+
+}
+
+.delete-btn{
+
+    color:#EF4444;
+
+}
+
+.action-btn{
+
+    transition:.25s;
+
+}
+
+.action-btn:hover{
+
+    transform:scale(1.08);
+
+}
