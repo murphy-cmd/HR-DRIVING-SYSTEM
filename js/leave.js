@@ -139,28 +139,9 @@ async function loadLeaveRequests() {
 
     }
 
-    data.forEach(item => {
+   data.forEach(item => {
 
-    });
-
-}
-
-// ===============================
-// INITIALIZE
-// ===============================
-
-document
-    .getElementById("saveLeave")
-    ?.addEventListener(
-        "click",
-        saveLeave
-    );
-
-loadEmployees();
-
-loadLeaveRequests();
-
-tbody.innerHTML += `
+    tbody.innerHTML += `
 
 <tr>
 
@@ -200,45 +181,43 @@ Reject
 
 `;
 
+});
+
+}
+
 // ===============================
-// REJECT LEAVE
+// INITIALIZE
 // ===============================
 
-async function rejectLeave(id) {
+document
+    .getElementById("saveLeave")
+    ?.addEventListener("click", saveLeave);
+
+loadEmployees();
+
+loadLeaveRequests();
+
+
+// ===============================
+// APPROVE LEAVE
+// ===============================
+
+async function approveLeave(id){
 
     const { error } =
         await supabaseClient
             .from("leave_requests")
             .update({
-
-                status: "Rejected"
-
+                status:"Approved"
             })
-            .eq("id", id);
+            .eq("id",id);
 
-    if (error) {
+    if(error){
 
         console.error(error);
 
-        alert("Failed to reject leave.");
-
         return;
 
-    }
-
-    async function approveLeave(id) {
-
-    const { error } = await supabaseClient
-        .from("leave_requests")
-        .update({
-            status: "Approved"
-        })
-        .eq("id", id);
-
-    if (error) {
-        console.error(error);
-        alert("Failed to approve leave.");
-        return;
     }
 
     alert("Leave Approved.");
@@ -246,6 +225,29 @@ async function rejectLeave(id) {
     loadLeaveRequests();
 
 }
+
+
+// ===============================
+// REJECT LEAVE
+// ===============================
+
+async function rejectLeave(id){
+
+    const { error } =
+        await supabaseClient
+            .from("leave_requests")
+            .update({
+                status:"Rejected"
+            })
+            .eq("id",id);
+
+    if(error){
+
+        console.error(error);
+
+        return;
+
+    }
 
     alert("Leave Rejected.");
 
