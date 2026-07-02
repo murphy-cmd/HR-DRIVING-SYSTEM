@@ -2,7 +2,7 @@
 // RILCO PROJECT MANAGEMENT SYSTEM
 // =====================================================
 
-const db = window.supabaseClient;
+window.supabaseClient
 
 // FORM
 
