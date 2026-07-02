@@ -1,337 +1,220 @@
-// =====================================================
-// RILCO PROJECT MANAGEMENT SYSTEM
-// =====================================================
+console.log("Projects JS Loaded");
 
-window.supabaseClient
+// ============================================
+// INITIALIZE PROJECTS
+// ============================================
 
-// FORM
+window.initializeProjects = initializeProjects;
 
-const projectName = document.getElementById("projectName");
-const client = document.getElementById("client");
-const category = document.getElementById("category");
-const locationInput = document.getElementById("location");
-const startDate = document.getElementById("startDate");
-const finishDate = document.getElementById("finishDate");
-const status = document.getElementById("status");
+function initializeProjects() {
 
-const saveProject = document.getElementById("saveProject");
+    console.log("Projects Initialized");
+
+    loadCategories();
+    loadProjects();
+
+    const saveBtn = document.getElementById("saveProject");
+
+    if (saveBtn) {
+        saveBtn.addEventListener("click", saveProject);
+    }
+
+    const search = document.getElementById("searchProject");
+
+    if (search) {
+        search.addEventListener("keyup", searchProject);
+    }
+
+}
+
+// ============================================
+// DB
+// ============================================
+
+const db = window.supabaseClient;
+
+// ============================================
+// STATE
+// ============================================
+
 let editingProjectId = null;
-// DISPLAY
-
-const projectsContainer =
-document.getElementById("projectsContainer");
-
-const projectTemplate =
-document.getElementById("projectCardTemplate");
-
-const searchProject =
-document.getElementById("searchProject");
-
-// CATEGORY MAP
 
 const categories = {};
+
 // ============================================
-// LOAD CATEGORY
+// LOAD CATEGORIES
 // ============================================
 
-async function loadCategories(){
+async function loadCategories() {
 
-    const {data,error}=await db
+    const category = document.getElementById("category");
 
-    .from("project_categories")
+    if (!category) return;
 
-    .select("*")
+    const { data, error } = await db
+        .from("project_categories")
+        .select("*")
+        .order("id");
 
-    .order("id");
-
-    if(error){
-
+    if (error) {
         console.error(error);
-
         return;
-
     }
 
-    category.innerHTML =
-    '<option value="">Select Category</option>';
+    category.innerHTML = `<option value="">Select Category</option>`;
 
-    data.forEach(cat=>{
+    data.forEach(cat => {
 
-        categories[cat.id]=cat.category_name;
+        categories[cat.id] = cat.category_name;
 
-        category.innerHTML +=
-
-        `<option value="${cat.id}">
-            ${cat.category_name}
-        </option>`;
-
-    });
-
-}
-// ============================================
-// INITIALIZE
-// ============================================
-
-async function initialize(){
-
-    await loadCategories();
-
-    await loadProjects();
-
-}
-
-initialize();
-// ============================================
-// SAVE PROJECT
-// ============================================
-
-saveProject.addEventListener("click", async () => {
-
-    if(projectName.value.trim() === ""){
-
-        alert("Please enter the Project Name.");
-        return;
-
-    }
-
- let response;
-
-if(editingProjectId){
-
-    response = await db
-
-    .from("projects")
-
-    .update({
-
-        project_name: projectName.value,
-        category_id: Number(category.value),
-        client: client.value,
-        location: locationInput.value,
-        start_date: startDate.value,
-        expected_finish: finishDate.value,
-        status: status.value
-
-    })
-
-    .eq("id", editingProjectId);
-
-}else{
-
-    response = await db
-
-    .from("projects")
-
-    .insert({
-
-        project_name: projectName.value,
-        category_id: Number(category.value),
-        client: client.value,
-        location: locationInput.value,
-        start_date: startDate.value,
-        expected_finish: finishDate.value,
-        status: status.value
+        category.innerHTML += `
+            <option value="${cat.id}">
+                ${cat.category_name}
+            </option>
+        `;
 
     });
 
 }
 
-const { error } = response;
-
-    loadProjects();
-    editingProjectId = null;
-
-saveProject.textContent = "Save Project";
-
-bootstrap.Modal.getInstance(
-    document.getElementById("projectModal")
-).hide();
-
-});
 // ============================================
 // LOAD PROJECTS
 // ============================================
 
-async function loadProjects(){
+async function loadProjects() {
 
-    projectsContainer.innerHTML = "";
+    const container = document.getElementById("projectsContainer");
+    const template = document.getElementById("projectCardTemplate");
+
+    if (!container || !template) return;
+
+    container.innerHTML = "";
 
     const { data, error } = await db
+        .from("projects")
+        .select("*")
+        .order("id", { ascending: false });
 
-    .from("projects")
-
-    .select("*")
-
-    .order("created_at", { ascending:false });
-
-    if(error){
-
+    if (error) {
         console.error(error);
-
         return;
-
     }
 
-    data.forEach(project=>{
+    data.forEach(project => {
 
-        const card = projectTemplate.content.cloneNode(true);
+        const card = template.content.cloneNode(true);
 
-        card.querySelector(".project-title").textContent =
-        project.project_name;
+        card.querySelector(".project-title").textContent = project.project_name;
+        card.querySelector(".project-client").textContent = project.client;
+        card.querySelector(".project-category").textContent = categories[project.category_id] || "-";
+        card.querySelector(".project-location").textContent = project.location;
+        card.querySelector(".employee-count").textContent = 0;
+        card.querySelector(".estimated-finish").textContent = project.expected_finish || "-";
+        card.querySelector(".current-procedure").textContent = "Waiting Assignment";
 
-        card.querySelector(".project-client").textContent =
-        project.client;
+        const badge = card.querySelector(".badge");
+        badge.textContent = project.status;
 
-        card.querySelector(".project-category").textContent =
-        categories[project.category_id] || "-";
+        if (project.status === "Active") badge.classList.add("bg-success");
+        else if (project.status === "Completed") badge.classList.add("bg-danger");
+        else badge.classList.add("bg-warning", "text-dark");
 
-        card.querySelector(".project-location").textContent =
-        project.location;
+        // EDIT
+        card.querySelector(".edit-project").addEventListener("click", () => {
 
-        card.querySelector(".employee-count").textContent = "0";
+            editingProjectId = project.id;
 
-        card.querySelector(".current-procedure").textContent =
-        "Waiting Assignment";
+            document.getElementById("projectName").value = project.project_name;
+            document.getElementById("client").value = project.client;
+            document.getElementById("category").value = project.category_id;
+            document.getElementById("location").value = project.location;
+            document.getElementById("startDate").value = project.start_date;
+            document.getElementById("finishDate").value = project.expected_finish;
+            document.getElementById("status").value = project.status;
 
-        card.querySelector(".estimated-finish").textContent =
-        project.expected_finish || "-";
-
-        const badge =
-        card.querySelector(".badge");
-
-        badge.textContent =
-        project.status;
-
-        badge.className = "badge";
-
-        switch(project.status){
-
-            case "Active":
-
-                badge.classList.add("bg-success");
-
-                break;
-
-            case "Completed":
-
-                badge.classList.add("bg-danger");
-
-                break;
-
-            case "On Hold":
-
-                badge.classList.add("bg-warning","text-dark");
-
-                break;
-
-            default:
-
-                badge.classList.add("bg-secondary");
-
-        }
-
-     const editBtn = card.querySelector(".edit-project");
-
-editBtn.addEventListener("click", () => {
-
-    editingProjectId = project.id;
-
-    projectName.value = project.project_name;
-    client.value = project.client;
-    category.value = project.category_id;
-    locationInput.value = project.location;
-    startDate.value = project.start_date;
-    finishDate.value = project.expected_finish;
-    status.value = project.status;
-
-    saveProject.textContent = "Update Project";
-
-    const modal = new bootstrap.Modal(
-        document.getElementById("projectModal")
-    );
-
-    modal.show();
-
-});
-
-        const deleteBtn = card.querySelector(".delete-project");
-
-        deleteBtn.dataset.id = project.id;
-
-        deleteBtn.addEventListener("click", () => {
-
-            deleteProject(project.id);
+            document.getElementById("saveProject").textContent = "Update Project";
 
         });
 
-        projectsContainer.appendChild(card);
+        // DELETE
+        card.querySelector(".delete-project").addEventListener("click", async () => {
+
+            await db
+                .from("projects")
+                .delete()
+                .eq("id", project.id);
+
+            loadProjects();
+
+        });
+
+        container.appendChild(card);
 
     });
 
 }
+
 // ============================================
-// SEARCH PROJECT
-// ============================================
-
-searchProject.addEventListener("keyup", () => {
-
-    const keyword = searchProject.value.toLowerCase();
-
-    const cards = document.querySelectorAll(".project-card");
-
-    cards.forEach(card => {
-
-        const title = card.querySelector(".project-title")
-            .textContent
-            .toLowerCase();
-
-        if(title.includes(keyword)){
-
-            card.parentElement.style.display = "";
-
-        }else{
-
-            card.parentElement.style.display = "none";
-
-        }
-
-    });
-
-});
-// ============================================
-// DELETE PROJECT
+// SAVE PROJECT
 // ============================================
 
-async function deleteProject(id){
+async function saveProject() {
 
-    const confirmDelete = confirm(
-        "Are you sure you want to delete this project?"
-    );
+    const data = {
 
-    if(!confirmDelete) return;
+        project_name: document.getElementById("projectName").value,
+        client: document.getElementById("client").value,
+        category_id: Number(document.getElementById("category").value),
+        location: document.getElementById("location").value,
+        start_date: document.getElementById("startDate").value,
+        expected_finish: document.getElementById("finishDate").value,
+        status: document.getElementById("status").value
 
-    const { error } = await db
+    };
 
-        .from("projects")
-
-        .delete()
-
-        .eq("id", id);
-
-    if(error){
-
-        console.error(error);
-
-        alert(error.message);
-
+    if (!data.project_name) {
+        alert("Project name required");
         return;
+    }
+
+    if (editingProjectId) {
+
+        await db
+            .from("projects")
+            .update(data)
+            .eq("id", editingProjectId);
+
+        editingProjectId = null;
+
+    } else {
+
+        await db
+            .from("projects")
+            .insert(data);
 
     }
 
-    alert("Project deleted successfully.");
+    document.getElementById("saveProject").textContent = "Save Project";
 
     loadProjects();
-    
-   
+
+}
+
+// ============================================
+// SEARCH
+// ============================================
+
+function searchProject() {
+
+    const keyword = document.getElementById("searchProject").value.toLowerCase();
+
+    document.querySelectorAll(".project-card").forEach(card => {
+
+        const title = card.querySelector(".project-title").textContent.toLowerCase();
+
+        card.parentElement.style.display =
+            title.includes(keyword) ? "" : "none";
+
+    });
 
 }
