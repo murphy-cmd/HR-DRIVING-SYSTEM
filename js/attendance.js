@@ -815,13 +815,9 @@ if (record.attendance_status === "ABSENT") {
 if (record.attendance_status === "ON LEAVE") {
     leave++;
 }
-}
 
-        if (record.attendance_status === "LATE") {
 
-            late++;
-
-        }
+   
 
         tbody.innerHTML += `
 
