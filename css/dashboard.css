@@ -385,3 +385,64 @@ RESPONSIVE
     }
 
 }
+/* ==========================================
+QUICK ACTIONS
+========================================== */
+
+.quick-actions{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+}
+
+.quick-btn{
+
+    background:white;
+
+    border:none;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    cursor:pointer;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:15px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.06);
+
+    transition:.30s;
+
+}
+
+.quick-btn:hover{
+
+    transform:translateY(-6px);
+
+    background:#2563EB;
+
+    color:white;
+
+}
+
+.quick-btn i{
+
+    font-size:34px;
+
+}
+
+.quick-btn span{
+
+    font-weight:600;
+
+}
