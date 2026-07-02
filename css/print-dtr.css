@@ -1,0 +1,215 @@
+/* ==========================================
+   PRINT DTR
+========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:#fff;
+
+    color:#000;
+
+    padding:25px;
+
+}
+
+.company-logo{
+
+    width:90px;
+
+    height:auto;
+
+}
+
+h2{
+
+    font-size:24px;
+
+    font-weight:700;
+
+}
+
+p{
+
+    margin-bottom:5px;
+
+}
+
+.card{
+
+    border:1px solid #000;
+
+    border-radius:8px;
+
+}
+
+.card-body{
+
+    padding:15px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:20px;
+
+}
+
+table th{
+
+    background:#1F4E79;
+
+    color:#fff;
+
+    text-align:center;
+
+    font-size:13px;
+
+}
+
+table td{
+
+    text-align:center;
+
+    font-size:12px;
+
+}
+
+th,
+td{
+
+    border:1px solid #000 !important;
+
+    padding:8px;
+
+}
+
+.summary{
+
+    margin-top:25px;
+
+}
+
+.signature{
+
+    margin-top:80px;
+
+}
+
+.signature div{
+
+    text-align:center;
+
+}
+
+.signature-line{
+
+    width:220px;
+
+    margin:auto;
+
+    border-top:1px solid #000;
+
+    margin-bottom:8px;
+
+}
+
+.text-end{
+
+    text-align:right;
+
+}
+
+.text-center{
+
+    text-align:center;
+
+}
+
+.mt-5{
+
+    margin-top:70px;
+
+}
+
+.mb-4{
+
+    margin-bottom:25px;
+
+}
+
+/* ==========================================
+   PRINT SETTINGS
+========================================== */
+
+@page{
+
+    size:A4 portrait;
+
+    margin:15mm;
+
+}
+
+@media print{
+
+    html,
+    body{
+
+        width:210mm;
+
+        height:297mm;
+
+        background:#fff;
+
+    }
+
+    body{
+
+        padding:0;
+
+    }
+
+    table{
+
+        page-break-inside:auto;
+
+    }
+
+    tr{
+
+        page-break-inside:avoid;
+
+    }
+
+    thead{
+
+        display:table-header-group;
+
+    }
+
+    tfoot{
+
+        display:table-footer-group;
+
+    }
+
+    .card{
+
+        box-shadow:none;
+
+    }
+
+}
