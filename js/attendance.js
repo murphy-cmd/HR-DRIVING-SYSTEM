@@ -622,9 +622,9 @@ const { data, error } =
 
 }
 
-loadAttendanceBoard();
-
-loadTodayHistory();
+// ===============================
+// ATTENDANCE TABS
+// ===============================
 
 const boardTab = document.getElementById("boardTab");
 const summaryTab = document.getElementById("summaryTab");
@@ -663,7 +663,6 @@ if (
     });
 
 }
-
 setInterval(() => {
 
     loadAttendanceBoard();
