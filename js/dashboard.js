@@ -5,7 +5,10 @@ console.log("Dashboard JS Loaded");
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("Dashboard Initialized");
     initializeDashboard();
+    console.log("initializeDashboard()");
+
 });
 
 async function initializeDashboard() {
@@ -49,7 +52,7 @@ function updateDate() {
 // ==========================================
 // EMPLOYEE OVERVIEW
 // ==========================================
-
+console.log("Loading Employees...");
 async function loadEmployeeOverview() {
 
     try {
