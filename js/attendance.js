@@ -629,18 +629,10 @@ const { data, error } =
 const boardTab = document.getElementById("boardTab");
 const summaryTab = document.getElementById("summaryTab");
 
-const attendanceBoard =
-    document.getElementById("attendanceBoard");
+const attendanceBoard = document.getElementById("attendanceBoard");
+const attendanceSummary = document.getElementById("attendanceSummary");
 
-const attendanceSummary =
-    document.getElementById("attendanceSummary");
-
-if (
-    boardTab &&
-    summaryTab &&
-    attendanceBoard &&
-    attendanceSummary
-) {
+if (boardTab && summaryTab && attendanceBoard && attendanceSummary) {
 
     boardTab.addEventListener("click", () => {
 
