@@ -155,3 +155,48 @@ input{
     color:var(--primary);
 
 }
+/* ==========================================
+   PRINT ONLY
+========================================== */
+
+@media print {
+
+    /* Itago ang sidebar at navigation */
+    .sidebar,
+    aside,
+    nav,
+    .navbar,
+    .menu,
+    .left-sidebar {
+        display: none !important;
+    }
+
+    /* Palawakin ang main content */
+    .main,
+    .content,
+    .container {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    body,
+    html {
+        overflow: visible !important;
+        background: #fff !important;
+    }
+
+    table {
+        width: 100% !important;
+    }
+
+    .table-responsive {
+        overflow: visible !important;
+    }
+
+    button,
+    input {
+        display: none !important;
+    }
+}
