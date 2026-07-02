@@ -1,0 +1,102 @@
+<h2 class="mb-4">Leave Management</h2>
+
+<div class="card p-4 mb-4">
+
+<div class="row">
+
+<div class="col-md-4">
+<label>Employee</label>
+<select id="leaveEmployee" class="form-select"></select>
+</div>
+
+<div class="col-md-4">
+<label>Leave Type</label>
+<select id="leaveType" class="form-select">
+<option>Vacation Leave</option>
+<option>Sick Leave</option>
+<option>Emergency Leave</option>
+<option>Maternity Leave</option>
+<option>Paternity Leave</option>
+</select>
+</div>
+
+<div class="col-md-4">
+<label>Status</label>
+<select id="leaveStatus" class="form-select">
+<option>Pending</option>
+<option>Approved</option>
+<option>Rejected</option>
+</select>
+</div>
+
+</div>
+
+<br>
+
+<div class="row">
+
+<div class="col-md-6">
+<label>Start Date</label>
+<input type="date" id="startDate" class="form-control">
+</div>
+
+<div class="col-md-6">
+<label>End Date</label>
+<input type="date" id="endDate" class="form-control">
+</div>
+
+</div>
+
+<br>
+
+<label>Reason</label>
+
+<textarea
+id="leaveReason"
+class="form-control"
+rows="3"></textarea>
+
+<br>
+
+<button
+id="saveLeave"
+class="btn btn-primary">
+
+Save Leave
+
+</button>
+
+</div>
+
+<div class="card p-3">
+
+<h4>Leave Requests</h4>
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Employee</th>
+<th>Leave Type</th>
+<th>Start</th>
+<th>End</th>
+<th>Reason</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody id="leaveTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
