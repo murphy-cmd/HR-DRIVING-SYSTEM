@@ -626,6 +626,44 @@ loadAttendanceBoard();
 
 loadTodayHistory();
 
+const boardTab = document.getElementById("boardTab");
+const summaryTab = document.getElementById("summaryTab");
+
+const attendanceBoard =
+    document.getElementById("attendanceBoard");
+
+const attendanceSummary =
+    document.getElementById("attendanceSummary");
+
+if (
+    boardTab &&
+    summaryTab &&
+    attendanceBoard &&
+    attendanceSummary
+) {
+
+    boardTab.addEventListener("click", () => {
+
+        boardTab.classList.add("active");
+        summaryTab.classList.remove("active");
+
+        attendanceBoard.style.display = "block";
+        attendanceSummary.style.display = "none";
+
+    });
+
+    summaryTab.addEventListener("click", () => {
+
+        summaryTab.classList.add("active");
+        boardTab.classList.remove("active");
+
+        attendanceBoard.style.display = "none";
+        attendanceSummary.style.display = "block";
+
+    });
+
+}
+
 setInterval(() => {
 
     loadAttendanceBoard();
