@@ -51,27 +51,25 @@ async function loadEmployeeSummary(){
     document.getElementById("workingEmployees").innerText =
         workingEmployees ?? 0;
 
-    // On Break
-    const { count: breakEmployees } = await supabaseClient
-        .from("employees")
-        .select("*", { count: "exact", head: true })
-        .eq("status", "BREAK");
+  // On Break
+const { count: breakEmployees } = await supabaseClient
+    .from("employees")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "BREAK");
 
-    document.getElementById("breakEmployees").innerText =
-        breakEmployees ?? 0;
+document.getElementById("breakEmployees").innerText =
+    breakEmployees ?? 0;
 
-}
 // Completed Today
 const { count: completedEmployees } = await supabaseClient
     .from("employees")
-    .select("*", {
-        count: "exact",
-        head: true
-    })
+    .select("*", { count: "exact", head: true })
     .eq("status", "COMPLETED");
 
 document.getElementById("completedEmployees").innerText =
     completedEmployees ?? 0;
+
+}
 
 // ==========================================
 // DRIVER SUMMARY
