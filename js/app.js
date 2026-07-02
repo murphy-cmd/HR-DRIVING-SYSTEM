@@ -16,15 +16,13 @@ async function loadPage(page) {
     try {
 
         // Load HTML
-        const response = await fetch(`pages/${page}.html`);
+       const file = `./pages/${page}.html`;
 
-        if (!response.ok) {
-            throw new Error(`Cannot load pages/${page}.html`);
-        }
+console.log(file);
 
-        const html = await response.text();
+const response = await fetch(file);
 
-        app.innerHTML = html;
+console.log(response.status);
 
         // Header Title
         pageTitle.textContent =
