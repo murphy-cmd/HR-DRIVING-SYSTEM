@@ -13,7 +13,7 @@
 
 <body>
 
-<!-- SIDEBAR / TOP NAV (KEEP MO EXISTING SYSTEM) -->
+<!-- NAVBAR (CLEANED - NO DUPLICATES) -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-2">
 
 <div class="container-fluid">
@@ -35,32 +35,19 @@
 
 </nav>
 
-<!-- CLEAN PAGE CONTAINER -->
+<!-- PAGE CONTAINER -->
 <div class="container-fluid p-4">
 
-<!-- TITLE ONLY (NO LOGO, NO BLACK BANNER) -->
+<!-- CLEAN HEADER (NO BLACK BANNER, NO LOGO) -->
 <div class="mb-3">
     <h3 class="fw-bold mb-0">Attendance</h3>
     <small class="text-muted">Welcome back, Administrator</small>
 </div>
 
-<!-- TABLE CARD -->
+<!-- BOARD CARD -->
 <div class="card shadow-sm border-0">
 
 <div class="card-body">
-
-<!-- TABS -->
-<ul class="nav nav-tabs mb-3">
-
-<li class="nav-item">
-    <button class="nav-link active" id="boardTab">Attendance Board</button>
-</li>
-
-<li class="nav-item">
-    <button class="nav-link" id="summaryTab">Attendance Summary</button>
-</li>
-
-</ul>
 
 <!-- TABLE -->
 <div id="attendanceBoard">
@@ -119,7 +106,7 @@
 </div>
 </div>
 
-<!-- SUMMARY SECTION -->
+<!-- SUMMARY -->
 <div id="attendanceSummary" class="mt-4" style="display:none;">
 
 <div class="row g-3 mb-3">
