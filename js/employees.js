@@ -1,5 +1,22 @@
 const db = window.supabaseClient;
 // ==========================================
+// INITIALIZE EMPLOYEES
+// ==========================================
+
+window.initializeEmployees = initializeEmployees;
+
+function initializeEmployees() {
+
+    console.log("Employees Initialized");
+
+    modal = document.getElementById("employeeModal");
+
+    if (!modal) return;
+
+    loadEmployees();
+
+}
+// ==========================================
 // EMPLOYEE MODULE
 // ==========================================
 
