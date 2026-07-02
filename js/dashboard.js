@@ -1,20 +1,23 @@
 // ==========================================
+// RILCO HR SYSTEM
 // DASHBOARD CONTROLLER
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
-
     initializeDashboard();
-
 });
+
+// ==========================================
+// INITIALIZE
+// ==========================================
 
 async function initializeDashboard() {
 
     updateDate();
 
-    await loadEmployeeSummary();
+    await loadEmployeeOverview();
 
-    await loadDriverSummary();
+    await loadDriverOverview();
 
     await loadTodayAttendance();
 
@@ -32,222 +35,195 @@ function updateDate() {
 
     const now = new Date();
 
-    document.getElementById("currentDate").textContent =
-        now.toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric"
+    document.getElementById("currentDate").innerHTML =
+        now.toLocaleDateString("en-US",{
+            month:"long",
+            day:"numeric",
+            year:"numeric"
         });
 
-    document.getElementById("currentDay").textContent =
-        now.toLocaleDateString("en-US", {
-            weekday: "long"
+    document.getElementById("currentDay").innerHTML =
+        now.toLocaleDateString("en-US",{
+            weekday:"long"
         });
 
 }
 
 // ==========================================
-// EMPLOYEE SUMMARY
+// EMPLOYEE OVERVIEW
 // ==========================================
 
-async function loadEmployeeSummary() {
+async function loadEmployeeOverview(){
 
-    try {
+    // TOTAL EMPLOYEES
+    const { count: totalEmployees } = await supabaseClient
+        .from("employees")
+        .select("*",{count:"exact",head:true});
 
-        const { data, error } = await supabaseClient
-            .from("employees")
-            .select("*");
+    document.getElementById("totalEmployees").textContent =
+        totalEmployees || 0;
 
-        if (error) throw error;
+    // WORKING
+    const { count: workingEmployees } = await supabaseClient
+        .from("employees")
+        .select("*",{count:"exact",head:true})
+        .eq("status","WORKING");
 
-        const employees = data || [];
+    document.getElementById("workingEmployees").textContent =
+        workingEmployees || 0;
 
-        document.getElementById("totalEmployees").textContent =
-            employees.length;
+    // BREAK
+    const { count: breakEmployees } = await supabaseClient
+        .from("employees")
+        .select("*",{count:"exact",head:true})
+        .eq("status","BREAK");
 
-        document.getElementById("workingEmployees").textContent =
-            employees.filter(e => e.status === "WORKING").length;
+    document.getElementById("breakEmployees").textContent =
+        breakEmployees || 0;
 
-        document.getElementById("breakEmployees").textContent =
-            employees.filter(e => e.status === "BREAK").length;
+    // COMPLETED
+    const { count: completedEmployees } = await supabaseClient
+        .from("employees")
+        .select("*",{count:"exact",head:true})
+        .eq("status","COMPLETED");
 
-        document.getElementById("completedEmployees").textContent =
-            employees.filter(e => e.status === "COMPLETED").length;
-
-    }
-
-    catch (err) {
-
-        console.error(err);
-
-    }
+    document.getElementById("completedEmployees").textContent =
+        completedEmployees || 0;
 
 }
+
 // ==========================================
-// DRIVER SUMMARY
+// DRIVER OVERVIEW
 // ==========================================
 
-async function loadDriverSummary() {
+async function loadDriverOverview(){
 
-    try {
+    const { count: totalDrivers } = await supabaseClient
+        .from("employees")
+        .select("*",{count:"exact",head:true})
+        .eq("employee_type","driver");
 
-        // Get all drivers
-        const { data: drivers, error } = await supabaseClient
-            .from("employees")
-            .select("*")
-            .eq("employee_type", "driver");
+    document.getElementById("totalDrivers").textContent =
+        totalDrivers || 0;
 
-        if (error) throw error;
+    const { count: availableDrivers } = await supabaseClient
+        .from("employees")
+        .select("*",{count:"exact",head:true})
+        .eq("status","AVAILABLE");
 
-        document.getElementById("totalDrivers").textContent =
-            drivers.length;
+    document.getElementById("availableDrivers").textContent =
+        availableDrivers || 0;
 
-        document.getElementById("availableDrivers").textContent =
-            drivers.filter(driver =>
-                driver.status === "AVAILABLE"
-            ).length;
+    const { count: drivingDrivers } = await supabaseClient
+        .from("employees")
+        .select("*",{count:"exact",head:true})
+        .eq("status","DRIVING");
 
-        document.getElementById("drivingDrivers").textContent =
-            drivers.filter(driver =>
-                driver.status === "DRIVING"
-            ).length;
+    document.getElementById("drivingDrivers").textContent =
+        drivingDrivers || 0;
 
-        // Completed Trips
-        const { count: completedTrips } = await supabaseClient
-            .from("driver_trips")
-            .select("*", {
-                count: "exact",
-                head: true
-            })
-            .eq("status", "COMPLETED");
+    const { count: completedTrips } = await supabaseClient
+        .from("assignments")
+        .select("*",{count:"exact",head:true})
+        .eq("status","COMPLETED");
 
-        document.getElementById("completedTrips").textContent =
-            completedTrips ?? 0;
-
-    }
-
-    catch (error) {
-
-        console.error("Driver Summary:", error);
-
-    }
+    document.getElementById("completedTrips").textContent =
+        completedTrips || 0;
 
 }
+
 // ==========================================
-// TODAY'S ATTENDANCE
+// TODAY ATTENDANCE
 // ==========================================
 
-async function loadTodayAttendance() {
+async function loadTodayAttendance(){
 
-    try {
+    const today = new Date().toISOString().split("T")[0];
 
-        const today = new Date().toISOString().split("T")[0];
+    const { count } = await supabaseClient
+        .from("attendance")
+        .select("*",{count:"exact",head:true})
+        .gte("created_at",today+"T00:00:00")
+        .lte("created_at",today+"T23:59:59");
 
-        const { count, error } = await supabaseClient
-            .from("attendance")
-            .select("*", {
-                count: "exact",
-                head: true
-            })
-            .gte("created_at", `${today}T00:00:00`)
-            .lte("created_at", `${today}T23:59:59`);
-
-        if (error) throw error;
-
-        document.getElementById("todayAttendance").textContent =
-            count ?? 0;
-
-    }
-
-    catch (error) {
-
-        console.error("Today's Attendance:", error);
-
-    }
+    document.getElementById("todayAttendance").textContent =
+        count || 0;
 
 }
+
 // ==========================================
 // PENDING LEAVE
 // ==========================================
 
-async function loadPendingLeave() {
+async function loadPendingLeave(){
 
-    try {
+    const { count } = await supabaseClient
+        .from("leave_requests")
+        .select("*",{count:"exact",head:true})
+        .eq("status","Pending");
 
-        const { count, error } = await supabaseClient
-            .from("leave_requests")
-            .select("*", {
-                count: "exact",
-                head: true
-            })
-            .eq("status", "Pending");
-
-        if (error) throw error;
-
-        document.getElementById("pendingLeave").textContent =
-            count ?? 0;
-
-    }
-
-    catch (error) {
-
-        console.error("Pending Leave:", error);
-
-    }
+    document.getElementById("pendingLeave").textContent =
+        count || 0;
 
 }
+
 // ==========================================
 // RECENT ACTIVITIES
 // ==========================================
 
-async function loadRecentActivities() {
+async function loadRecentActivities(){
 
-    try {
+    const { data } = await supabaseClient
+        .from("attendance_logs")
+        .select("*")
+        .order("log_time",{ascending:false})
+        .limit(5);
 
-        const { data, error } = await supabaseClient
-            .from("attendance_logs")
-            .select("*")
-            .order("log_time", { ascending: false })
-            .limit(5);
+    const container =
+        document.getElementById("recentActivities");
 
-        if (error) throw error;
+    container.innerHTML = "";
 
-        const container = document.getElementById("recentActivities");
+    if(!data || data.length===0){
 
-        if (!container) return;
+        container.innerHTML=`
+        <p>No recent activities.</p>
+        `;
 
-        if (!data || data.length === 0) {
-
-            container.innerHTML = `
-                <p>No recent activities.</p>
-            `;
-
-            return;
-
-        }
-
-        container.innerHTML = "";
-
-        data.forEach(item => {
-
-            container.innerHTML += `
-                <div class="activity">
-                    <div>
-                        <strong>${item.employee_name}</strong><br>
-                        <small>${item.action}</small>
-                    </div>
-                    <span>${new Date(item.log_time).toLocaleTimeString()}</span>
-                </div>
-            `;
-
-        });
+        return;
 
     }
 
-    catch (error) {
+    data.forEach(activity=>{
 
-        console.error("Recent Activities:", error);
+        container.innerHTML +=`
 
-    }
+        <div class="activity">
+
+            <div>
+
+                <strong>${activity.employee_name}</strong>
+
+                <br>
+
+                <small>${activity.action}</small>
+
+            </div>
+
+            <span>
+
+                ${new Date(activity.log_time)
+                    .toLocaleTimeString([],{
+                        hour:'2-digit',
+                        minute:'2-digit'
+                    })}
+
+            </span>
+
+        </div>
+
+        `;
+
+    });
 
 }
