@@ -133,17 +133,11 @@ function loadPageScript(page) {
             page.charAt(0).toUpperCase() +
             page.slice(1);
 
-        if (typeof window[functionName] === "function") {
+        if (window[functionName]) {
 
             window[functionName]();
 
         }
-
-    };
-
-    script.onerror = () => {
-
-        console.error(`${page}.js not found`);
 
     };
 
@@ -170,4 +164,4 @@ function initializeLogout() {
     });
 
 }
-    window.initializeDashboard = initializeDashboard;
+
