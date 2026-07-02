@@ -1,13 +1,16 @@
+const db = window.supabaseClient;
 // ==========================================
 // EMPLOYEE MODULE
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    modal = document.getElementById("employeeModal");
+
     loadEmployees();
 
 });
-const modal = document.getElementById("employeeModal");
+let modal;
 
 document.getElementById("addEmployeeBtn").onclick = () => {
 
