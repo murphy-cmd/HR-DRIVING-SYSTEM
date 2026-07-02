@@ -825,11 +825,32 @@ const selectedStatus =
 
     }
 
+   
+// ===============================
+// LOAD APPROVED LEAVES
+// ===============================
+
+const {
+    data: approvedLeaves,
+    error: leaveError
+} = await supabaseClient
+    .from("leave_requests")
+    .select("*")
+    .eq("status", "Approved");
+
+if (leaveError) {
+
+    console.error(leaveError);
+
+    return;
+
+}
+
+
 let present = 0;
 let late = 0;
 let absent = 0;
 let leave = 0;
-
    
 
     data.forEach(record => {
@@ -863,20 +884,34 @@ if (
     return;
 }
         
-if (record.am_in) {
-    present++;
+const approvedLeave = approvedLeaves.find(item => {
+
+    return (
+        item.employee_name === record.employee_name &&
+        record.attendance_date >= item.start_date &&
+        record.attendance_date <= item.end_date
+    );
+
+});
+
+if (approvedLeave) {
+
+    leave++;
+
+} else {
+
+    if (record.am_in) {
+        present++;
+    }
+
+    if (record.attendance_status === "ABSENT") {
+        absent++;
+    }
+
 }
 
 if (record.attendance_status === "LATE") {
     late++;
-}
-
-if (record.attendance_status === "ABSENT") {
-    absent++;
-}
-
-if (record.attendance_status === "ON LEAVE") {
-    leave++;
 }
 
 
@@ -902,13 +937,37 @@ if (record.attendance_status === "ON LEAVE") {
 
 <td>${formatTime(record.time_out)}</td>
 
-<td>${record.late_display ?? "On Time"}</td>
+<td>
+${
+    approvedLeave
+        ? "-"
+        : (record.late_display ?? "On Time")
+}
+</td>
 
-<td>${record.work_hours ?? "-"}</td>
+<td>
+${
+    approvedLeave
+        ? "-"
+        : (record.work_hours ?? "-")
+}
+</td>
 
-<td>${record.ot_hours ?? "-"}</td>
+<td>
+${
+    approvedLeave
+        ? "-"
+        : (record.ot_hours ?? "-")
+}
+</td>
 
-<td>${record.attendance_status ?? "-"}</td>
+<td>
+${
+    approvedLeave
+        ? "ON LEAVE"
+        : (record.attendance_status ?? "-")
+}
+</td>
 
 </tr>
 
