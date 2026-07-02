@@ -94,9 +94,7 @@ if (leaveError) {
     // CHECK APPROVED LEAVE
     // ===============================
 
-   const leave = approvedLeaves.find(item =>
-    item.employee_name === emp.full_name
-);
+
 
 const leave = approvedLeaves.find(item =>
     item.employee_name === emp.full_name
