@@ -1,7 +1,3 @@
-// ==========================================
-// RILCO HR DRIVING SYSTEM
-// SUPABASE CONFIGURATION
-// ==========================================
 
 const SUPABASE_URL =
     "https://odpvxqpkqsnzjpkgizeo.supabase.co";
