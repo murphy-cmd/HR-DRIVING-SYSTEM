@@ -240,3 +240,98 @@ async function loadReport(){
         "totalOT"
     ).textContent=
         convertHours(totalOTMinutes);
+    // Hintaying ma-render ang table bago mag-print
+    setTimeout(() => {
+
+        window.print();
+
+    }, 700);
+
+}
+
+// ==========================================
+// FORMAT TIME
+// ==========================================
+
+function formatTime(value){
+
+    if(!value) return "-";
+
+    try{
+
+        return value
+            .split("T")[1]
+            .substring(0,5);
+
+    }
+
+    catch{
+
+        return "-";
+
+    }
+
+}
+
+// ==========================================
+// CONVERT "8h 30m" TO MINUTES
+// ==========================================
+
+function convertMinutes(value){
+
+    if(!value) return 0;
+
+    const match =
+        value.match(/(\d+)\s*h\s*(\d+)\s*m/i);
+
+    if(!match){
+
+        return 0;
+
+    }
+
+    const hours =
+        parseInt(match[1]);
+
+    const minutes =
+        parseInt(match[2]);
+
+    return (hours*60)+minutes;
+
+}
+
+// ==========================================
+// CONVERT MINUTES TO HOURS
+// ==========================================
+
+function convertHours(minutes){
+
+    const hrs =
+        Math.floor(minutes/60);
+
+    const mins =
+        minutes%60;
+
+    return `${hrs}h ${mins}m`;
+
+}
+
+// ==========================================
+// AFTER PRINT
+// ==========================================
+
+window.onafterprint=function(){
+
+    window.close();
+
+};
+
+// ==========================================
+// BEFORE PRINT
+// ==========================================
+
+window.onbeforeprint=function(){
+
+    console.log("Printing DTR Report...");
+
+};
