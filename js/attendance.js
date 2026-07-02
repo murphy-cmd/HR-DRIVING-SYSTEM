@@ -565,6 +565,28 @@ updateData.ot_minutes = otMinutes;
             employeeId
         );
 
+   await supabaseClient
+    .from("attendance_logs")
+    .insert({
+
+        employee_id: employee.employee_id,
+
+        employee_name: employee.full_name,
+
+        action: action,
+
+        log_time: philippinesTime,
+
+        action_date: today
+
+    });
+
+checkbox.disabled = true;
+
+loadAttendanceBoard();
+
+loadTodayHistory();
+
     checkbox.disabled = true;
 
     loadAttendanceBoard();
