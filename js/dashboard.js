@@ -14,16 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
 // LOAD DASHBOARD
 // ==========================================
 
-async function loadDashboard(){
+async function loadDashboard() {
 
     await loadEmployeeSummary();
-
     await loadDriverSummary();
-
     await loadTodayAttendance();
-
     await loadPendingLeave();
-
     await loadRecentActivities();
 
 }
@@ -32,7 +28,7 @@ async function loadDashboard(){
 // EMPLOYEE SUMMARY
 // ==========================================
 
-async function loadEmployeeSummary(){
+async function loadEmployeeSummary() {
 
     // Total Employees
     const { count: totalEmployees } = await supabaseClient
@@ -51,23 +47,23 @@ async function loadEmployeeSummary(){
     document.getElementById("workingEmployees").innerText =
         workingEmployees ?? 0;
 
-  // On Break
-const { count: breakEmployees } = await supabaseClient
-    .from("employees")
-    .select("*", { count: "exact", head: true })
-    .eq("status", "BREAK");
+    // On Break
+    const { count: breakEmployees } = await supabaseClient
+        .from("employees")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "BREAK");
 
-document.getElementById("breakEmployees").innerText =
-    breakEmployees ?? 0;
+    document.getElementById("breakEmployees").innerText =
+        breakEmployees ?? 0;
 
-// Completed Today
-const { count: completedEmployees } = await supabaseClient
-    .from("employees")
-    .select("*", { count: "exact", head: true })
-    .eq("status", "COMPLETED");
+    // Completed Today
+    const { count: completedEmployees } = await supabaseClient
+        .from("employees")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "COMPLETED");
 
-document.getElementById("completedEmployees").innerText =
-    completedEmployees ?? 0;
+    document.getElementById("completedEmployees").innerText =
+        completedEmployees ?? 0;
 
 }
 
@@ -75,7 +71,7 @@ document.getElementById("completedEmployees").innerText =
 // DRIVER SUMMARY
 // ==========================================
 
-async function loadDriverSummary(){
+async function loadDriverSummary() {
 
     // Total Drivers
     const { count: totalDrivers } = await supabaseClient
@@ -105,23 +101,12 @@ async function loadDriverSummary(){
         drivingDrivers ?? 0;
 
 }
-// Completed Today
-const { count: completedEmployees } = await supabaseClient
-    .from("employees")
-    .select("*", {
-        count: "exact",
-        head: true
-    })
-    .eq("status", "COMPLETED");
-
-document.getElementById("completedEmployees").innerText =
-    completedEmployees ?? 0;
 
 // ==========================================
 // DATE
 // ==========================================
 
-function updateDate(){
+function updateDate() {
 
     const now = new Date();
 
@@ -129,31 +114,26 @@ function updateDate(){
 
     const day = document.getElementById("currentDay");
 
-    if(date){
+    if (date) {
 
-        date.innerHTML = now.toLocaleDateString("en-US",{
-
-            month:"long",
-
-            day:"numeric",
-
-            year:"numeric"
-
+        date.innerHTML = now.toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric"
         });
 
     }
 
-    if(day){
+    if (day) {
 
-        day.innerHTML = now.toLocaleDateString("en-US",{
-
-            weekday:"long"
-
+        day.innerHTML = now.toLocaleDateString("en-US", {
+            weekday: "long"
         });
 
     }
 
 }
+
 // ==========================================
 // TODAY ATTENDANCE
 // ==========================================
@@ -180,9 +160,10 @@ async function loadTodayAttendance() {
     }
 
     document.getElementById("todayAttendance").innerText =
-        count || 0;
+        count ?? 0;
 
 }
+
 // ==========================================
 // PENDING LEAVE
 // ==========================================
@@ -206,9 +187,10 @@ async function loadPendingLeave() {
     }
 
     document.getElementById("pendingLeave").innerText =
-        count || 0;
+        count ?? 0;
 
 }
+
 // ==========================================
 // RECENT ACTIVITIES
 // ==========================================
@@ -216,15 +198,11 @@ async function loadPendingLeave() {
 async function loadRecentActivities() {
 
     const { data, error } = await supabaseClient
-
         .from("attendance_logs")
-
         .select("*")
-
         .order("log_time", {
             ascending: false
         })
-
         .limit(5);
 
     if (error) {
@@ -241,7 +219,7 @@ async function loadRecentActivities() {
 
     container.innerHTML = "";
 
-    if (data.length === 0) {
+    if (!data || data.length === 0) {
 
         container.innerHTML = "<p>No recent activities.</p>";
 
@@ -252,30 +230,15 @@ async function loadRecentActivities() {
     data.forEach(item => {
 
         container.innerHTML += `
-
         <div class="activity">
-
             <div>
-
-                <strong>${item.employee_name}</strong>
-
-                <br>
-
+                <strong>${item.employee_name}</strong><br>
                 <small>${item.action}</small>
-
             </div>
-
-            <span>
-
-                ${new Date(item.log_time).toLocaleTimeString()}
-
-            </span>
-
+            <span>${new Date(item.log_time).toLocaleTimeString()}</span>
         </div>
-
         `;
 
     });
 
 }
-
