@@ -58,23 +58,73 @@ async function loadAttendanceBoard() {
 
     }
 
+   // ===============================
+// LOAD APPROVED LEAVES
+// ===============================
+
+const {
+    data: approvedLeaves,
+    error: leaveError
+} =
+await supabaseClient
+    .from("leave_requests")
+    .select("*")
+    .eq("status", "Approved");
+
+if (leaveError) {
+
+    console.error(leaveError);
+
+    return;
+
+}
+
     let html = "";
 
-    employees.forEach(emp => {
+   employees.forEach(emp => {
 
-        const daily =
-            attendance.find(
-                record =>
+    const daily =
+        attendance.find(
+            record =>
                 record.employee_id ===
                 emp.employee_id
+        );
+
+    // ===============================
+    // CHECK APPROVED LEAVE
+    // ===============================
+
+    const leave =
+        approvedLeaves.find(item => {
+
+            return (
+                item.employee_name === emp.full_name &&
+                today >= item.start_date &&
+                today <= item.end_date
             );
+
+        });
+
+    // Kung naka leave ngayon
+    if (leave) {
+
+        html += createAttendanceRow(
+            emp,
+            {
+                attendance_status: "ON LEAVE"
+            }
+        );
+
+    } else {
 
         html += createAttendanceRow(
             emp,
             daily
         );
 
-    });
+    }
+
+});
 
     document
         .getElementById(
@@ -98,6 +148,9 @@ function createAttendanceRow(
         emp.employee_type ===
         "driver";
 
+   const onLeave =
+    daily?.attendance_status === "ON LEAVE";
+
     return `
 
 <tr>
@@ -113,6 +166,7 @@ function createAttendanceRow(
 <input
 type="checkbox"
 ${daily?.am_in ? "checked disabled" : ""}
+${onLeave ? "disabled" : ""}
 onclick="recordAttendance('${emp.employee_id}','AM_IN',this)">
 
 </td>
@@ -134,7 +188,7 @@ ${daily?.attendance_status ?? "-"}
 <input
 type="checkbox"
 ${daily?.break_time ? "checked disabled" : ""}
-onclick="recordAttendance('${emp.employee_id}','BREAK',this)">
+${onLeave ? "disabled" : ""}
 
 </td>
 
@@ -143,7 +197,7 @@ onclick="recordAttendance('${emp.employee_id}','BREAK',this)">
 <input
 type="checkbox"
 ${daily?.pm_in ? "checked disabled" : ""}
-onclick="recordAttendance('${emp.employee_id}','PM_IN',this)">
+${onLeave ? "disabled" : ""}
 
 </td>
 
@@ -152,7 +206,7 @@ onclick="recordAttendance('${emp.employee_id}','PM_IN',this)">
 <input
 type="checkbox"
 ${daily?.time_out ? "checked disabled" : ""}
-onclick="recordAttendance('${emp.employee_id}','TIME_OUT',this)">
+${onLeave ? "disabled" : ""}
 
 </td>
 
