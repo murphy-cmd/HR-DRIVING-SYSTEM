@@ -30,12 +30,11 @@
 
     <!-- CSS -->
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/sidebar.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/app.css">
-    <link rel="stylesheet" href="css/dashboard.css">
-
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/sidebar.css">
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/dashboard.css">
 </head>
 
 <body>
@@ -118,7 +117,7 @@
 
         </ul>
 
-        <button class="logout">
+       <button class="logout" id="logoutBtn">
 
             <i class="fa-solid fa-right-from-bracket"></i>
 
@@ -132,7 +131,7 @@
             MAIN
     ========================== -->
 
-    <div class="main">
+   <main class="main">
             <!-- =========================
             HEADER
     ========================== -->
@@ -161,18 +160,17 @@
 
                 <i class="fa-solid fa-magnifying-glass"></i>
 
-                <input
-                    type="text"
-                    id="globalSearch"
-                    placeholder="Search...">
-
+              <input
+    type="search"
+    id="globalSearch"
+    placeholder="Search employees, drivers, projects...">
             </div>
 
-            <button class="icon-btn">
+          <button class="icon-btn" id="notificationBtn">
 
-                <i class="fa-solid fa-bell"></i>
-
-            </button>
+         <i class="fa-solid fa-bell"></i>
+         <span class="badge">3</span>
+         </button>
 
             <div class="profile">
 
@@ -202,21 +200,11 @@
 
         <!-- Dynamic page will load here -->
 
-        <div id="app">
-
-            <div class="loading">
-
-                <i class="fa-solid fa-spinner fa-spin"></i>
-
-                <p>Loading Dashboard...</p>
-
-            </div>
-
-        </div>
+        <div id="app"></div>
 
     </main>
 
-</div>
+</main>
 
 </div>
 
