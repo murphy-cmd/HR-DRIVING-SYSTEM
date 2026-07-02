@@ -113,41 +113,43 @@ async function loadPage(page) {
 
 function loadPageScript(page) {
 
-    const oldScript =
-        document.getElementById("page-script");
+    const oldScript = document.getElementById("page-script");
 
     if (oldScript) {
-
         oldScript.remove();
-
     }
 
-    const script =
-        document.createElement("script");
+    const script = document.createElement("script");
 
-    script.src =
-        `js/${page}.js?v=${Date.now()}`;
-
+    script.src = `js/${page}.js?v=${Date.now()}`;
     script.id = "page-script";
 
-   script.onload = () => {
+    script.onload = () => {
 
-    // Tawagin ang page initializer kapag loaded na ang JS
+        console.log(`${page}.js loaded`);
 
-    const initFunction =
-        window[
-            `initialize${page.charAt(0).toUpperCase() + page.slice(1)}`
-        ];
+        const functionName =
+            "initialize" +
+            page.charAt(0).toUpperCase() +
+            page.slice(1);
 
-    if (typeof initFunction === "function") {
+        if (typeof window[functionName] === "function") {
 
-        initFunction();
+            window[functionName]();
 
-    }
+        }
 
-};
+    };
 
-document.body.appendChild(script);
+    script.onerror = () => {
+
+        console.error(`${page}.js not found`);
+
+    };
+
+    document.body.appendChild(script);
+
+}
 // ==========================================
 // LOGOUT
 // ==========================================
