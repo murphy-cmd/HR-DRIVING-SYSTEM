@@ -4,9 +4,6 @@ console.log("Dashboard JS Loaded");
 // DASHBOARD CONTROLLER
 // ==========================================
 
-document.addEventListener("DOMContentLoaded", () => {
-    initializeDashboard();
-});
 
 async function initializeDashboard() {
     updateDate();
@@ -265,3 +262,4 @@ async function loadRecentActivities() {
     }
 
 }
+window.initializeDashboard = initializeDashboard;
