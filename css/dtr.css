@@ -1,0 +1,190 @@
+/* ==========================================
+   RILCO DTR SYSTEM
+========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+    background:#f4f7fc;
+
+}
+
+.container-fluid{
+
+    max-width:1400px;
+
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.company-logo{
+
+    width:90px;
+    height:90px;
+    object-fit:contain;
+
+}
+
+.card{
+
+    border:none;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+
+}
+
+.card-body{
+
+    padding:25px;
+
+}
+
+/* ==========================================
+   INPUT
+========================================== */
+
+.form-control{
+
+    height:45px;
+    border-radius:10px;
+
+}
+
+.form-control:focus{
+
+    border-color:#0d6efd;
+    box-shadow:0 0 0 .2rem rgba(13,110,253,.15);
+
+}
+
+/* ==========================================
+   BUTTON
+========================================== */
+
+.btn{
+
+    height:45px;
+    border-radius:10px;
+    font-weight:600;
+
+}
+
+#generateBtn{
+
+    background:#0d6efd;
+
+}
+
+#excelBtn{
+
+    background:#198754;
+    border:none;
+
+}
+
+#pdfBtn{
+
+    background:#dc3545;
+    border:none;
+
+}
+
+/* ==========================================
+   TABLE
+========================================== */
+
+.table{
+
+    margin-bottom:0;
+
+}
+
+.table thead{
+
+    background:#0d6efd;
+    color:#fff;
+
+}
+
+.table th{
+
+    text-align:center;
+    vertical-align:middle;
+
+}
+
+.table td{
+
+    text-align:center;
+    vertical-align:middle;
+
+}
+
+/* ==========================================
+   SUMMARY
+========================================== */
+
+.alert{
+
+    border:none;
+    border-radius:12px;
+    font-size:15px;
+
+}
+
+/* ==========================================
+   PRINT
+========================================== */
+
+@media print{
+
+    body{
+
+        background:#fff;
+
+    }
+
+    .card{
+
+        box-shadow:none;
+
+    }
+
+    #generateBtn,
+    #excelBtn,
+    #pdfBtn{
+
+        display:none !important;
+
+    }
+
+    input{
+
+        display:none !important;
+
+    }
+
+    table{
+
+        width:100%;
+
+    }
+
+    .container-fluid{
+
+        width:100%;
+        max-width:100%;
+
+    }
+
+}
