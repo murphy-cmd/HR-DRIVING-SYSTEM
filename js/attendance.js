@@ -105,6 +105,10 @@ if (leaveError) {
 
         });
 
+      console.log("Employee:", emp.full_name);
+console.log("Today:", today);
+console.log("Leave Found:", leave);
+
     // Kung naka leave ngayon
     if (leave) {
 
