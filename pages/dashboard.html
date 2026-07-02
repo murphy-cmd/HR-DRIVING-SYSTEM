@@ -1,20 +1,14 @@
 <div class="page dashboard-page">
 
-    <!-- ===========================
-         WELCOME BANNER
-    ============================ -->
+    <!-- HERO SECTION -->
 
     <section class="welcome-banner">
 
         <div class="welcome-left">
 
-            <h1>
-                Welcome Back, Administrator! 👋
-            </h1>
+            <h1>Welcome Back, Administrator 👋</h1>
 
-            <p>
-                Here's what's happening in your HR Driving System today.
-            </p>
+            <p>HR Driving System Dashboard Overview</p>
 
         </div>
 
@@ -27,288 +21,89 @@
         </div>
 
     </section>
-    <!-- ===========================
-     QUICK ACTIONS
-=========================== -->
 
-<section class="quick-actions">
+    <!-- QUICK STATS -->
 
-    <button class="quick-btn">
-        <i class="fa-solid fa-user-plus"></i>
-        <span>Add Employee</span>
-    </button>
+    <section class="grid-4 mt-4">
 
-    <button class="quick-btn">
-        <i class="fa-solid fa-calendar-check"></i>
-        <span>Attendance</span>
-    </button>
-
-    <button class="quick-btn">
-        <i class="fa-solid fa-truck"></i>
-        <span>Drivers</span>
-    </button>
-
-
-</section>
-
-    <!-- ===========================
-         EMPLOYEE OVERVIEW
-    ============================ -->
-
-    <section>
-
-        <h2 class="section-title">
-            Employee Overview
-        </h2>
-
-        <div class="grid-4">
-
-            <div class="stat-card blue">
-
-                <div>
-
-                    <span>Total Employees</span>
-
-                    <h1 id="totalEmployees">0</h1>
-
-                </div>
-
-                <i class="fa-solid fa-users"></i>
-
+        <div class="stat-card blue">
+            <div>
+                <span>Total Employees</span>
+                <h1 id="totalEmployees">0</h1>
             </div>
+        </div>
 
-            <div class="stat-card green">
-
-                <div>
-
-                    <span>Working</span>
-
-                    <h1 id="workingEmployees">0</h1>
-
-                </div>
-
-                <i class="fa-solid fa-user-check"></i>
-
+        <div class="stat-card green">
+            <div>
+                <span>Working</span>
+                <h1 id="workingEmployees">0</h1>
             </div>
+        </div>
 
-            <div class="stat-card orange">
-
-                <div>
-
-                    <span>On Break</span>
-
-                    <h1 id="breakEmployees">0</h1>
-
-                </div>
-
-                <i class="fa-solid fa-mug-hot"></i>
-
+        <div class="stat-card orange">
+            <div>
+                <span>On Break</span>
+                <h1 id="breakEmployees">0</h1>
             </div>
+        </div>
 
-            <div class="stat-card red">
-
-                <div>
-
-                    <span>Completed Today</span>
-
-                    <h1 id="completedEmployees">0</h1>
-
-                </div>
-
-                <i class="fa-solid fa-circle-check"></i>
-
+        <div class="stat-card red">
+            <div>
+                <span>Completed</span>
+                <h1 id="completedEmployees">0</h1>
             </div>
-
         </div>
 
     </section>
 
-    <!-- ===========================
-         DRIVER OVERVIEW
-    ============================ -->
+    <!-- DRIVER STATS -->
 
-    <section>
+    <section class="grid-4 mt-4">
 
-        <h2 class="section-title">
-
-            Driver Overview
-
-        </h2>
-
-        <div class="grid-4">
-
-            <div class="stat-card blue">
-
-                <div>
-
-                    <span>Total Drivers</span>
-
-                    <h1 id="totalDrivers">0</h1>
-
-                </div>
-
-                <i class="fa-solid fa-truck"></i>
-
+        <div class="stat-card blue">
+            <div>
+                <span>Total Drivers</span>
+                <h1 id="totalDrivers">0</h1>
             </div>
+        </div>
 
-            <div class="stat-card blue">
-
-                <div>
-
-                    <span>Available</span>
-
-                    <h1 id="availableDrivers">0</h1>
-
-                </div>
-
-                <i class="fa-solid fa-road"></i>
-
+        <div class="stat-card blue">
+            <div>
+                <span>Available</span>
+                <h1 id="availableDrivers">0</h1>
             </div>
+        </div>
 
-            <div class="stat-card orange">
-
-                <div>
-
-                    <span>Driving</span>
-
-                    <h1 id="drivingDrivers">0</h1>
-
-                </div>
-
-                <i class="fa-solid fa-truck-fast"></i>
-
+        <div class="stat-card orange">
+            <div>
+                <span>Driving</span>
+                <h1 id="drivingDrivers">0</h1>
             </div>
+        </div>
 
-            <div class="stat-card green">
-
-                <div>
-
-                    <span>Completed Trips</span>
-
-                    <h1 id="completedTrips">0</h1>
-
-                </div>
-
-                <i class="fa-solid fa-flag-checkered"></i>
-
+        <div class="stat-card green">
+            <div>
+                <span>Completed Trips</span>
+                <h1 id="completedTrips">0</h1>
             </div>
-
         </div>
 
     </section>
-    <!-- ===========================
-     DASHBOARD ANALYTICS
-=========================== -->
 
-<section>
+    <!-- SUMMARY + ACTIVITY -->
 
-    <h2 class="section-title">
-
-        Dashboard Analytics
-
-    </h2>
-
-    <div class="grid-2">
+    <section class="grid-2 mt-4">
 
         <div class="card">
 
-            <h3>System Status</h3>
+            <h3>System Summary</h3>
 
-            <div class="status-list">
-
-                <div class="status-item">
-
-                    <span>Employees</span>
-
-                    <strong class="online">ONLINE</strong>
-
-                </div>
-
-                <div class="status-item">
-
-                    <span>Attendance</span>
-
-                    <strong class="online">ACTIVE</strong>
-
-                </div>
-
-                <div class="status-item">
-
-                    <span>Drivers</span>
-
-                    <strong class="online">AVAILABLE</strong>
-
-                </div>
-
-                <div class="status-item">
-
-                    <span>Payroll</span>
-
-                    <strong class="warning">PENDING</strong>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="card">
-
-            <h3>Today's Summary</h3>
-
-            <ul class="summary-list">
-
-                <li>Total Employees: <strong id="summaryEmployees">0</strong></li>
-
-                <li>Present Today: <strong id="summaryPresent">0</strong></li>
-
-                <li>Drivers Available: <strong id="summaryDrivers">0</strong></li>
-
-                <li>Pending Leave: <strong id="summaryLeave">0</strong></li>
-
+            <ul>
+                <li>Total Employees: <b id="summaryEmployees">0</b></li>
+                <li>Present Today: <b id="summaryPresent">0</b></li>
+                <li>Drivers Available: <b id="summaryDrivers">0</b></li>
+                <li>Pending Leave: <b id="summaryLeave">0</b></li>
             </ul>
-
-        </div>
-
-    </div>
-
-</section>
-
-    <!-- ===========================
-         BOTTOM SECTION
-    ============================ -->
-
-    <section class="grid-3">
-
-        <div class="card widget-card">
-
-            <div class="widget-icon blue-bg">
-
-                <i class="fa-solid fa-calendar-check"></i>
-
-            </div>
-
-            <h3>Today's Attendance</h3>
-
-            <h1 id="todayAttendance">0</h1>
-
-            <p>Employees who already timed in today.</p>
-
-        </div>
-
-        <div class="card widget-card">
-
-            <div class="widget-icon orange-bg">
-
-                <i class="fa-solid fa-calendar-xmark"></i>
-
-            </div>
-
-            <h3>Pending Leave</h3>
-
-            <h1 id="pendingLeave">0</h1>
-
-            <p>Leave requests awaiting approval.</p>
 
         </div>
 
@@ -323,4 +118,3 @@
     </section>
 
 </div>
-
