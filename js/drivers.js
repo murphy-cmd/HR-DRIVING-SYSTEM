@@ -60,4 +60,4 @@ if (document.getElementById("driverTable")) {
     setInterval(loadDrivers, 3000);
 
 }
-);
+
