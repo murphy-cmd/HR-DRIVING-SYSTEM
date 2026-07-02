@@ -226,6 +226,27 @@ async function rejectLeave(id) {
 
     }
 
+    async function approveLeave(id) {
+
+    const { error } = await supabaseClient
+        .from("leave_requests")
+        .update({
+            status: "Approved"
+        })
+        .eq("id", id);
+
+    if (error) {
+        console.error(error);
+        alert("Failed to approve leave.");
+        return;
+    }
+
+    alert("Leave Approved.");
+
+    loadLeaveRequests();
+
+}
+
     alert("Leave Rejected.");
 
     loadLeaveRequests();
