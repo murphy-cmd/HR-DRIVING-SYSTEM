@@ -61,6 +61,18 @@ async function saveLeave() {
     const status =
         document.getElementById("leaveStatus").value;
 
+    if (
+        !employee_name ||
+        !start_date ||
+        !end_date
+    ) {
+
+        alert("Please complete all required fields.");
+
+        return;
+
+    }
+
     const { error } =
         await supabaseClient
             .from("leave_requests")
@@ -90,7 +102,9 @@ async function saveLeave() {
 
     }
 
-    alert("Leave request saved.");
+    alert("Leave request saved successfully.");
+
+    document.getElementById("leaveReason").value = "";
 
     loadLeaveRequests();
 
