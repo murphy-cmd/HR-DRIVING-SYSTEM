@@ -16,27 +16,36 @@ async function loadPage(page) {
     try {
 
         // Load HTML
-       const file = `./pages/${page}.html`;
+        const file = `./pages/${page}.html`;
 
-console.log(file);
+        console.log(file);
 
-const response = await fetch(file);
+        const response = await fetch(file);
 
-console.log(response.status);
+        console.log(response.status);
+
+        if (!response.ok) {
+            throw new Error(`${page}.html not found`);
+        }
+
+        // ⭐ Eto ang kulang sa code mo
+        const html = await response.text();
+
+        app.innerHTML = html;
 
         // Header Title
         pageTitle.textContent =
             page.charAt(0).toUpperCase() +
             page.slice(1);
 
-        // Remove previous page script
+        // Remove previous script
         const oldScript = document.getElementById("page-script");
 
         if (oldScript) {
             oldScript.remove();
         }
 
-        // Load page script
+        // Load page JS
         const script = document.createElement("script");
 
         script.src = `js/${page}.js?v=${Date.now()}`;
