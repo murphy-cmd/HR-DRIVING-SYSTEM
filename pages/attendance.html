@@ -13,9 +13,8 @@
 
 <body>
 
-<!-- NAVBAR (CLEANED - NO DUPLICATES) -->
+<!-- SIDEBAR NAV ONLY -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-2">
-
 <div class="container-fluid">
 
 <div class="navbar-nav">
@@ -32,25 +31,18 @@
 </div>
 
 </div>
-
 </nav>
 
-<!-- PAGE CONTAINER -->
+<!-- CLEAN PAGE -->
 <div class="container-fluid p-4">
 
-<!-- CLEAN HEADER (NO BLACK BANNER, NO LOGO) -->
-<div class="mb-3">
-    <h3 class="fw-bold mb-0">Attendance</h3>
-    <small class="text-muted">Welcome back, Administrator</small>
-</div>
+<!-- TITLE ONLY (NO BANNER, NO LOGO, NO EXTRA TEXT) -->
+<h3 class="fw-bold mb-4">Attendance</h3>
 
-<!-- BOARD CARD -->
+<!-- MAIN TABLE -->
 <div class="card shadow-sm border-0">
 
 <div class="card-body">
-
-<!-- TABLE -->
-<div id="attendanceBoard">
 
 <div class="table-responsive">
 
@@ -80,14 +72,23 @@
 
 </div>
 
-<!-- TODAY ACTIVITY -->
+</div>
+</div>
+
+<!-- TODAY ACTIVITY (CLEAN) -->
 <div class="mt-4">
 
-<h6 class="fw-bold">Today's Activity</h6>
+<h6 class="fw-bold mb-3">Today's Activity</h6>
 
-<table class="table table-sm table-bordered">
+<div class="card shadow-sm">
 
-<thead class="table-dark">
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table class="table table-sm">
+
+<thead class="table-light">
 <tr>
     <th>Time</th>
     <th>Employee</th>
@@ -104,12 +105,13 @@
 </div>
 
 </div>
+
 </div>
 
-<!-- SUMMARY -->
+<!-- SUMMARY (CLEAN GRID) -->
 <div id="attendanceSummary" class="mt-4" style="display:none;">
 
-<div class="row g-3 mb-3">
+<div class="row g-3">
 
 <div class="col-md-3">
 <div class="card p-3 text-center">
@@ -137,37 +139,6 @@
 <h6>On Leave</h6>
 <h3 id="leaveCount">0</h3>
 </div>
-</div>
-
-</div>
-
-<div class="card p-3">
-
-<div class="table-responsive">
-
-<table class="table table-bordered">
-
-<thead class="table-light">
-<tr>
-    <th>Date</th>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Type</th>
-    <th>AM IN</th>
-    <th>BREAK</th>
-    <th>PM IN</th>
-    <th>TIME OUT</th>
-    <th>Late</th>
-    <th>Work Hours</th>
-    <th>OT</th>
-    <th>Status</th>
-</tr>
-</thead>
-
-<tbody id="summaryTable"></tbody>
-
-</table>
-
 </div>
 
 </div>
