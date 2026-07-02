@@ -1,201 +1,242 @@
 // ==========================================
+// RILCO HR MANAGEMENT SYSTEM
 // PRINT DTR
-// RILCO HR SYSTEM
 // ==========================================
 
-// Kailangan naka-load na ang supabaseClient
 const params = new URLSearchParams(window.location.search);
 
-const employeeFilter = params.get("employee") || "";
-const fromDate = params.get("from") || "";
-const toDate = params.get("to") || "";
+const employee =
+    params.get("employee") || "";
+
+const fromDate =
+    params.get("from") || "";
+
+const toDate =
+    params.get("to") || "";
 
 document.getElementById("employeeName").textContent =
-    employeeFilter || "All Employees";
+    employee || "All Employees";
 
-if (fromDate && toDate) {
-    document.getElementById("dateRange").textContent =
-        `${fromDate} to ${toDate}`;
-} else {
-    document.getElementById("dateRange").textContent =
-        "All Dates";
-}
+document.getElementById("dateRange").textContent =
+    (fromDate && toDate)
+    ? `${fromDate} - ${toDate}`
+    : "All Dates";
 
 document.getElementById("generatedDate").textContent =
-    "Generated: " + new Date().toLocaleString();
+    new Date().toLocaleString();
 
-loadPrintDTR();
+let totalRecords = 0;
+let totalMinutes = 0;
+let totalOTMinutes = 0;
 
-async function loadPrintDTR() {
+loadReport();
 
-    const tbody = document.getElementById("printTable");
+async function loadReport(){
+
+    const tbody =
+        document.getElementById("printTable");
 
     tbody.innerHTML = `
         <tr>
-            <td colspan="9" class="text-center">
-                Loading...
+            <td colspan="9">
+                Loading Report...
             </td>
         </tr>
     `;
 
-    const { data, error } = await supabaseClient
+    const { data, error } =
+        await supabaseClient
         .from("attendance_daily")
         .select("*")
-        .order("attendance_date", {
-            ascending: true
-        });
+        .order(
+            "attendance_date",
+            {
+                ascending:true
+            }
+        );
 
-    if (error) {
+    if(error){
 
         console.error(error);
 
         tbody.innerHTML = `
             <tr>
+
                 <td colspan="9">
-                    Failed to load records.
+
+                    Failed to load report.
+
                 </td>
+
             </tr>
         `;
 
         return;
+
     }
 
     let html = "";
 
-    let totalRecords = 0;
-    let totalWorkMinutes = 0;
-    let totalOTMinutes = 0;
+    data.forEach(record=>{
 
-    data.forEach(record => {
+        if(
 
-        if (
-            employeeFilter &&
+            employee &&
+
             !record.employee_name
-                .toLowerCase()
-                .includes(employeeFilter.toLowerCase())
-        ) {
+
+            .toLowerCase()
+
+            .includes(employee.toLowerCase())
+
+        ){
+
             return;
+
         }
 
-        if (
+        if(
+
             fromDate &&
+
             record.attendance_date < fromDate
-        ) {
+
+        ){
+
             return;
+
         }
 
-        if (
+        if(
+
             toDate &&
+
             record.attendance_date > toDate
-        ) {
+
+        ){
+
             return;
+
         }
 
         totalRecords++;
 
         const amIn =
-            record.am_in
-            ? record.am_in.split("T")[1].substring(0,5)
-            : "-";
+            formatTime(record.am_in);
 
         const breakTime =
-            record.break_time
-            ? record.break_time.split("T")[1].substring(0,5)
-            : "-";
+            formatTime(record.break_time);
 
         const pmIn =
-            record.pm_in
-            ? record.pm_in.split("T")[1].substring(0,5)
-            : "-";
+            formatTime(record.pm_in);
 
         const timeOut =
-            record.time_out
-            ? record.time_out.split("T")[1].substring(0,5)
-            : "-";
+            formatTime(record.time_out);
 
         html += `
+
         <tr>
 
-            <td>${record.employee_name}</td>
+            <td>
 
-            <td>${record.attendance_date}</td>
+                ${record.employee_name}
 
-            <td>${amIn}</td>
+            </td>
 
-            <td>${breakTime}</td>
+            <td>
 
-            <td>${pmIn}</td>
+                ${record.attendance_date}
 
-            <td>${timeOut}</td>
+            </td>
 
-            <td>${record.work_hours || "-"}</td>
+            <td>
 
-            <td>${record.ot_hours || "-"}</td>
+                ${amIn}
 
-            <td>${record.status || "-"}</td>
+            </td>
+
+            <td>
+
+                ${breakTime}
+
+            </td>
+
+            <td>
+
+                ${pmIn}
+
+            </td>
+
+            <td>
+
+                ${timeOut}
+
+            </td>
+
+            <td>
+
+                ${record.work_hours || "-"}
+
+            </td>
+
+            <td>
+
+                ${record.ot_hours || "-"}
+
+            </td>
+
+            <td>
+
+                ${record.status || "-"}
+
+            </td>
 
         </tr>
+
         `;
 
-        totalWorkMinutes += convertToMinutes(
-            record.work_hours
-        );
+        totalMinutes +=
+            convertMinutes(
+                record.work_hours
+            );
 
-        totalOTMinutes += convertToMinutes(
-            record.ot_hours
-        );
+        totalOTMinutes +=
+            convertMinutes(
+                record.ot_hours
+            );
 
     });
 
-    if (html === "") {
+    if(html===""){
 
-        html = `
+        html=`
+
         <tr>
-            <td colspan="9" class="text-center">
-                No DTR records found.
+
+            <td colspan="9">
+
+                No attendance record found.
+
             </td>
+
         </tr>
+
         `;
+
     }
 
-    tbody.innerHTML = html;
+    tbody.innerHTML=html;
 
-    document.getElementById("totalRecords").textContent =
-        totalRecords;
+    document.getElementById(
+        "totalRecords"
+    ).textContent=totalRecords;
 
-    document.getElementById("totalHours").textContent =
-        convertToHours(totalWorkMinutes);
+    document.getElementById(
+        "totalHours"
+    ).textContent=
+        convertHours(totalMinutes);
 
-    document.getElementById("totalOT").textContent =
-        convertToHours(totalOTMinutes);
-
-    // Hintaying ma-render bago mag-print
-    setTimeout(() => {
-
-        window.print();
-
-    }, 500);
-
-}
-
-function convertToMinutes(value){
-
-    if(!value) return 0;
-
-    const match = value.match(/(\d+)\s*h\s*(\d+)\s*m/i);
-
-    if(!match) return 0;
-
-    return parseInt(match[1])*60 + parseInt(match[2]);
-
-}
-
-function convertToHours(minutes){
-
-    const h = Math.floor(minutes/60);
-
-    const m = minutes%60;
-
-    return `${h}h ${m}m`;
-
-}
+    document.getElementById(
+        "totalOT"
+    ).textContent=
+        convertHours(totalOTMinutes);
