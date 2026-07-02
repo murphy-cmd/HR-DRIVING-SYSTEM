@@ -45,14 +45,19 @@ async function loadDrivers(){
         `;
     });
 
-    document.getElementById(
-        "driverTable"
-    ).innerHTML = html;
+   const table =
+    document.getElementById("driverTable");
+
+if (!table) return;
+
+table.innerHTML = html;
 }
 
-loadDrivers();
+if (document.getElementById("driverTable")) {
 
-setInterval(
-    loadDrivers,
-    3000
+    loadDrivers();
+
+    setInterval(loadDrivers, 3000);
+
+}
 );
