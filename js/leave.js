@@ -141,46 +141,6 @@ async function loadLeaveRequests() {
 
     data.forEach(item => {
 
- tbody.innerHTML += `
-
-<tr>
-
-<td>${item.employee_name}</td>
-
-<td>${item.leave_type}</td>
-
-<td>${item.start_date}</td>
-
-<td>${item.end_date}</td>
-
-<td>${item.reason}</td>
-
-<td>${item.status}</td>
-
-<td>
-
-<button
-class="btn btn-success btn-sm"
-onclick="approveLeave(${item.id})">
-
-Approve
-
-</button>
-
-<button
-class="btn btn-danger btn-sm"
-onclick="rejectLeave(${item.id})">
-
-Reject
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
     });
 
 }
