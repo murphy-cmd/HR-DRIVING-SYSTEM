@@ -188,17 +188,131 @@ Attendance Summary
 
 <div id="attendanceSummary" style="display:none;">
 
-<h3 class="mb-4">
+<h2 class="mb-4">Attendance Summary</h2>
 
-Attendance Summary
+<!-- Summary Cards -->
 
-</h3>
+<div class="row mb-4">
 
-<p>
+<div class="col-md-3">
+<div class="card text-center shadow-sm">
+<div class="card-body">
+<h6>Present</h6>
+<h3 id="presentCount">0</h3>
+</div>
+</div>
+</div>
 
-Attendance Summary will be placed here.
+<div class="col-md-3">
+<div class="card text-center shadow-sm">
+<div class="card-body">
+<h6>Late</h6>
+<h3 id="lateCount">0</h3>
+</div>
+</div>
+</div>
 
-</p>
+<div class="col-md-3">
+<div class="card text-center shadow-sm">
+<div class="card-body">
+<h6>Absent</h6>
+<h3 id="absentCount">0</h3>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card text-center shadow-sm">
+<div class="card-body">
+<h6>On Leave</h6>
+<h3 id="leaveCount">0</h3>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- Filters -->
+
+<div class="card p-3 mb-4">
+
+<div class="row">
+
+<div class="col-md-3">
+<label>Date</label>
+<input type="date" id="summaryDate" class="form-control">
+</div>
+
+<div class="col-md-3">
+<label>Employee</label>
+<input
+type="text"
+id="searchEmployee"
+class="form-control"
+placeholder="Search employee">
+</div>
+
+<div class="col-md-3">
+<label>Status</label>
+<select id="statusFilter" class="form-select">
+<option value="">All</option>
+<option>ON TIME</option>
+<option>LATE</option>
+<option>ABSENT</option>
+<option>ON LEAVE</option>
+</select>
+</div>
+
+<div class="col-md-3 d-flex align-items-end">
+<button
+class="btn btn-primary w-100"
+id="searchBtn">
+Search
+</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- Attendance Table -->
+
+<div class="card p-3">
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Date</th>
+<th>ID</th>
+<th>Name</th>
+<th>Type</th>
+<th>AM IN</th>
+<th>BREAK</th>
+<th>PM IN</th>
+<th>TIME OUT</th>
+<th>Late</th>
+<th>Work Hours</th>
+<th>OT</th>
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody id="summaryTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
 
 </div>
 
