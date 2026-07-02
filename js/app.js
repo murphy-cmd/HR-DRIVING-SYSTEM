@@ -108,40 +108,49 @@ async function loadPage(page) {
 }
 
 // ==========================================
-// PAGE SCRIPT
+// LOAD PAGE SCRIPT (LOAD ONLY ONCE)
 // ==========================================
+
+const loadedScripts = {};
 
 function loadPageScript(page) {
 
-    const oldScript = document.getElementById("page-script");
+    const functionName =
+        "initialize" +
+        page.charAt(0).toUpperCase() +
+        page.slice(1);
 
-    if (oldScript) {
-        oldScript.remove();
+    // kung loaded na ang js file
+    if (loadedScripts[page]) {
+
+        console.log(`${page}.js already loaded`);
+
+        if (typeof window[functionName] === "function") {
+            window[functionName]();
+        }
+
+        return;
     }
 
     const script = document.createElement("script");
 
-    script.id = "page-script";
-    script.src = `js/${page}.js?v=${Date.now()}`;
+    script.src = `js/${page}.js`;
 
     script.onload = () => {
 
-        console.log(page + " loaded");
+        console.log(`${page}.js loaded`);
 
-        setTimeout(() => {
+        loadedScripts[page] = true;
 
-            const fn =
-                window["initialize" +
-                    page.charAt(0).toUpperCase() +
-                    page.slice(1)];
+        if (typeof window[functionName] === "function") {
+            window[functionName]();
+        }
 
-            if (typeof fn === "function") {
+    };
 
-                fn();
+    script.onerror = () => {
 
-            }
-
-        },100);
+        console.error(`${page}.js not found`);
 
     };
 
