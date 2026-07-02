@@ -141,7 +141,7 @@ async function loadLeaveRequests() {
 
     data.forEach(item => {
 
-        tbody.innerHTML += `
+ tbody.innerHTML += `
 
 <tr>
 
@@ -156,6 +156,26 @@ async function loadLeaveRequests() {
 <td>${item.reason}</td>
 
 <td>${item.status}</td>
+
+<td>
+
+<button
+class="btn btn-success btn-sm"
+onclick="approveLeave(${item.id})">
+
+Approve
+
+</button>
+
+<button
+class="btn btn-danger btn-sm"
+onclick="rejectLeave(${item.id})">
+
+Reject
+
+</button>
+
+</td>
 
 </tr>
 
@@ -179,3 +199,75 @@ document
 loadEmployees();
 
 loadLeaveRequests();
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${item.employee_name}</td>
+
+<td>${item.leave_type}</td>
+
+<td>${item.start_date}</td>
+
+<td>${item.end_date}</td>
+
+<td>${item.reason}</td>
+
+<td>${item.status}</td>
+
+<td>
+
+<button
+class="btn btn-success btn-sm"
+onclick="approveLeave(${item.id})">
+
+Approve
+
+</button>
+
+<button
+class="btn btn-danger btn-sm"
+onclick="rejectLeave(${item.id})">
+
+Reject
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+// ===============================
+// REJECT LEAVE
+// ===============================
+
+async function rejectLeave(id) {
+
+    const { error } =
+        await supabaseClient
+            .from("leave_requests")
+            .update({
+
+                status: "Rejected"
+
+            })
+            .eq("id", id);
+
+    if (error) {
+
+        console.error(error);
+
+        alert("Failed to reject leave.");
+
+        return;
+
+    }
+
+    alert("Leave Rejected.");
+
+    loadLeaveRequests();
+
+}
