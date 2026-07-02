@@ -179,8 +179,17 @@ ${daily?.late_display ?? "-"}
 
 <td>
 
-${daily?.attendance_status ?? "-"}
-
+${
+    onLeave
+    ? `<span class="badge bg-warning text-dark">ON LEAVE</span>`
+    : daily?.attendance_status === "LATE"
+        ? `<span class="badge bg-danger">LATE</span>`
+        : daily?.attendance_status === "PRESENT"
+            ? `<span class="badge bg-success">PRESENT</span>`
+            : daily?.attendance_status === "ABSENT"
+                ? `<span class="badge bg-secondary">ABSENT</span>`
+                : "-"
+}
 </td>
 
 <td>
