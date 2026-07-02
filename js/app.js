@@ -121,23 +121,27 @@ function loadPageScript(page) {
 
     const script = document.createElement("script");
 
-    script.src = `js/${page}.js?v=${Date.now()}`;
     script.id = "page-script";
+    script.src = `js/${page}.js?v=${Date.now()}`;
 
     script.onload = () => {
 
-        console.log(`${page}.js loaded`);
+        console.log(page + " loaded");
 
-        const functionName =
-            "initialize" +
-            page.charAt(0).toUpperCase() +
-            page.slice(1);
+        setTimeout(() => {
 
-        if (window[functionName]) {
+            const fn =
+                window["initialize" +
+                    page.charAt(0).toUpperCase() +
+                    page.slice(1)];
 
-            window[functionName]();
+            if (typeof fn === "function") {
 
-        }
+                fn();
+
+            }
+
+        },100);
 
     };
 
