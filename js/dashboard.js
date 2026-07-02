@@ -141,13 +141,13 @@ async function loadTodayAttendance() {
 
     try {
 
-        const today = new Date().toISOString().split("T")[0];
+       const { count, error } = await supabaseClient
+.from("attendance_logs")
+.select("*",{count:"exact",head:true})
+.gte("created_at", `${today}T00:00:00`)
+.lt("created_at", `${today}T23:59:59`);
 
-        const { count } = await supabaseClient
-            .from("attendance_logs")
-            .select("*", { count: "exact", head: true })
-            .gte("created_at", `${today}T00:00:00`)
-            .lt("created_at", `${today}T23:59:59`);
+console.log(error);
 
         document.getElementById("todayAttendance").textContent = count || 0;
 
