@@ -130,10 +130,24 @@ function loadPageScript(page) {
 
     script.id = "page-script";
 
-    document.body.appendChild(script);
+   script.onload = () => {
 
-}
+    // Tawagin ang page initializer kapag loaded na ang JS
 
+    const initFunction =
+        window[
+            `initialize${page.charAt(0).toUpperCase() + page.slice(1)}`
+        ];
+
+    if (typeof initFunction === "function") {
+
+        initFunction();
+
+    }
+
+};
+
+document.body.appendChild(script);
 // ==========================================
 // LOGOUT
 // ==========================================
@@ -154,3 +168,4 @@ function initializeLogout() {
     });
 
 }
+    window.initializeDashboard = initializeDashboard;
