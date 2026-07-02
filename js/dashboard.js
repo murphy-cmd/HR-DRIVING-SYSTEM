@@ -145,21 +145,19 @@ async function loadTodayAttendance() {
 
         const { count, error } = await supabaseClient
             .from("attendance_logs")
-            .select("*", {
-                count: "exact",
-                head: true
-            })
-            .gte("created_at", `${today}T00:00:00`)
-            .lt("created_at", `${today}T23:59:59`);
+            .select("*", { count: "exact", head: true });
 
-        console.log(error);
+        if (error) {
+            console.error(error);
+            return;
+        }
 
         document.getElementById("todayAttendance").textContent =
             count ?? 0;
 
     } catch (err) {
 
-        console.error(err);
+        console.error("Attendance:", err);
 
     }
 
