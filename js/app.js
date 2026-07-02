@@ -8,6 +8,50 @@ const pageTitle = document.getElementById("pageTitle");
 const menuItems = document.querySelectorAll(".menu li");
 
 // ==========================================
+// INITIALIZE
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    initializeApp();
+
+});
+
+function initializeApp() {
+
+    initializeSidebar();
+
+    initializeLogout();
+
+    loadPage("dashboard");
+
+}
+
+// ==========================================
+// SIDEBAR
+// ==========================================
+
+function initializeSidebar() {
+
+    menuItems.forEach(item => {
+
+        item.addEventListener("click", () => {
+
+            menuItems.forEach(menu =>
+                menu.classList.remove("active")
+            );
+
+            item.classList.add("active");
+
+            loadPage(item.dataset.page);
+
+        });
+
+    });
+
+}
+
+// ==========================================
 // LOAD PAGE
 // ==========================================
 
@@ -15,52 +59,23 @@ async function loadPage(page) {
 
     try {
 
-        // Load HTML
-        const file = `./pages/${page}.html`;
-
-        console.log(file);
-
-        const response = await fetch(file);
-
-        console.log(response.status);
-
-        if (!response.ok) {
-            throw new Error(`${page}.html not found`);
-        }
-
-        // ⭐ Eto ang kulang sa code mo
-        const html = await response.text();
-
-        app.innerHTML = html;
-
-        // Header Title
         pageTitle.textContent =
             page.charAt(0).toUpperCase() +
             page.slice(1);
 
-        // Remove previous script
-        const oldScript = document.getElementById("page-script");
+        const response =
+            await fetch(`pages/${page}.html`);
 
-        if (oldScript) {
-            oldScript.remove();
+        if (!response.ok) {
+
+            throw new Error(`${page}.html not found`);
+
         }
 
-        // Load page JS
-        const script = document.createElement("script");
+        app.innerHTML =
+            await response.text();
 
-        script.src = `js/${page}.js?v=${Date.now()}`;
-
-        script.id = "page-script";
-
-        script.onload = () => {
-            console.log(`${page}.js loaded`);
-        };
-
-        script.onerror = () => {
-            console.warn(`${page}.js not found`);
-        };
-
-        document.body.appendChild(script);
+        loadPageScript(page);
 
     }
 
@@ -69,10 +84,23 @@ async function loadPage(page) {
         console.error(error);
 
         app.innerHTML = `
+
             <div class="card">
+
                 <h2>404</h2>
-                <p>${page}.html not found.</p>
+
+                <p>
+
+                    Unable to load
+
+                    <strong>${page}</strong>
+
+                    page.
+
+                </p>
+
             </div>
+
         `;
 
     }
@@ -80,29 +108,49 @@ async function loadPage(page) {
 }
 
 // ==========================================
-// SIDEBAR
+// PAGE SCRIPT
 // ==========================================
 
-menuItems.forEach(item => {
+function loadPageScript(page) {
 
-    item.addEventListener("click", () => {
+    const oldScript =
+        document.getElementById("page-script");
 
-        menuItems.forEach(i => i.classList.remove("active"));
+    if (oldScript) {
 
-        item.classList.add("active");
+        oldScript.remove();
 
-        loadPage(item.dataset.page);
+    }
+
+    const script =
+        document.createElement("script");
+
+    script.src =
+        `js/${page}.js?v=${Date.now()}`;
+
+    script.id = "page-script";
+
+    document.body.appendChild(script);
+
+}
+
+// ==========================================
+// LOGOUT
+// ==========================================
+
+function initializeLogout() {
+
+    const logout =
+        document.getElementById("logoutBtn");
+
+    if (!logout) return;
+
+    logout.addEventListener("click", () => {
+
+        if (!confirm("Logout?")) return;
+
+        location.href = "login.html";
 
     });
 
-});
-
-// ==========================================
-// DEFAULT PAGE
-// ==========================================
-
-window.addEventListener("DOMContentLoaded", () => {
-
-    loadPage("dashboard");
-
-});
+}
