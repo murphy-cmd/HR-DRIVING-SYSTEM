@@ -94,20 +94,15 @@ if (leaveError) {
     // CHECK APPROVED LEAVE
     // ===============================
 
-    const leave =
-        approvedLeaves.find(item => {
+   const leave = approvedLeaves.find(item =>
+    item.employee_name === emp.full_name
+);
 
-            return (
-                item.employee_name === emp.full_name &&
-                today >= item.start_date &&
-                today <= item.end_date
-            );
+const leave = approvedLeaves.find(item =>
+    item.employee_name === emp.full_name
+);
 
-        });
-
-      console.log("Employee:", emp.full_name);
-console.log("Today:", today);
-console.log("Leave Found:", leave);
+console.log(leave);
 
     // Kung naka leave ngayon
     if (leave) {
