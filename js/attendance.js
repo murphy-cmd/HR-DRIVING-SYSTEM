@@ -198,7 +198,7 @@ ${
 type="checkbox"
 ${daily?.break_time ? "checked disabled" : ""}
 ${onLeave ? "disabled" : ""}
-
+onclick="recordAttendance('${emp.employee_id}','BREAK',this)">
 </td>
 
 <td>
@@ -207,6 +207,7 @@ ${onLeave ? "disabled" : ""}
 type="checkbox"
 ${daily?.pm_in ? "checked disabled" : ""}
 ${onLeave ? "disabled" : ""}
+onclick="recordAttendance('${emp.employee_id}','PM_IN',this)">
 
 </td>
 
@@ -216,19 +217,26 @@ ${onLeave ? "disabled" : ""}
 type="checkbox"
 ${daily?.time_out ? "checked disabled" : ""}
 ${onLeave ? "disabled" : ""}
+onclick="recordAttendance('${emp.employee_id}','TIME_OUT',this)">
 
 </td>
 
 <td>
 
-${daily?.work_hours ?? "-"}
-
+${
+    onLeave
+        ? "-"
+        : (daily?.work_hours ?? "-")
+}
 </td>
 
 <td>
 
-${daily?.ot_hours ?? "-"}
-
+${
+    onLeave
+        ? "-"
+        : (daily?.ot_hours ?? "-")
+}
 </td>
 
 <td>
