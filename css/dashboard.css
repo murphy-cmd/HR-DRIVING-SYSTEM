@@ -453,3 +453,38 @@ FOOTER
     font-size:14px;
 
 }
+/* ==========================================
+GRID LAYOUT
+========================================== */
+
+.grid-4{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.grid-3{
+    display:grid;
+    grid-template-columns:2fr 2fr 3fr;
+    gap:20px;
+}
+
+@media(max-width:1200px){
+
+    .grid-4{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .grid-3{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .grid-4{
+        grid-template-columns:1fr;
+    }
+
+}
