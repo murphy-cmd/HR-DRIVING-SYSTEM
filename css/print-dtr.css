@@ -1,8 +1,9 @@
-/* ==========================================
-   PRINT DTR
-========================================== */
+/* ======================================================
+   RILCO HR MANAGEMENT SYSTEM
+   PROFESSIONAL PRINT DTR
+====================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 *{
     margin:0;
@@ -10,69 +11,260 @@
     box-sizing:border-box;
 }
 
+html,
 body{
 
     font-family:'Poppins',sans-serif;
 
+    background:#ECEFF4;
+
+    color:#1F2937;
+
+}
+
+.paper{
+
+    width:210mm;
+
+    min-height:297mm;
+
+    margin:20px auto;
+
     background:#fff;
 
-    color:#000;
+    padding:25mm 20mm;
 
-    padding:25px;
-
-}
-
-.company-logo{
-
-    width:90px;
-
-    height:auto;
+    box-shadow:0 0 20px rgba(0,0,0,.15);
 
 }
 
-h2{
+/* ======================================================
+   HEADER
+====================================================== */
+
+.company-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+.logo{
+
+    width:95px;
+
+}
+
+.company-details{
+
+    flex:1;
+
+}
+
+.company-details h2{
+
+    font-size:25px;
+
+    font-weight:700;
+
+    color:#003366;
+
+    margin-bottom:4px;
+
+}
+
+.company-details p{
+
+    font-size:13px;
+
+    margin:2px 0;
+
+}
+
+hr{
+
+    margin:18px 0;
+
+    border:none;
+
+    border-top:2px solid #003366;
+
+}
+
+/* ======================================================
+   REPORT TITLE
+====================================================== */
+
+.report-title{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+}
+
+.report-title h3{
 
     font-size:24px;
 
     font-weight:700;
 
-}
+    letter-spacing:2px;
 
-p{
-
-    margin-bottom:5px;
+    color:#003366;
 
 }
 
-.card{
+/* ======================================================
+   EMPLOYEE BOX
+====================================================== */
 
-    border:1px solid #000;
+.employee-box{
+
+    border:1px solid #CFCFCF;
 
     border-radius:8px;
 
-}
-
-.card-body{
-
     padding:15px;
 
+    margin-bottom:25px;
+
 }
 
-table{
+.employee-box table{
+
+    width:100%;
+
+}
+
+.employee-box td{
+
+    padding:8px;
+
+    font-size:13px;
+
+}
+
+/* ======================================================
+   SUMMARY
+====================================================== */
+
+.summary{
+
+    display:flex;
+
+    gap:18px;
+
+    margin-bottom:30px;
+
+}
+
+.summary-card{
+
+    flex:1;
+
+    border:1px solid #D6D6D6;
+
+    border-radius:10px;
+
+    text-align:center;
+
+    padding:18px;
+
+    background:#F8FAFC;
+
+}
+
+.summary-card h5{
+
+    font-size:13px;
+
+    color:#6B7280;
+
+    margin-bottom:8px;
+
+}
+
+.summary-card h2{
+
+    color:#0F172A;
+
+    font-size:28px;
+
+    font-weight:700;
+
+}
+
+/* ======================================================
+   TABLE
+====================================================== */
+
+.dtr-table{
 
     width:100%;
 
     border-collapse:collapse;
 
-    margin-top:20px;
+}
+
+.dtr-table th{
+
+    background:#003366;
+
+    color:#fff;
+
+    font-size:12px;
+
+    padding:10px;
+
+    text-align:center;
 
 }
 
-table th{
+.dtr-table td{
 
-    background:#1F4E79;
+    border:1px solid #D9D9D9;
 
-    color:#fff;
+    padding:8px;
+
+    font-size:12px;
+
+    text-align:center;
+
+}
+
+.dtr-table tbody tr:nth-child(even){
+
+    background:#F8FAFC;
+
+}
+
+.dtr-table tbody tr:hover{
+
+    background:#EEF5FF;
+
+}
+
+/* ======================================================
+   FOOTER
+====================================================== */
+
+.footer-sign{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:70px;
+
+}
+
+.footer-sign div{
+
+    width:220px;
 
     text-align:center;
 
@@ -80,46 +272,7 @@ table th{
 
 }
 
-table td{
-
-    text-align:center;
-
-    font-size:12px;
-
-}
-
-th,
-td{
-
-    border:1px solid #000 !important;
-
-    padding:8px;
-
-}
-
-.summary{
-
-    margin-top:25px;
-
-}
-
-.signature{
-
-    margin-top:80px;
-
-}
-
-.signature div{
-
-    text-align:center;
-
-}
-
-.signature-line{
-
-    width:220px;
-
-    margin:auto;
+.line{
 
     border-top:1px solid #000;
 
@@ -127,88 +280,93 @@ td{
 
 }
 
-.text-end{
+.copyright{
 
-    text-align:right;
-
-}
-
-.text-center{
+    margin-top:60px;
 
     text-align:center;
 
-}
+    font-size:11px;
 
-.mt-5{
-
-    margin-top:70px;
+    color:#6B7280;
 
 }
 
-.mb-4{
-
-    margin-bottom:25px;
-
-}
-
-/* ==========================================
-   PRINT SETTINGS
-========================================== */
+/* ======================================================
+   PRINT
+====================================================== */
 
 @page{
 
     size:A4 portrait;
 
-    margin:15mm;
+    margin:12mm;
 
 }
 
 @media print{
 
-    html,
     body{
-
-        width:210mm;
-
-        height:297mm;
 
         background:#fff;
 
     }
 
-    body{
+    .paper{
+
+        margin:0;
 
         padding:0;
 
+        width:100%;
+
+        min-height:auto;
+
+        box-shadow:none;
+
     }
 
-    table{
+    .summary-card{
+
+        break-inside:avoid;
+
+    }
+
+    .employee-box{
+
+        break-inside:avoid;
+
+    }
+
+    .footer-sign{
+
+        break-inside:avoid;
+
+    }
+
+    .dtr-table{
 
         page-break-inside:auto;
 
     }
 
-    tr{
+    .dtr-table tr{
 
         page-break-inside:avoid;
 
+        page-break-after:auto;
+
     }
 
-    thead{
+    .dtr-table thead{
 
         display:table-header-group;
 
     }
 
-    tfoot{
+    .dtr-table tfoot{
 
         display:table-footer-group;
-
-    }
-
-    .card{
-
-        box-shadow:none;
 
     }
 
