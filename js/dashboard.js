@@ -1,3 +1,4 @@
+console.log("Dashboard JS Loaded");
 // ==========================================
 // RILCO HR DRIVING SYSTEM
 // DASHBOARD CONTROLLER
