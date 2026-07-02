@@ -565,6 +565,29 @@ updateData.ot_minutes = otMinutes;
             employeeId
         );
 
+   const { error: logError } =
+await supabaseClient
+    .from("attendance_logs")
+    .insert([{
+
+        employee_id: employee.employee_id,
+
+        employee_name: employee.full_name,
+
+        action: action,
+
+        log_time: philippinesTime,
+
+        action_date: today
+
+    }]);
+
+if (logError) {
+
+    console.error("Attendance Log Error:", logError);
+
+}
+
    await supabaseClient
     .from("attendance_logs")
     .insert({
@@ -739,8 +762,12 @@ const selectedStatus =
 
     }
 
-    let present = 0;
-    let late = 0;
+let present = 0;
+let late = 0;
+let absent = 0;
+let leave = 0;
+
+   
 
     data.forEach(record => {
 if (
@@ -773,11 +800,21 @@ if (
     return;
 }
         
-
-        if (record.am_in) {
-
+if (record.am_in) {
     present++;
+}
 
+if (record.attendance_status === "LATE") {
+    late++;
+}
+
+if (record.attendance_status === "ABSENT") {
+    absent++;
+}
+
+if (record.attendance_status === "ON LEAVE") {
+    leave++;
+}
 }
 
         if (record.attendance_status === "LATE") {
@@ -820,10 +857,13 @@ if (
 
     });
 
-    document.getElementById("presentCount").textContent = present;
+   document.getElementById("presentCount").textContent = present;
 
-    document.getElementById("lateCount").textContent = late;
+document.getElementById("lateCount").textContent = late;
 
+document.getElementById("absentCount").textContent = absent;
+
+document.getElementById("leaveCount").textContent = leave;
 }
 
 function formatTime(value) {
