@@ -1,195 +1,320 @@
 <div class="page dashboard-page">
 
-    <!-- =========================
-        HERO HEADER (PRO LEVEL)
-    ========================== -->
+    <!-- ===========================
+         WELCOME BANNER
+    ============================ -->
 
     <section class="welcome-banner">
 
         <div class="welcome-left">
 
             <h1>
-                HR Driving System Dashboard
+                Welcome Back, Administrator! 👋
             </h1>
 
             <p>
-                Real-time overview of employees, drivers, attendance, and operations.
+                Here's what's happening in your HR Driving System today.
             </p>
 
         </div>
 
         <div class="welcome-right">
 
-            <h2 id="currentDate">--</h2>
-            <span id="currentDay">--</span>
+            <h2 id="currentDate">Loading...</h2>
+
+            <span id="currentDay">Loading...</span>
+
+        </div>
+
+    </section>
+    <!-- ===========================
+     QUICK ACTIONS
+=========================== -->
+
+<section class="quick-actions">
+
+    <button class="quick-btn">
+        <i class="fa-solid fa-user-plus"></i>
+        <span>Add Employee</span>
+    </button>
+
+    <button class="quick-btn">
+        <i class="fa-solid fa-calendar-check"></i>
+        <span>Attendance</span>
+    </button>
+
+    <button class="quick-btn">
+        <i class="fa-solid fa-truck"></i>
+        <span>Drivers</span>
+    </button>
+
+
+</section>
+
+    <!-- ===========================
+         EMPLOYEE OVERVIEW
+    ============================ -->
+
+    <section>
+
+        <h2 class="section-title">
+            Employee Overview
+        </h2>
+
+        <div class="grid-4">
+
+            <div class="stat-card blue">
+
+                <div>
+
+                    <span>Total Employees</span>
+
+                    <h1 id="totalEmployees">0</h1>
+
+                </div>
+
+                <i class="fa-solid fa-users"></i>
+
+            </div>
+
+            <div class="stat-card green">
+
+                <div>
+
+                    <span>Working</span>
+
+                    <h1 id="workingEmployees">0</h1>
+
+                </div>
+
+                <i class="fa-solid fa-user-check"></i>
+
+            </div>
+
+            <div class="stat-card orange">
+
+                <div>
+
+                    <span>On Break</span>
+
+                    <h1 id="breakEmployees">0</h1>
+
+                </div>
+
+                <i class="fa-solid fa-mug-hot"></i>
+
+            </div>
+
+            <div class="stat-card red">
+
+                <div>
+
+                    <span>Completed Today</span>
+
+                    <h1 id="completedEmployees">0</h1>
+
+                </div>
+
+                <i class="fa-solid fa-circle-check"></i>
+
+            </div>
 
         </div>
 
     </section>
 
-    <!-- =========================
-        KPI CARDS (ANIMATED STYLE READY)
-    ========================== -->
+    <!-- ===========================
+         DRIVER OVERVIEW
+    ============================ -->
 
-    <section class="grid-4 mt-4">
+    <section>
 
-        <div class="stat-card blue">
-            <div>
-                <span>Total Employees</span>
-                <h1 id="totalEmployees">0</h1>
+        <h2 class="section-title">
+
+            Driver Overview
+
+        </h2>
+
+        <div class="grid-4">
+
+            <div class="stat-card blue">
+
+                <div>
+
+                    <span>Total Drivers</span>
+
+                    <h1 id="totalDrivers">0</h1>
+
+                </div>
+
+                <i class="fa-solid fa-truck"></i>
+
             </div>
-            <i class="fa-solid fa-users"></i>
-        </div>
 
-        <div class="stat-card green">
-            <div>
-                <span>Working</span>
-                <h1 id="workingEmployees">0</h1>
+            <div class="stat-card blue">
+
+                <div>
+
+                    <span>Available</span>
+
+                    <h1 id="availableDrivers">0</h1>
+
+                </div>
+
+                <i class="fa-solid fa-road"></i>
+
             </div>
-            <i class="fa-solid fa-user-check"></i>
-        </div>
 
-        <div class="stat-card orange">
-            <div>
-                <span>On Break</span>
-                <h1 id="breakEmployees">0</h1>
+            <div class="stat-card orange">
+
+                <div>
+
+                    <span>Driving</span>
+
+                    <h1 id="drivingDrivers">0</h1>
+
+                </div>
+
+                <i class="fa-solid fa-truck-fast"></i>
+
             </div>
-            <i class="fa-solid fa-mug-hot"></i>
-        </div>
 
-        <div class="stat-card red">
-            <div>
-                <span>Completed</span>
-                <h1 id="completedEmployees">0</h1>
+            <div class="stat-card green">
+
+                <div>
+
+                    <span>Completed Trips</span>
+
+                    <h1 id="completedTrips">0</h1>
+
+                </div>
+
+                <i class="fa-solid fa-flag-checkered"></i>
+
             </div>
-            <i class="fa-solid fa-circle-check"></i>
-        </div>
 
-    </section>
-
-    <!-- =========================
-        DRIVER SECTION
-    ========================== -->
-
-    <section class="grid-4 mt-4">
-
-        <div class="stat-card blue">
-            <div>
-                <span>Total Drivers</span>
-                <h1 id="totalDrivers">0</h1>
-            </div>
-            <i class="fa-solid fa-truck"></i>
-        </div>
-
-        <div class="stat-card blue">
-            <div>
-                <span>Available</span>
-                <h1 id="availableDrivers">0</h1>
-            </div>
-            <i class="fa-solid fa-road"></i>
-        </div>
-
-        <div class="stat-card orange">
-            <div>
-                <span>Driving</span>
-                <h1 id="drivingDrivers">0</h1>
-            </div>
-            <i class="fa-solid fa-truck-fast"></i>
-        </div>
-
-        <div class="stat-card green">
-            <div>
-                <span>Completed Trips</span>
-                <h1 id="completedTrips">0</h1>
-            </div>
-            <i class="fa-solid fa-flag-checkered"></i>
         </div>
 
     </section>
+    <!-- ===========================
+     DASHBOARD ANALYTICS
+=========================== -->
 
-    <!-- =========================
-        ANALYTICS + ACTIVITY (PRO LAYOUT)
-    ========================== -->
+<section>
 
-    <section class="grid-2 mt-4">
+    <h2 class="section-title">
 
-        <!-- SYSTEM STATUS -->
+        Dashboard Analytics
+
+    </h2>
+
+    <div class="grid-2">
 
         <div class="card">
 
-            <h3>
-                System Status
-            </h3>
+            <h3>System Status</h3>
 
             <div class="status-list">
 
                 <div class="status-item">
+
                     <span>Employees</span>
+
                     <strong class="online">ONLINE</strong>
+
                 </div>
 
                 <div class="status-item">
+
                     <span>Attendance</span>
+
                     <strong class="online">ACTIVE</strong>
+
                 </div>
 
                 <div class="status-item">
+
                     <span>Drivers</span>
+
                     <strong class="online">AVAILABLE</strong>
+
                 </div>
 
                 <div class="status-item">
-                    <span>System Health</span>
-                    <strong class="online">STABLE</strong>
+
+                    <span>Payroll</span>
+
+                    <strong class="warning">PENDING</strong>
+
                 </div>
 
             </div>
 
         </div>
 
-        <!-- SUMMARY -->
-
         <div class="card">
 
-            <h3>
-                Today Summary
-            </h3>
+            <h3>Today's Summary</h3>
 
             <ul class="summary-list">
 
-                <li>Total Employees:
-                    <b id="summaryEmployees">0</b>
-                </li>
+                <li>Total Employees: <strong id="summaryEmployees">0</strong></li>
 
-                <li>Present Today:
-                    <b id="summaryPresent">0</b>
-                </li>
+                <li>Present Today: <strong id="summaryPresent">0</strong></li>
 
-                <li>Drivers Available:
-                    <b id="summaryDrivers">0</b>
-                </li>
+                <li>Drivers Available: <strong id="summaryDrivers">0</strong></li>
 
-                <li>Pending Leave:
-                    <b id="summaryLeave">0</b>
-                </li>
+                <li>Pending Leave: <strong id="summaryLeave">0</strong></li>
 
             </ul>
 
         </div>
 
-    </section>
+    </div>
 
-    <!-- =========================
-        RECENT ACTIVITY (FINAL STYLE)
-    ========================== -->
+</section>
 
-    <section class="mt-4">
+    <!-- ===========================
+         BOTTOM SECTION
+    ============================ -->
+
+    <section class="grid-3">
+
+        <div class="card widget-card">
+
+            <div class="widget-icon blue-bg">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+            </div>
+
+            <h3>Today's Attendance</h3>
+
+            <h1 id="todayAttendance">0</h1>
+
+            <p>Employees who already timed in today.</p>
+
+        </div>
+
+        <div class="card widget-card">
+
+            <div class="widget-icon orange-bg">
+
+                <i class="fa-solid fa-calendar-xmark"></i>
+
+            </div>
+
+            <h3>Pending Leave</h3>
+
+            <h1 id="pendingLeave">0</h1>
+
+            <p>Leave requests awaiting approval.</p>
+
+        </div>
 
         <div class="card">
 
-            <h3>
-                Recent Activities
-            </h3>
+            <h3>Recent Activities</h3>
 
             <div id="recentActivities"></div>
 
