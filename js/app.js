@@ -1,6 +1,7 @@
+console.log("App Loaded");
+
 // ==========================================
-// RILCO HR DRIVING SYSTEM
-// APP CONTROLLER
+// CORE ELEMENTS
 // ==========================================
 
 const app = document.getElementById("app");
@@ -8,24 +9,16 @@ const pageTitle = document.getElementById("pageTitle");
 const menuItems = document.querySelectorAll(".menu li");
 
 // ==========================================
-// INITIALIZE
+// INITIALIZE APP
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    initializeApp();
-
-});
-
-function initializeApp() {
-
     initializeSidebar();
-
     initializeLogout();
-
     loadPage("dashboard");
 
-}
+});
 
 // ==========================================
 // SIDEBAR
@@ -37,9 +30,7 @@ function initializeSidebar() {
 
         item.addEventListener("click", () => {
 
-            menuItems.forEach(menu =>
-                menu.classList.remove("active")
-            );
+            menuItems.forEach(i => i.classList.remove("active"));
 
             item.classList.add("active");
 
@@ -60,121 +51,89 @@ async function loadPage(page) {
     try {
 
         pageTitle.textContent =
-            page.charAt(0).toUpperCase() +
-            page.slice(1);
+            page.charAt(0).toUpperCase() + page.slice(1);
 
-        const response =
-            await fetch(`pages/${page}.html`);
+        const res = await fetch(`pages/${page}.html`);
 
-        if (!response.ok) {
+        if (!res.ok) throw new Error("Page not found");
 
-            throw new Error(`${page}.html not found`);
-
-        }
-
-        app.innerHTML =
-            await response.text();
+        app.innerHTML = await res.text();
 
         loadPageScript(page);
 
-    }
+    } catch (err) {
 
-    catch (error) {
+        console.error(err);
 
-        console.error(error);
-
-        app.innerHTML = `
-
-            <div class="card">
-
-                <h2>404</h2>
-
-                <p>
-
-                    Unable to load
-
-                    <strong>${page}</strong>
-
-                    page.
-
-                </p>
-
-            </div>
-
-        `;
+        app.innerHTML = `<div class="card"><h2>404</h2></div>`;
 
     }
 
 }
 
 // ==========================================
-// LOAD PAGE SCRIPT (LOAD ONLY ONCE)
+// LOAD SCRIPT (NO DUPLICATES)
 // ==========================================
 
 const loadedScripts = {};
 
 function loadPageScript(page) {
 
-    const functionName =
+    const fnName =
         "initialize" +
         page.charAt(0).toUpperCase() +
         page.slice(1);
 
-    // kung loaded na ang js file
+    // if already loaded → just re-run init
     if (loadedScripts[page]) {
 
-        console.log(`${page}.js already loaded`);
-
-        if (typeof window[functionName] === "function") {
-            window[functionName]();
+        if (typeof window[fnName] === "function") {
+            window[fnName]();
         }
 
         return;
+
     }
 
     const script = document.createElement("script");
 
-    script.src = `js/${page}.js`;
+    script.src = `js/${page}.js?v=${Date.now()}`;
+    script.id = "page-script";
 
     script.onload = () => {
 
-        console.log(`${page}.js loaded`);
-
         loadedScripts[page] = true;
 
-        if (typeof window[functionName] === "function") {
-            window[functionName]();
+        if (typeof window[fnName] === "function") {
+            window[fnName]();
         }
 
     };
 
     script.onerror = () => {
-
-        console.error(`${page}.js not found`);
-
+        console.error(page + " failed to load");
     };
 
     document.body.appendChild(script);
 
 }
+
 // ==========================================
 // LOGOUT
 // ==========================================
 
 function initializeLogout() {
 
-    const logout =
-        document.getElementById("logoutBtn");
+    const logout = document.getElementById("logoutBtn");
 
     if (!logout) return;
 
     logout.addEventListener("click", () => {
 
-        if (!confirm("Logout?")) return;
-
-        location.href = "login.html";
+        if (confirm("Logout?")) {
+            location.href = "login.html";
+        }
 
     });
 
 }
-
