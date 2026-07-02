@@ -102,11 +102,16 @@ async function saveLeave() {
 
     }
 
-    alert("Leave request saved successfully.");
+   alert("Leave request saved successfully.");
 
-    document.getElementById("leaveReason").value = "";
+document.getElementById("leaveEmployee").selectedIndex = 0;
+document.getElementById("leaveType").selectedIndex = 0;
+document.getElementById("leaveStatus").selectedIndex = 0;
+document.getElementById("startDate").value = "";
+document.getElementById("endDate").value = "";
+document.getElementById("leaveReason").value = "";
 
-    loadLeaveRequests();
+loadLeaveRequests();
 
 }
 
