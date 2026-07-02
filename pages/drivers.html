@@ -15,13 +15,16 @@
 
 <body>
 
+
 <!-- CLEAN NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-2">
 
+<div class="container-fluid">
     <div class="container-fluid">
 
         <div class="navbar-nav ms-auto">
 
+<div class="navbar-nav">
             <a class="nav-link" href="index.html">Dashboard</a>
             <a class="nav-link" href="employees.html">Employees</a>
             <a class="nav-link" href="attendance.html">Attendance</a>
@@ -35,61 +38,124 @@
             <a class="nav-link" href="assignments.html">Assignments</a>
             <a class="nav-link" href="leave.html">Leave</a>
 
+<a class="nav-link" href="index.html">
+Dashboard
+</a>
         </div>
 
+<a class="nav-link" href="employees.html">
+Employees
+</a>
     </div>
 
+<a class="nav-link" href="attendance.html">
+Attendance
+</a>
+
+<a class="nav-link active" href="drivers.html">
+Drivers
+</a>
+
+<a class="nav-link" href="history.html">
+History
+</a>
+
+<a class="nav-link" href="payroll.html">
+Payroll
+</a>
+
+<a class="nav-link" href="payslip.html">
+Payslip
+</a>
+
+<a class="nav-link" href="dtr.html">
+DTR
+</a>
+
+<li class="nav-item">
+    <a class="nav-link" href="projects.html">Projects</a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="procedures.html">Procedures</a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="assignments.html">Assignments</a>
+</li>
 </nav>
 
+<li class="nav-item">
+    <a class="nav-link" href="leave.html">Leave</a>
+</li>
 <!-- PAGE HEADER (REMOVED ANY LOGO FEEL) -->
 <div class="container mt-4">
 
+</div>
     <div class="mb-3">
 
+</div>
         <h2 class="fw-bold">Driver Monitoring Board</h2>
 
+</nav>
         <p class="text-muted">
             Monitor driver status and activity in real-time
         </p>
 
+<div class="container mt-4">
     </div>
 
+<h2>Driver Monitoring Board</h2>
     <!-- TABLE -->
     <div class="card shadow-sm">
 
+<table class="table table-bordered table-striped">
         <div class="card-header bg-dark text-white">
             Drivers List
         </div>
 
+<thead class="table-dark">
         <div class="table-responsive">
 
+<tr>
             <table class="table table-striped table-bordered mb-0">
 
+<th>Driver ID</th>
                 <thead class="table-light">
 
+<th>Driver Name</th>
                     <tr>
                         <th>Driver ID</th>
                         <th>Driver Name</th>
                         <th>Status</th>
                     </tr>
 
+<th>Status</th>
                 </thead>
 
+</tr>
                 <tbody id="driverTable">
 
+</thead>
                 </tbody>
 
+<tbody id="driverTable">
             </table>
 
+</tbody>
         </div>
 
+</table>
     </div>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="js/supabase-config.js"></script>
+
 <script src="js/drivers.js"></script>
 
 </body>
+
 </html>
