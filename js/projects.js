@@ -31,7 +31,7 @@ function initializeProjects() {
 // DB
 // ============================================
 
-window.db = window.supabaseClient;
+const db = window.db || window.supabaseClient;
 
 // ============================================
 // STATE
