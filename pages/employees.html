@@ -4,19 +4,13 @@
     <div class="page-header">
 
         <div>
-
             <h1>Employee Management</h1>
-
             <p>Manage employee information and records.</p>
-
         </div>
 
         <button id="addEmployeeBtn" class="primary-btn">
-
             <i class="fa-solid fa-plus"></i>
-
             Add Employee
-
         </button>
 
     </div>
@@ -25,37 +19,27 @@
     <div class="toolbar card">
 
         <div class="search-group">
-
             <i class="fa-solid fa-magnifying-glass"></i>
-
             <input
                 type="text"
                 id="employeeSearch"
                 placeholder="Search employee...">
-
         </div>
 
         <select id="departmentFilter">
-
             <option value="">All Departments</option>
-
         </select>
 
         <select id="statusFilter">
-
             <option value="">All Status</option>
             <option value="WORKING">Working</option>
             <option value="BREAK">Break</option>
             <option value="DRIVING">Driving</option>
-
         </select>
 
         <button id="refreshEmployees" class="secondary-btn">
-
             <i class="fa-solid fa-rotate-right"></i>
-
             Refresh
-
         </button>
 
     </div>
@@ -63,46 +47,34 @@
     <!-- TABLE -->
     <div class="card">
 
-        <table class="table">
-
-          
-    <div class="card">
-
         <h3>Employee Table</h3>
-
         <br>
 
-        <table class="table">
+        <div class="table-responsive">
 
-            <thead>
+            <table class="table">
 
-                <tr>
+                <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Position</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
-                    <th>Employee ID</th>
+                <tbody id="employeeTable"></tbody>
 
-                    <th>Name</th>
+            </table>
 
-                    <th>Department</th>
-
-                    <th>Position</th>
-
-                    <th>Status</th>
-
-                    <th>Action</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody id="employeeTable">
-
-            </tbody>
-
-        </table>
+        </div>
 
     </div>
 
 </div>
+
 <!-- ==========================================
      ADD EMPLOYEE MODAL
 ========================================== -->
@@ -124,29 +96,14 @@
             <div class="form-grid">
 
                 <input type="text" id="employeeId" placeholder="Employee ID">
-
                 <input type="text" id="fullName" placeholder="Full Name">
-
                 <input type="text" id="position" placeholder="Position">
-
                 <input type="text" id="department" placeholder="Department">
 
                 <select id="employeeType">
-
-                    <option value="office">Office Employee</option>
-
+                    <option value="office">Office Staff</option>
                     <option value="driver">Driver</option>
-
-                </select>
-
-                <select id="status">
-
-                    <option value="WORKING">WORKING</option>
-
-                    <option value="BREAK">BREAK</option>
-
-                    <option value="DRIVING">DRIVING</option>
-
+                     <option value="driver">Warehouse Staff</option>
                 </select>
 
             </div>
@@ -156,15 +113,11 @@
         <div class="modal-footer">
 
             <button id="cancelEmployee" class="secondary-btn">
-
                 Cancel
-
             </button>
 
             <button id="saveEmployee" class="primary-btn">
-
                 Save Employee
-
             </button>
 
         </div>
