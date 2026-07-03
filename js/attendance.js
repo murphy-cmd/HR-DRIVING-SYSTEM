@@ -932,6 +932,21 @@ if (leaveError) {
 
 }
 
+   const {
+    data: employees,
+    error: employeeError
+} = await supabaseClient
+    .from("employees")
+    .select("*")
+    .order("employee_id");
+
+if (employeeError) {
+
+    console.error(employeeError);
+
+    return;
+
+}
 
 let present = 0;
 let late = 0;
@@ -939,13 +954,19 @@ let absent = 0;
 let leave = 0;
    
 
-    data.forEach(record => {
-if (
+employees.forEach(emp => {
+
+    const record =
+        data.find(item =>
+            item.employee_id === emp.employee_id
+        );
+   
+  if (
     searchValue &&
-    !record.employee_name
+    !emp.full_name
         .toLowerCase()
         .includes(searchValue) &&
-    !record.employee_id
+    !emp.employee_id
         .toLowerCase()
         .includes(searchValue)
 ) {
