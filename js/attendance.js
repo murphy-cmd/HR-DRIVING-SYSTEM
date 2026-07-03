@@ -106,6 +106,8 @@ return (
     today <= item.end_date
 );
 
+   });
+
 if (
     leave &&
     leave.status === "Approved" &&
