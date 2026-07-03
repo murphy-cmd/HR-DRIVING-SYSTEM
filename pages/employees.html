@@ -1,6 +1,6 @@
 <div class="page">
 
-    <!-- CLEAN HEADER (REMOVED ALL TEXT) -->
+    <!-- HEADER (CLEAN ONLY BUTTON) -->
     <div class="page-header">
 
         <button id="addEmployeeBtn" class="primary-btn">
@@ -10,7 +10,7 @@
 
     </div>
 
-    <!-- TABLE -->
+    <!-- TABLE CARD -->
     <div class="card">
 
         <div class="table-responsive">
@@ -43,12 +43,16 @@
 
     <div class="modal-content">
 
+        <!-- MODAL HEADER (CLEAN) -->
         <div class="modal-header">
+
+            <h3>Add Employee</h3>
 
             <button id="closeEmployeeModal">&times;</button>
 
         </div>
 
+        <!-- FORM -->
         <div class="modal-body">
 
             <div class="form-grid">
@@ -64,10 +68,17 @@
                     <option value="warehouse">Warehouse Staff</option>
                 </select>
 
+                <select id="status">
+                    <option value="WORKING">WORKING</option>
+                    <option value="BREAK">BREAK</option>
+                    <option value="DRIVING">DRIVING</option>
+                </select>
+
             </div>
 
         </div>
 
+        <!-- FOOTER -->
         <div class="modal-footer">
 
             <button id="cancelEmployee" class="secondary-btn">
