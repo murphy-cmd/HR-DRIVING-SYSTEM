@@ -95,14 +95,14 @@ const daily =
 
 const leave = leaveRequests.find(item => {
 
-    console.log("TODAY =", today);
-    console.log("START =", item.start_date);
-    console.log("END =", item.end_date);
-
     return (
         item.employee_name === emp.full_name &&
         today >= item.start_date &&
-        today <= item.end_date
+        today <= item.end_date &&
+        (
+            item.status === "Approved" ||
+            item.status === "Rejected"
+        )
     );
 
 });
@@ -240,38 +240,24 @@ ${daily?.late_display ?? "-"}
 <td>
 
 ${
-    onLeave
+    daily?.attendance_status === "LEAVE REJECTED"
+    ? `<span class="badge bg-danger">LEAVE REJECTED</span>`
 
-    ? `<span class="badge bg-warning text-dark">
-            ON LEAVE
-       </span>`
-
-    : daily?.attendance_status === "LEAVE REJECTED"
-
-    ? `<span class="badge bg-danger">
-            LEAVE REJECTED
-       </span>`
+    : onLeave
+    ? `<span class="badge bg-warning text-dark">ON LEAVE</span>`
 
     : daily?.attendance_status === "LATE"
+    ? `<span class="badge bg-danger">LATE</span>`
 
-    ? `<span class="badge bg-danger">
-            LATE
-       </span>`
-
-    : daily?.attendance_status === "ON TIME"
-
-    ? `<span class="badge bg-success">
-            ON TIME
-       </span>`
+    : daily?.attendance_status === "PRESENT"
+    ? `<span class="badge bg-success">PRESENT</span>`
 
     : daily?.attendance_status === "ABSENT"
-
-    ? `<span class="badge bg-secondary">
-            ABSENT
-       </span>`
+    ? `<span class="badge bg-secondary">ABSENT</span>`
 
     : "-"
 }
+
 </td>
 
 <td>
