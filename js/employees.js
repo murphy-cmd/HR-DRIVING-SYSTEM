@@ -1,12 +1,16 @@
 const db = window.supabaseClient;
 
 // ==========================================
-// INITIALIZE EMPLOYEES
+// GLOBAL INIT
 // ==========================================
 
 window.initializeEmployees = initializeEmployees;
 
 let modal;
+
+// ==========================================
+// INIT FUNCTION
+// ==========================================
 
 function initializeEmployees() {
 
@@ -27,14 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     modal = document.getElementById("employeeModal");
 
-    loadEmployees();
-
     setupEvents();
 
+    loadEmployees();
 });
 
 // ==========================================
-// EVENTS SETUP (SAFE FIX)
+// EVENTS
 // ==========================================
 
 function setupEvents() {
@@ -46,15 +49,15 @@ function setupEvents() {
     const search = document.getElementById("employeeSearch");
 
     if (addBtn) {
-        addBtn.onclick = () => modal.classList.add("show");
+        addBtn.onclick = () => modal?.classList.add("show");
     }
 
     if (closeBtn) {
-        closeBtn.onclick = () => modal.classList.remove("show");
+        closeBtn.onclick = () => modal?.classList.remove("show");
     }
 
     if (cancelBtn) {
-        cancelBtn.onclick = () => modal.classList.remove("show");
+        cancelBtn.onclick = () => modal?.classList.remove("show");
     }
 
     if (saveBtn) {
@@ -67,10 +70,15 @@ function setupEvents() {
 }
 
 // ==========================================
-// LOAD EMPLOYEES (NO ACTION BUTTONS)
+// LOAD EMPLOYEES
 // ==========================================
 
 async function loadEmployees() {
+
+    if (!db) {
+        console.error("Supabase not loaded");
+        return;
+    }
 
     const { data, error } = await db
         .from("employees")
@@ -115,7 +123,8 @@ async function loadEmployees() {
 
             <td>
                 <img src="${emp.photo_url || 'asset/avatar.png'}"
-                     class="table-photo">
+                     class="table-photo"
+                     onerror="this.src='asset/avatar.png'">
             </td>
 
             <td>${emp.employee_id || "-"}</td>
@@ -136,17 +145,15 @@ async function loadEmployees() {
 async function saveEmployee() {
 
     const employee = {
-
-        employee_id: document.getElementById("employeeId").value.trim(),
-        full_name: document.getElementById("fullName").value.trim(),
-        position: document.getElementById("position").value.trim(),
-        department: document.getElementById("department").value.trim(),
-        employee_type: document.getElementById("employeeType").value,
-        status: document.getElementById("status").value
-
+        employee_id: document.getElementById("employeeId")?.value.trim() || "",
+        full_name: document.getElementById("fullName")?.value.trim() || "",
+        position: document.getElementById("position")?.value.trim() || "",
+        department: document.getElementById("department")?.value.trim() || "",
+        employee_type: document.getElementById("employeeType")?.value || "",
+        status: document.getElementById("status")?.value || ""
     };
 
-    if (employee.employee_id === "" || employee.full_name === "") {
+    if (!employee.employee_id || !employee.full_name) {
         alert("Please complete required fields.");
         return;
     }
@@ -161,7 +168,7 @@ async function saveEmployee() {
         return;
     }
 
-    modal.classList.remove("show");
+    modal?.classList.remove("show");
 
     clearEmployeeForm();
 
@@ -174,12 +181,23 @@ async function saveEmployee() {
 
 function clearEmployeeForm() {
 
-    document.getElementById("employeeId").value = "";
-    document.getElementById("fullName").value = "";
-    document.getElementById("position").value = "";
-    document.getElementById("department").value = "";
-    document.getElementById("employeeType").selectedIndex = 0;
-    document.getElementById("status").selectedIndex = 0;
+    const ids = [
+        "employeeId",
+        "fullName",
+        "position",
+        "department"
+    ];
+
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+
+    const type = document.getElementById("employeeType");
+    const status = document.getElementById("status");
+
+    if (type) type.selectedIndex = 0;
+    if (status) status.selectedIndex = 0;
 }
 
 // ==========================================
@@ -188,10 +206,11 @@ function clearEmployeeForm() {
 
 function searchEmployee() {
 
-    const keyword = document
-        .getElementById("employeeSearch")
-        .value
-        .toLowerCase();
+    const input = document.getElementById("employeeSearch");
+
+    if (!input) return;
+
+    const keyword = input.value.toLowerCase();
 
     const rows = document.querySelectorAll("#employeeTable tr");
 
