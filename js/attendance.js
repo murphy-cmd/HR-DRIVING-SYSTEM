@@ -6,6 +6,11 @@ console.log("Attendance Board Loaded");
 
 async function loadAttendanceBoard() {
 
+    const table = document.getElementById("attendanceTable");
+
+    if (!table) return;
+
+
    const today =
         new Date().toLocaleDateString(
             "en-CA",
@@ -809,6 +814,11 @@ loadTodayHistory();
 // ===============================
 
 async function loadTodayHistory() {
+
+    const history = document.getElementById("todayHistory");
+
+    if (!history) return;
+
 
     const today =
     new Date().toLocaleDateString(
