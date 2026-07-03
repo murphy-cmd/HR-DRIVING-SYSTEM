@@ -1,3 +1,17 @@
+console.log("Employees JS Loaded");
+
+// ==========================================
+// SAFETY CHECK (PREVENT DUPLICATE LOAD BUG)
+// ==========================================
+
+if (window.__EMPLOYEES_LOADED__) {
+    console.log("Employees already loaded - skipping duplicate");
+} else {
+
+window.__EMPLOYEES_LOADED__ = true;
+
+// use global db from supabase-config.js
+const db = window.db;
 
 // ==========================================
 // INIT
@@ -7,19 +21,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const modal = document.getElementById("employeeModal");
 
-    document.getElementById("addEmployeeBtn")?.addEventListener("click", () => {
+    const addBtn = document.getElementById("addEmployeeBtn");
+    const closeBtn = document.getElementById("closeEmployeeModal");
+    const cancelBtn = document.getElementById("cancelEmployee");
+    const saveBtn = document.getElementById("saveEmployee");
+
+    if (!modal || !addBtn) {
+        console.error("Missing elements in Employees page");
+        return;
+    }
+
+    // OPEN MODAL
+    addBtn.addEventListener("click", () => {
         modal.classList.add("show");
     });
 
-    document.getElementById("closeEmployeeModal")?.addEventListener("click", () => {
+    // CLOSE MODAL
+    closeBtn?.addEventListener("click", () => {
         modal.classList.remove("show");
     });
 
-    document.getElementById("cancelEmployee")?.addEventListener("click", () => {
+    cancelBtn?.addEventListener("click", () => {
         modal.classList.remove("show");
     });
 
-    document.getElementById("saveEmployee")?.addEventListener("click", saveEmployee);
+    // SAVE
+    saveBtn?.addEventListener("click", saveEmployee);
 
     loadEmployees();
 });
@@ -39,7 +66,7 @@ async function loadEmployees() {
         .order("id", { ascending: false });
 
     if (error) {
-        console.error(error);
+        console.error("Load Error:", error);
         return;
     }
 
@@ -86,7 +113,7 @@ async function saveEmployee() {
         .insert([employee]);
 
     if (error) {
-        console.error(error);
+        console.error("Insert Error:", error);
         alert(error.message);
         return;
     }
@@ -112,3 +139,5 @@ function clearForm() {
     document.getElementById("employeeType").selectedIndex = 0;
     document.getElementById("status").selectedIndex = 0;
 }
+
+} // END SAFETY WRAPPER
