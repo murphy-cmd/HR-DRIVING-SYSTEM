@@ -1,17 +1,23 @@
+// ==========================================
+// SAFE SUPABASE INIT (NO DUPLICATE DB ERROR)
+// ==========================================
+
 const db = window.supabaseClient;
+
+// ==========================================
+// INIT
+// ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
     const modal = document.getElementById("employeeModal");
-
     const addBtn = document.getElementById("addEmployeeBtn");
     const closeBtn = document.getElementById("closeEmployeeModal");
     const cancelBtn = document.getElementById("cancelEmployee");
     const saveBtn = document.getElementById("saveEmployee");
 
-    // ❗ SAFETY CHECK
     if (!modal || !addBtn) {
-        console.log("Missing elements - check HTML IDs");
+        console.error("Missing elements");
         return;
     }
 
@@ -29,43 +35,46 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.classList.remove("show");
     });
 
-    // SAVE
+    // SAVE EMPLOYEE
     saveBtn?.addEventListener("click", async () => {
 
         const employee = {
-            employee_id: document.getElementById("employeeId").value,
-            full_name: document.getElementById("fullName").value,
-            position: document.getElementById("position").value,
-            department: document.getElementById("department").value,
+            employee_id: document.getElementById("employeeId").value.trim(),
+            full_name: document.getElementById("fullName").value.trim(),
+            position: document.getElementById("position").value.trim(),
+            department: document.getElementById("department").value.trim(),
             employee_type: document.getElementById("employeeType").value,
             status: document.getElementById("status").value
         };
 
         if (!employee.employee_id || !employee.full_name) {
-            alert("Fill required fields");
+            alert("Please complete required fields");
             return;
         }
 
         const { error } = await db.from("employees").insert([employee]);
 
         if (error) {
-            console.log(error);
+            console.error(error);
             alert("Insert failed");
             return;
         }
 
         modal.classList.remove("show");
-
+        clearForm();
         loadEmployees();
     });
 
     loadEmployees();
 });
 
+// ==========================================
+// LOAD EMPLOYEES
+// ==========================================
+
 async function loadEmployees() {
 
     const tbody = document.getElementById("employeeTable");
-
     if (!tbody) return;
 
     const { data, error } = await window.supabaseClient
@@ -74,7 +83,7 @@ async function loadEmployees() {
         .order("id");
 
     if (error) {
-        console.log(error);
+        console.error(error);
         return;
     }
 
@@ -89,45 +98,9 @@ async function loadEmployees() {
                 <td>${emp.department || "-"}</td>
                 <td>${emp.position || "-"}</td>
                 <td>${emp.status}</td>
-                <td>${emp.employee_type || "-"}</td>
             </tr>
         `;
     });
-}
-// ==========================================
-// SAVE EMPLOYEE (WORKING)
-// ==========================================
-
-async function saveEmployee() {
-
-    const employee = {
-        employee_id: document.getElementById("employeeId").value.trim(),
-        full_name: document.getElementById("fullName").value.trim(),
-        position: document.getElementById("position").value.trim(),
-        department: document.getElementById("department").value.trim(),
-        employee_type: document.getElementById("employeeType").value,
-        status: document.getElementById("status").value
-    };
-
-    if (!employee.employee_id || !employee.full_name) {
-        alert("Complete required fields!");
-        return;
-    }
-
-    const { error } = await db
-        .from("employees")
-        .insert([employee]);
-
-    if (error) {
-        console.error(error);
-        alert("Error saving employee");
-        return;
-    }
-
-    modal.style.display = "none";
-
-    clearForm();
-    loadEmployees();
 }
 
 // ==========================================
@@ -136,8 +109,11 @@ async function saveEmployee() {
 
 function clearForm() {
 
-    document.getElementById("employeeId").value = "";
-    document.getElementById("fullName").value = "";
-    document.getElementById("position").value = "";
-    document.getElementById("department").value = "";
+    ["employeeId","fullName","position","department"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+
+    document.getElementById("employeeType").selectedIndex = 0;
+    document.getElementById("status").selectedIndex = 0;
 }
