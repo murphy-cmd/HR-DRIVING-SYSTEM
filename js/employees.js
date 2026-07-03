@@ -1,6 +1,3 @@
-console.log("Employees JS Loaded");
-
-const db = window.db;
 
 // ==========================================
 // INIT
