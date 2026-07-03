@@ -528,14 +528,25 @@ toDate.addEventListener(
 // AUTO LOAD
 // ==========================================
 
-window.addEventListener(
-    "DOMContentLoaded",
-    () => {
+window.initializeDtr = function () {
 
-        generateDTR();
+    generateDTR();
 
-    }
-);
+    const generate = document.getElementById("generateBtn");
+    const employee = document.getElementById("employeeSearch");
+    const from = document.getElementById("fromDate");
+    const to = document.getElementById("toDate");
+    const excel = document.getElementById("excelBtn");
+    const pdf = document.getElementById("pdfBtn");
+
+    if (generate) generate.onclick = generateDTR;
+    if (employee) employee.onkeyup = filterRecords;
+    if (from) from.onchange = filterRecords;
+    if (to) to.onchange = filterRecords;
+    if (excel) excel.onclick = exportExcel;
+    if (pdf) pdf.onclick = exportPDF;
+
+};
 
 // ==========================================
 // SAFETY CHECK
