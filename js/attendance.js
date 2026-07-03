@@ -907,14 +907,13 @@ const selectedStatus =
 // ===============================
 // LOAD APPROVED LEAVES
 // ===============================
-
+   
 const {
-    data: approvedLeaves,
+    data: leaveRequests,
     error: leaveError
 } = await supabaseClient
     .from("leave_requests")
-    .select("*")
-    .eq("status", "Approved");
+    .select("*");
 
 if (leaveError) {
 
@@ -985,7 +984,7 @@ if (
     return;
 }
         
-const approvedLeave = approvedLeaves.find(item => {
+const leave = leaveRequests.find(item => {
 
     return (
 
@@ -1001,8 +1000,8 @@ const approvedLeave = approvedLeaves.find(item => {
     );
 
 });
-
-if (approvedLeave) {
+   
+if (leave && leave.status === "Approved") {
 
     leave++;
 
@@ -1047,7 +1046,7 @@ if (record?.attendance_status === "LATE") {
 
 <td>
 ${
-    approvedLeave
+    leave && leave.status === "Approved"
         ? "-"
         : formatTime(record?.am_in)
 }
@@ -1055,7 +1054,7 @@ ${
 
 <td>
 ${
-    approvedLeave
+    leave && leave.status === "Approved"
         ? "-"
         : formatTime(record?.break_time)
 }
@@ -1063,7 +1062,7 @@ ${
 
 <td>
 ${
-    approvedLeave
+    leave && leave.status === "Approved"
         ? "-"
         : formatTime(record?.pm_in)
 }
@@ -1071,7 +1070,7 @@ ${
 
 <td>
 ${
-    approvedLeave
+    leave && leave.status === "Approved"
         ? "-"
         : formatTime(record?.time_out)
 }
@@ -1079,7 +1078,7 @@ ${
 
 <td>
 ${
-    approvedLeave
+    leave && leave.status === "Approved"
         ? "-"
         : (record?.late_display ?? "On Time")
 }
@@ -1087,7 +1086,7 @@ ${
 
 <td>
 ${
-    approvedLeave
+    leave && leave.status === "Approved"
         ? "-"
         : (record?.work_hours ?? "-")
 }
@@ -1095,7 +1094,7 @@ ${
 
 <td>
 ${
-    approvedLeave
+    leave && leave.status === "Approved"
         ? "-"
         : (record?.ot_hours ?? "-")
 }
@@ -1104,11 +1103,10 @@ ${
 <td>
 
 ${
-    approvedLeave
-
-        ? `<span class="badge bg-warning text-dark">
-                ON LEAVE
-           </span>`
+    leave && leave.status === "Approved"
+    ? `<span class="badge bg-warning text-dark">
+        ON LEAVE
+      </span>`
 
         : record?.attendance_status === "LEAVE REJECTED"
 
