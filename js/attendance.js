@@ -109,7 +109,7 @@ const leave = leaveRequests.find(item => {
 
 if (
     leave &&
-    leave.status === "Approved" &&
+    leaveRequest.status === "Approved" &&
     today >= leave.start_date &&
     today <= leave.end_date
 ) {
@@ -161,7 +161,7 @@ status: "COMPLETED"
 }
 else if (
     leave &&
-    leave.status === "Rejected" &&
+    leaveRequest.status === "Rejected" &&
     today >= leave.start_date &&
     today <= leave.end_date
 )
@@ -942,8 +942,7 @@ if (employeeError) {
 let present = 0;
 let late = 0;
 let absent = 0;
-let leave = 0;
-   
+let leaveCount = 0;   
 
 employees.forEach(emp => {
 
@@ -984,8 +983,7 @@ if (
     return;
 }
         
-const leave = leaveRequests.find(item => {
-
+const leaveRequest = leaveRequests.find(item => {
     return (
 
         item.employee_name === emp.full_name &&
@@ -1001,35 +999,53 @@ const leave = leaveRequests.find(item => {
 
 });
    
-if (leave && leave.status === "Approved") {
+// ===============================
+// COMPUTE SUMMARY COUNTERS
+// ===============================
 
-    leave++;
-
-}
-else if (
-    record?.attendance_status === "LEAVE REJECTED"
+// Approved Leave
+if (
+    leaveRequest &&
+    leaveRequest.status === "Approved"
 ) {
 
-    // Hindi bibilangin bilang leave.
-    // Puwede siyang pumasok.
+    leaveCount++;
 
 }
-else {
 
-    if (record?.am_in) {
-        present++;
-    }
+// Present
+if (
+    record &&
+    record.am_in &&
+    !(
+        leaveRequest &&
+        leaveRequest.status === "Approved"
+    )
+) {
 
-    if (record?.attendance_status === "ABSENT") {
-        absent++;
-    }
+    present++;
 
 }
-if (record?.attendance_status === "LATE") {
+
+// Late
+if (
+    record &&
+    record.attendance_status === "LATE"
+) {
+
     late++;
+
 }
 
+// Absent
+if (
+    record &&
+    record.attendance_status === "ABSENT"
+) {
 
+    absent++;
+
+}
    
 
         tbody.innerHTML += `
@@ -1046,7 +1062,7 @@ if (record?.attendance_status === "LATE") {
 
 <td>
 ${
-    leave && leave.status === "Approved"
+    leave && leaveRequest.status === "Approved"
         ? "-"
         : formatTime(record?.am_in)
 }
@@ -1054,7 +1070,7 @@ ${
 
 <td>
 ${
-    leave && leave.status === "Approved"
+    leave && leaveRequest.status === "Approved"
         ? "-"
         : formatTime(record?.break_time)
 }
@@ -1062,7 +1078,7 @@ ${
 
 <td>
 ${
-    leave && leave.status === "Approved"
+    leave && leaveRequest.status === "Approved"
         ? "-"
         : formatTime(record?.pm_in)
 }
@@ -1070,7 +1086,7 @@ ${
 
 <td>
 ${
-    leave && leave.status === "Approved"
+    leave && leaveRequest.status === "Approved"
         ? "-"
         : formatTime(record?.time_out)
 }
@@ -1078,7 +1094,7 @@ ${
 
 <td>
 ${
-    leave && leave.status === "Approved"
+    leave && leaveRequest.status === "Approved"
         ? "-"
         : (record?.late_display ?? "On Time")
 }
@@ -1086,7 +1102,7 @@ ${
 
 <td>
 ${
-    leave && leave.status === "Approved"
+    leave && leaveRequest.status === "Approved"
         ? "-"
         : (record?.work_hours ?? "-")
 }
@@ -1094,7 +1110,7 @@ ${
 
 <td>
 ${
-    leave && leave.status === "Approved"
+    leave && leaveRequest.status === "Approved"
         ? "-"
         : (record?.ot_hours ?? "-")
 }
@@ -1103,7 +1119,7 @@ ${
 <td>
 
 ${
-    leave && leave.status === "Approved"
+    leave && leaveRequest.status === "Approved"
     ? `<span class="badge bg-warning text-dark">
         ON LEAVE
       </span>`
@@ -1148,7 +1164,8 @@ document.getElementById("lateCount").textContent = late;
 
 document.getElementById("absentCount").textContent = absent;
 
-document.getElementById("leaveCount").textContent = leave;
+document.getElementById("leaveCount").textContent = leaveCount;
+
 }
 
 function formatTime(value) {
