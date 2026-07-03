@@ -107,10 +107,10 @@ const leave = leaveRequests.find(item => {
 
 });
 
-if (
+
  if (
     leave &&
-    leave.status === "Approved"
+    leave.status === "Approved" &&
     today >= leave.start_date &&
     today <= leave.end_date
 ) {
@@ -150,12 +150,12 @@ if (
 
 }
 
-    html += createAttendanceRow(
+   html += createAttendanceRow(
     emp,
     {
-        ...daily,
+        ...(daily || {}),
         attendance_status: "ON LEAVE",
-status: "COMPLETED"
+        status: "COMPLETED"
     }
 );
 
