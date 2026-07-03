@@ -1,4 +1,4 @@
-const db = window.db;
+
 
 console.log("Employees JS Loaded");
 
