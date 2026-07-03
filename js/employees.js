@@ -168,7 +168,7 @@ async function saveEmployee() {
         return;
     }
 
-    modal?.classList.remove("show");
+   if (modal) modal.classList.add("show");
 
     clearEmployeeForm();
 
