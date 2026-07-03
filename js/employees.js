@@ -61,11 +61,14 @@ async function loadEmployees() {
         return;
     }
 
-    console.log("Loading employees...");
+   console.log("Loading employees...");
 
-    const { data, error } = await window.supabaseClient
-        .from("employees")
-        .select("*");
+console.log("window.db =", window.db);
+console.log("window.supabaseClient =", window.supabaseClient);
+
+const { data, error } = await window.supabaseClient
+    .from("employees")
+    .select("*");
 
     if (error) {
         console.error("Supabase SELECT ERROR:", error);
