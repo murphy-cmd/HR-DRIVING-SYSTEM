@@ -8,12 +8,11 @@ console.log("Dashboard JS Loaded");
 
 function setText(id, value) {
     const el = document.getElementById(id);
-    if (!el) return;
-    el.textContent = value ?? 0;
+    if (el) el.textContent = value ?? 0;
 }
 
 // ==========================================
-// INIT
+// INIT DASHBOARD
 // ==========================================
 
 async function initializeDashboard() {
@@ -27,7 +26,6 @@ async function initializeDashboard() {
         loadPendingLeave(),
         loadRecentActivities()
     ]);
-
 }
 
 window.initializeDashboard = initializeDashboard;
@@ -56,7 +54,7 @@ function updateDate() {
 }
 
 // ==========================================
-// EMPLOYEE OVERVIEW (FIXED)
+// EMPLOYEE OVERVIEW
 // ==========================================
 
 async function loadEmployeeOverview() {
@@ -86,7 +84,6 @@ async function loadEmployeeOverview() {
         setText("workingEmployees", working);
         setText("breakEmployees", breaking);
         setText("completedEmployees", completed);
-        setText("summaryEmployees", total);
 
     } catch (err) {
         console.error("Employee Overview Error:", err);
@@ -94,7 +91,7 @@ async function loadEmployeeOverview() {
 }
 
 // ==========================================
-// DRIVER OVERVIEW (FIXED)
+// DRIVER OVERVIEW
 // ==========================================
 
 async function loadDriverOverview() {
@@ -139,7 +136,7 @@ async function loadDriverOverview() {
 }
 
 // ==========================================
-// TODAY ATTENDANCE (FIXED)
+// ATTENDANCE
 // ==========================================
 
 async function loadTodayAttendance() {
@@ -162,7 +159,7 @@ async function loadTodayAttendance() {
 }
 
 // ==========================================
-// PENDING LEAVE (FIXED)
+// LEAVE
 // ==========================================
 
 async function loadPendingLeave() {
@@ -183,7 +180,7 @@ async function loadPendingLeave() {
 }
 
 // ==========================================
-// RECENT ACTIVITIES (FIXED)
+// RECENT ACTIVITY
 // ==========================================
 
 async function loadRecentActivities() {
