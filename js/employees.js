@@ -17,26 +17,24 @@ const db = window.db;
 // INIT
 // ==========================================
 
-document.addEventListener("DOMContentLoaded", () => {
+const modal = document.getElementById("employeeModal");
 
-    const modal = document.getElementById("employeeModal");
+const addBtn = document.getElementById("addEmployeeBtn");
+const closeBtn = document.getElementById("closeEmployeeModal");
+const cancelBtn = document.getElementById("cancelEmployee");
+const saveBtn = document.getElementById("saveEmployee");
 
-    const addBtn = document.getElementById("addEmployeeBtn");
-    const closeBtn = document.getElementById("closeEmployeeModal");
-    const cancelBtn = document.getElementById("cancelEmployee");
-    const saveBtn = document.getElementById("saveEmployee");
+if (!modal || !addBtn) {
 
-    if (!modal || !addBtn) {
-        console.error("Missing elements in Employees page");
-        return;
-    }
+    console.error("Missing elements in Employees page");
 
-    // OPEN MODAL
+}
+else {
+
     addBtn.addEventListener("click", () => {
         modal.classList.add("show");
     });
 
-    // CLOSE MODAL
     closeBtn?.addEventListener("click", () => {
         modal.classList.remove("show");
     });
@@ -45,12 +43,11 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.classList.remove("show");
     });
 
-    // SAVE
     saveBtn?.addEventListener("click", saveEmployee);
 
     loadEmployees();
-});
 
+}
 // ==========================================
 // LOAD EMPLOYEES
 // ==========================================
