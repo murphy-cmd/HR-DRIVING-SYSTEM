@@ -1,9 +1,12 @@
 const db = window.supabaseClient;
+
 // ==========================================
 // INITIALIZE EMPLOYEES
 // ==========================================
 
 window.initializeEmployees = initializeEmployees;
+
+let modal;
 
 function initializeEmployees() {
 
@@ -14,10 +17,10 @@ function initializeEmployees() {
     if (!modal) return;
 
     loadEmployees();
-
 }
+
 // ==========================================
-// EMPLOYEE MODULE
+// DOM READY
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -26,29 +29,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loadEmployees();
 
+    setupEvents();
+
 });
-let modal;
-
-document.getElementById("addEmployeeBtn").onclick = () => {
-
-    modal.classList.add("show");
-
-};
-
-document.getElementById("closeEmployeeModal").onclick = () => {
-
-    modal.classList.remove("show");
-
-};
-
-document.getElementById("cancelEmployee").onclick = () => {
-
-    modal.classList.remove("show");
-
-};
 
 // ==========================================
-// LOAD EMPLOYEES
+// EVENTS SETUP (SAFE FIX)
+// ==========================================
+
+function setupEvents() {
+
+    const addBtn = document.getElementById("addEmployeeBtn");
+    const closeBtn = document.getElementById("closeEmployeeModal");
+    const cancelBtn = document.getElementById("cancelEmployee");
+    const saveBtn = document.getElementById("saveEmployee");
+    const search = document.getElementById("employeeSearch");
+
+    if (addBtn) {
+        addBtn.onclick = () => modal.classList.add("show");
+    }
+
+    if (closeBtn) {
+        closeBtn.onclick = () => modal.classList.remove("show");
+    }
+
+    if (cancelBtn) {
+        cancelBtn.onclick = () => modal.classList.remove("show");
+    }
+
+    if (saveBtn) {
+        saveBtn.addEventListener("click", saveEmployee);
+    }
+
+    if (search) {
+        search.addEventListener("input", searchEmployee);
+    }
+}
+
+// ==========================================
+// LOAD EMPLOYEES (NO ACTION BUTTONS)
 // ==========================================
 
 async function loadEmployees() {
@@ -64,6 +83,8 @@ async function loadEmployees() {
     }
 
     const tbody = document.getElementById("employeeTable");
+
+    if (!tbody) return;
 
     tbody.innerHTML = "";
 
@@ -86,99 +107,58 @@ async function loadEmployees() {
                 break;
 
             default:
-                badge = `<span class="status-badge">${emp.status}</span>`;
-
+                badge = `<span class="status-badge">${emp.status || "-"}</span>`;
         }
 
         tbody.innerHTML += `
-
         <tr>
 
             <td>
-
-                <img
-                    src="${emp.photo_url || 'asset/avatar.png'}"
-                    class="table-photo">
-
+                <img src="${emp.photo_url || 'asset/avatar.png'}"
+                     class="table-photo">
             </td>
 
-            <td>${emp.employee_id}</td>
-
-            <td>${emp.full_name}</td>
-
+            <td>${emp.employee_id || "-"}</td>
+            <td>${emp.full_name || "-"}</td>
             <td>${emp.department || "-"}</td>
-
             <td>${emp.position || "-"}</td>
-
             <td>${badge}</td>
 
-            
-
         </tr>
-
         `;
-
     });
-
 }
+
 // ==========================================
 // SAVE EMPLOYEE
 // ==========================================
 
-document
-.getElementById("saveEmployee")
-.addEventListener("click", saveEmployee);
-
-async function saveEmployee(){
+async function saveEmployee() {
 
     const employee = {
 
-        employee_id:
-        document.getElementById("employeeId").value.trim(),
-
-        full_name:
-        document.getElementById("fullName").value.trim(),
-
-        position:
-        document.getElementById("position").value.trim(),
-
-        department:
-        document.getElementById("department").value.trim(),
-
-        employee_type:
-        document.getElementById("employeeType").value,
-
-        status:
-        document.getElementById("status").value
+        employee_id: document.getElementById("employeeId").value.trim(),
+        full_name: document.getElementById("fullName").value.trim(),
+        position: document.getElementById("position").value.trim(),
+        department: document.getElementById("department").value.trim(),
+        employee_type: document.getElementById("employeeType").value,
+        status: document.getElementById("status").value
 
     };
 
-    // Validation
-
-    if(
-        employee.employee_id==="" ||
-        employee.full_name===""){
-        
-        alert("Please complete the required fields.");
-
+    if (employee.employee_id === "" || employee.full_name === "") {
+        alert("Please complete required fields.");
         return;
-
     }
 
     const { error } = await db
-
         .from("employees")
-
         .insert(employee);
 
-    if(error){
-
+    if (error) {
         console.error(error);
-
         alert(error.message);
-
         return;
-
     }
 
     modal.classList.remove("show");
@@ -186,56 +166,41 @@ async function saveEmployee(){
     clearEmployeeForm();
 
     loadEmployees();
-
 }
+
 // ==========================================
 // CLEAR FORM
 // ==========================================
 
-function clearEmployeeForm(){
+function clearEmployeeForm() {
 
-document.getElementById("employeeId").value="";
-
-document.getElementById("fullName").value="";
-
-document.getElementById("position").value="";
-
-document.getElementById("department").value="";
-
-document.getElementById("employeeType").selectedIndex=0;
-
-document.getElementById("status").selectedIndex=0;
-
+    document.getElementById("employeeId").value = "";
+    document.getElementById("fullName").value = "";
+    document.getElementById("position").value = "";
+    document.getElementById("department").value = "";
+    document.getElementById("employeeType").selectedIndex = 0;
+    document.getElementById("status").selectedIndex = 0;
 }
+
 // ==========================================
-// LIVE SEARCH
+// SEARCH
 // ==========================================
 
-document
-.getElementById("employeeSearch")
-.addEventListener("input", searchEmployee);
+function searchEmployee() {
 
-function searchEmployee(){
-
-    const keyword =
-        document
+    const keyword = document
         .getElementById("employeeSearch")
         .value
         .toLowerCase();
 
-    const rows =
-        document
-        .querySelectorAll("#employeeTable tr");
+    const rows = document.querySelectorAll("#employeeTable tr");
 
-    rows.forEach(row=>{
+    rows.forEach(row => {
 
         row.style.display =
-            row.innerText
-            .toLowerCase()
-            .includes(keyword)
-            ? ""
-            : "none";
+            row.innerText.toLowerCase().includes(keyword)
+                ? ""
+                : "none";
 
     });
-
 }
