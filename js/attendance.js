@@ -80,46 +80,89 @@ if (leaveError) {
 
     let html = "";
 
-   employees.forEach(emp => {
+for (const emp of employees) {
+   
+const daily =
+    attendance.find(
+        record =>
+            record.employee_id ===
+            emp.employee_id
+    );
 
-    const daily =
-        attendance.find(
-            record =>
-                record.employee_id ===
-                emp.employee_id
-        );
+// ===============================
+// CHECK APPROVED LEAVE
+// ===============================
 
-    // ===============================
-    // CHECK APPROVED LEAVE
-    // ===============================
+const leave = leaveRequests.find(item => {
 
+    return (
+        item.employee_name === emp.full_name &&
+        today >= item.start_date &&
+        today <= item.end_date
+    );
 
-const leave = leaveRequests.find(item =>
-    item.employee_name === emp.full_name
-);
+});
 
-console.log(leave);
-
-    // Kung naka leave ngayon
-  if (
+if (
     leave &&
     leave.status === "Approved" &&
     today >= leave.start_date &&
     today <= leave.end_date
 ) {
 
-    html += createAttendanceRow(
-        emp,
-        {
-            attendance_status: "ON LEAVE"
+   if (!daily) {
+
+    const { data: existing } = await supabaseClient
+        .from("attendance_daily")
+        .select("id")
+        .eq("employee_id", emp.employee_id)
+        .eq("attendance_date", today)
+        .maybeSingle();
+
+    if (!existing) {
+
+        const { error } = await supabaseClient
+            .from("attendance_daily")
+            .insert([{
+
+                employee_id: emp.employee_id,
+                employee_name: emp.full_name,
+                employee_type: emp.employee_type,
+
+                attendance_date: today,
+
+                attendance_status: "ON LEAVE"
+
+            }]);
+
+        if (error) {
+
+            console.error(error);
+
         }
-    );
+
+    }
+
+}
+
+    html += createAttendanceRow(
+    emp,
+    {
+        ...daily,
+        attendance_status: "ON LEAVE",
+status: "COMPLETED"
+    }
+);
 
 }
 else if (
     leave &&
-    leave.status === "Rejected"
-) {
+    leave.status === "Rejected" &&
+    today >= leave.start_date &&
+    today <= leave.end_date
+)
+
+{
 
     html += createAttendanceRow(
         emp,
@@ -137,17 +180,6 @@ else {
         emp,
         daily
     );
-
-}
-
-});
-
-    document
-        .getElementById(
-            "attendanceTable"
-        )
-        .innerHTML =
-        html;
 
 }
 
