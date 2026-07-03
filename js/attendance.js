@@ -1005,13 +1005,22 @@ if (approvedLeave) {
 
     leave++;
 
-} else {
+}
+else if (
+    record?.attendance_status === "LEAVE REJECTED"
+) {
 
-    if (record.am_in) {
+    // Hindi bibilangin bilang leave.
+    // Puwede siyang pumasok.
+
+}
+else {
+
+    if (record?.am_in) {
         present++;
     }
 
-    if (record.attendance_status === "ABSENT") {
+    if (record?.attendance_status === "ABSENT") {
         absent++;
     }
 
@@ -1036,19 +1045,11 @@ if (record.attendance_status === "LATE") {
 
 <td>${record.employee_type ?? "-"}</td>
 
-<td>${formatTime(record.am_in)}</td>
-
-<td>${formatTime(record.break_time)}</td>
-
-<td>${formatTime(record.pm_in)}</td>
-
-<td>${formatTime(record.time_out)}</td>
-
 <td>
 ${
     approvedLeave
         ? "-"
-        : (record.late_display ?? "On Time")
+        : formatTime(record?.am_in)
 }
 </td>
 
@@ -1056,7 +1057,7 @@ ${
 ${
     approvedLeave
         ? "-"
-        : (record.work_hours ?? "-")
+        : formatTime(record?.break_time)
 }
 </td>
 
@@ -1064,18 +1065,79 @@ ${
 ${
     approvedLeave
         ? "-"
-        : (record.ot_hours ?? "-")
+        : formatTime(record?.pm_in)
 }
 </td>
 
 <td>
 ${
     approvedLeave
-        ? "ON LEAVE"
-        : (record.attendance_status ?? "-")
+        ? "-"
+        : formatTime(record?.time_out)
 }
 </td>
 
+<td>
+${
+    approvedLeave
+        ? "-"
+        : (record?.late_display ?? "On Time")
+}
+</td>
+
+<td>
+${
+    approvedLeave
+        ? "-"
+        : (record?.work_hours ?? "-")
+}
+</td>
+
+<td>
+${
+    approvedLeave
+        ? "-"
+        : (record?.ot_hours ?? "-")
+}
+</td>
+
+<td>
+
+${
+    approvedLeave
+
+        ? `<span class="badge bg-warning text-dark">
+                ON LEAVE
+           </span>`
+
+        : record?.attendance_status === "LEAVE REJECTED"
+
+        ? `<span class="badge bg-danger">
+                LEAVE REJECTED
+           </span>`
+
+        : record?.attendance_status === "LATE"
+
+        ? `<span class="badge bg-danger">
+                LATE
+           </span>`
+
+        : record?.attendance_status === "ON TIME"
+
+        ? `<span class="badge bg-success">
+                ON TIME
+           </span>`
+
+        : record?.attendance_status === "ABSENT"
+
+        ? `<span class="badge bg-secondary">
+                ABSENT
+           </span>`
+
+        : "-"
+}
+
+</td>
 </tr>
 
 `;
