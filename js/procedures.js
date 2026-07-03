@@ -20,13 +20,16 @@ window.initializeProcedures = function () {
 
     loadProcedures();
 
-    document
-        .getElementById("saveProcedure")
-        ?.addEventListener("click", saveProcedure);
+    const saveBtn = document.getElementById("saveProcedure");
+    const searchInput = document.getElementById("search");
 
-    document
-        .getElementById("search")
-        ?.addEventListener("keyup", searchProcedures);
+    if (saveBtn) {
+        saveBtn.onclick = saveProcedure;
+    }
+
+    if (searchInput) {
+        searchInput.onkeyup = searchProcedures;
+    }
 
 };
 // ==========================================
