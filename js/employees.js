@@ -112,27 +112,7 @@ async function loadEmployees() {
 
             <td>${badge}</td>
 
-            <td>
-
-                <button class="action-btn view-btn">
-
-                    <i class="fa-solid fa-eye"></i>
-
-                </button>
-
-                <button class="action-btn edit-btn">
-
-                    <i class="fa-solid fa-pen"></i>
-
-                </button>
-
-                <button class="action-btn delete-btn">
-
-                    <i class="fa-solid fa-trash"></i>
-
-                </button>
-
-            </td>
+            
 
         </tr>
 
