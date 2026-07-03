@@ -977,6 +977,7 @@ employees.forEach(emp => {
 
 if (
     selectedDate &&
+    record &&
     record.attendance_date !== selectedDate
 ) {
     return;
@@ -986,6 +987,7 @@ if (
 
 if (
     selectedStatus &&
+    record &&
     record.attendance_status !== selectedStatus
 ) {
     return;
@@ -994,9 +996,16 @@ if (
 const approvedLeave = approvedLeaves.find(item => {
 
     return (
-        item.employee_name === record.employee_name &&
-        record.attendance_date >= item.start_date &&
-        record.attendance_date <= item.end_date
+
+        item.employee_name === emp.full_name &&
+
+        (!record ||
+
+        (
+            record.attendance_date >= item.start_date &&
+            record.attendance_date <= item.end_date
+        ))
+
     );
 
 });
@@ -1025,8 +1034,7 @@ else {
     }
 
 }
-
-if (record.attendance_status === "LATE") {
+if (record?.attendance_status === "LATE") {
     late++;
 }
 
