@@ -1,6 +1,6 @@
-
-
 console.log("Employees JS Loaded");
+
+const db = window.db;
 
 // ==========================================
 // INIT
@@ -10,32 +10,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const modal = document.getElementById("employeeModal");
 
-    const addBtn = document.getElementById("addEmployeeBtn");
-    const closeBtn = document.getElementById("closeEmployeeModal");
-    const cancelBtn = document.getElementById("cancelEmployee");
-    const saveBtn = document.getElementById("saveEmployee");
-
-    if (!modal) {
-        console.error("Employee modal not found");
-        return;
-    }
-
-    // OPEN
-    addBtn?.addEventListener("click", () => {
+    document.getElementById("addEmployeeBtn")?.addEventListener("click", () => {
         modal.classList.add("show");
     });
 
-    // CLOSE
-    closeBtn?.addEventListener("click", () => {
+    document.getElementById("closeEmployeeModal")?.addEventListener("click", () => {
         modal.classList.remove("show");
     });
 
-    cancelBtn?.addEventListener("click", () => {
+    document.getElementById("cancelEmployee")?.addEventListener("click", () => {
         modal.classList.remove("show");
     });
 
-    // SAVE
-    saveBtn?.addEventListener("click", saveEmployee);
+    document.getElementById("saveEmployee")?.addEventListener("click", saveEmployee);
 
     loadEmployees();
 });
@@ -55,7 +42,7 @@ async function loadEmployees() {
         .order("id", { ascending: false });
 
     if (error) {
-        console.error("Load Error:", error);
+        console.error(error);
         return;
     }
 
@@ -76,7 +63,7 @@ async function loadEmployees() {
 }
 
 // ==========================================
-// SAVE EMPLOYEE (FIXED)
+// SAVE EMPLOYEE
 // ==========================================
 
 async function saveEmployee() {
@@ -103,7 +90,7 @@ async function saveEmployee() {
 
     if (error) {
         console.error(error);
-        alert("Insert failed: " + error.message);
+        alert(error.message);
         return;
     }
 
@@ -111,7 +98,7 @@ async function saveEmployee() {
 
     clearForm();
 
-    await loadEmployees();
+    loadEmployees();
 }
 
 // ==========================================
