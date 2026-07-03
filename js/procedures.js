@@ -143,6 +143,8 @@ function displayProcedures(list) {
 
 async function saveProcedure() {
 
+    console.log("SAVE BUTTON CLICKED");
+
     const procedureName = document
         .getElementById("procedureName")
         .value
