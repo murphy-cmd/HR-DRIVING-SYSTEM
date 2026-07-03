@@ -1,5 +1,5 @@
 // ==========================================
-// SAFE SUPABASE INIT (NO DUPLICATE DB ERROR)
+// EMPLOYEES MODULE (FIXED CLEAN VERSION)
 // ==========================================
 
 const db = window.supabaseClient;
@@ -52,12 +52,14 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-      const { error } = await supabaseClient
-    .from("employees")
-    .insert([employee]);
+        // ✅ FIXED SUPABASE CALL (NO ERROR)
+        const { error } = await db
+            .from("employees")
+            .insert([employee]);
+
         if (error) {
             console.error(error);
-            alert("Insert failed");
+            alert("Insert failed: " + error.message);
             return;
         }
 
@@ -78,7 +80,7 @@ async function loadEmployees() {
     const tbody = document.getElementById("employeeTable");
     if (!tbody) return;
 
-    const { data, error } = await window.supabaseClient
+    const { data, error } = await db
         .from("employees")
         .select("*")
         .order("id");
@@ -110,11 +112,14 @@ async function loadEmployees() {
 
 function clearForm() {
 
-    ["employeeId","fullName","position","department"].forEach(id => {
+    ["employeeId", "fullName", "position", "department"].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = "";
     });
 
-    document.getElementById("employeeType").selectedIndex = 0;
-    document.getElementById("status").selectedIndex = 0;
+    const type = document.getElementById("employeeType");
+    const status = document.getElementById("status");
+
+    if (type) type.selectedIndex = 0;
+    if (status) status.selectedIndex = 0;
 }
