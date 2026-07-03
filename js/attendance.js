@@ -63,13 +63,12 @@ async function loadAttendanceBoard() {
 // ===============================
 
 const {
-    data: approvedLeaves,
+    data: leaveRequests,
     error: leaveError
 } =
 await supabaseClient
     .from("leave_requests")
-    .select("*")
-    .eq("status", "Approved");
+    .select("*");
 
 if (leaveError) {
 
@@ -95,31 +94,51 @@ if (leaveError) {
     // ===============================
 
 
-
-const leave = approvedLeaves.find(item =>
+const leave = leaveRequests.find(item =>
     item.employee_name === emp.full_name
 );
 
 console.log(leave);
 
     // Kung naka leave ngayon
-    if (leave) {
+  if (
+    leave &&
+    leave.status === "Approved" &&
+    today >= leave.start_date &&
+    today <= leave.end_date
+) {
 
-        html += createAttendanceRow(
-            emp,
-            {
-                attendance_status: "ON LEAVE"
-            }
-        );
+    html += createAttendanceRow(
+        emp,
+        {
+            attendance_status: "ON LEAVE"
+        }
+    );
 
-    } else {
+}
+else if (
+    leave &&
+    leave.status === "Rejected"
+) {
 
-        html += createAttendanceRow(
-            emp,
-            daily
-        );
+    html += createAttendanceRow(
+        emp,
+        daily
+            ? daily
+            : {
+                  attendance_status: "LEAVE REJECTED"
+              }
+    );
 
-    }
+}
+else {
+
+    html += createAttendanceRow(
+        emp,
+        daily
+    );
+
+}
 
 });
 
@@ -178,14 +197,36 @@ ${daily?.late_display ?? "-"}
 
 ${
     onLeave
-    ? `<span class="badge bg-warning text-dark">ON LEAVE</span>`
+
+    ? `<span class="badge bg-warning text-dark">
+            ON LEAVE
+       </span>`
+
+    : daily?.attendance_status === "LEAVE REJECTED"
+
+    ? `<span class="badge bg-danger">
+            LEAVE REJECTED
+       </span>`
+
     : daily?.attendance_status === "LATE"
-        ? `<span class="badge bg-danger">LATE</span>`
-        : daily?.attendance_status === "PRESENT"
-            ? `<span class="badge bg-success">PRESENT</span>`
-            : daily?.attendance_status === "ABSENT"
-                ? `<span class="badge bg-secondary">ABSENT</span>`
-                : "-"
+
+    ? `<span class="badge bg-danger">
+            LATE
+       </span>`
+
+    : daily?.attendance_status === "ON TIME"
+
+    ? `<span class="badge bg-success">
+            ON TIME
+       </span>`
+
+    : daily?.attendance_status === "ABSENT"
+
+    ? `<span class="badge bg-secondary">
+            ABSENT
+       </span>`
+
+    : "-"
 }
 </td>
 
