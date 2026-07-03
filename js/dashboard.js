@@ -130,78 +130,56 @@ async function loadEmployeeOverview() {
 }
 
 // ==========================================
-// DRIVER OVERVIEW
+// DRIVER + EMPLOYEE OVERVIEW FIXED
 // ==========================================
 
 async function loadDriverOverview() {
 
     try {
 
-        const { count: totalDrivers, error: e1 } =
-            await supabaseClient
-                .from("employees")
-                .select("*", {
-                    count: "exact",
-                    head: true
-                })
-                .eq("employee_type", "driver");
+        // TOTAL DRIVERS
+        const { count: totalDrivers } = await supabaseClient
+            .from("employees")
+            .select("*", { count: "exact", head: true })
+            .eq("employee_type", "driver");
 
-        const { count: availableDrivers, error: e2 } =
-            await supabaseClient
-                .from("employees")
-                .select("*", {
-                    count: "exact",
-                    head: true
-                })
-                .eq("employee_type", "driver")
-                .eq("status", "WORKING");
+        // AVAILABLE (WORKING)
+        const { count: availableDrivers } = await supabaseClient
+            .from("employees")
+            .select("*", { count: "exact", head: true })
+            .eq("employee_type", "driver")
+            .eq("status", "WORKING");
 
-        const { count: drivingDrivers, error: e3 } =
-            await supabaseClient
-                .from("assignments")
-                .select("*", {
-                    count: "exact",
-                    head: true
-                })
-                .eq("status", "ONGOING");
+        // DRIVING (ONGOING ASSIGNMENTS)
+        const { count: drivingDrivers } = await supabaseClient
+            .from("assignments")
+            .select("*", { count: "exact", head: true })
+            .eq("status", "ONGOING");
 
-        const { count: completedTrips, error: e4 } =
-            await supabaseClient
-                .from("assignments")
-                .select("*", {
-                    count: "exact",
-                    head: true
-                })
-                .eq("status", "COMPLETED");
+        // COMPLETED TRIPS
+        const { count: completedTrips } = await supabaseClient
+            .from("assignments")
+            .select("*", { count: "exact", head: true })
+            .eq("status", "COMPLETED");
 
-        if (e1 || e2 || e3 || e4) {
+        // BREAK (if wala ka column, fallback = 0 safe)
+        const { count: breakDrivers } = await supabaseClient
+            .from("employees")
+            .select("*", { count: "exact", head: true })
+            .eq("status", "BREAK");
 
-            console.error(e1 || e2 || e3 || e4);
-            return;
+        // UPDATE UI
+        document.getElementById("totalDrivers").textContent = totalDrivers || 0;
+        document.getElementById("availableDrivers").textContent = availableDrivers || 0;
+        document.getElementById("drivingDrivers").textContent = drivingDrivers || 0;
+        document.getElementById("completedTrips").textContent = completedTrips || 0;
 
-        }
+        // optional kung may break card ka
+        const breakEl = document.getElementById("breakDrivers");
+        if (breakEl) breakEl.textContent = breakDrivers || 0;
 
-        document.getElementById("totalDrivers").textContent =
-            totalDrivers ?? 0;
-
-        document.getElementById("availableDrivers").textContent =
-            availableDrivers ?? 0;
-
-        document.getElementById("drivingDrivers").textContent =
-            drivingDrivers ?? 0;
-
-        document.getElementById("completedTrips").textContent =
-            completedTrips ?? 0;
-
-        document.getElementById("summaryDrivers").textContent =
-            availableDrivers ?? 0;
-
-    }
-
-    catch (err) {
-
-        console.error("Driver Overview", err);
-
+    } catch (err) {
+        console.error("Driver Overview Error:", err);
     }
 
 }
