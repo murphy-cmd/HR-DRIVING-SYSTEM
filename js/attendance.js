@@ -95,13 +95,16 @@ const daily =
 
 const leave = leaveRequests.find(item => {
 
-    return (
-        item.employee_name === emp.full_name &&
-        today >= item.start_date &&
-        today <= item.end_date
-    );
+   
+console.log("EMPLOYEE:", emp.full_name);
+console.log("LEAVE NAME:", item.employee_name);
+console.log("STATUS:", item.status);
 
-});
+return (
+    item.employee_name === emp.full_name &&
+    today >= item.start_date &&
+    today <= item.end_date
+);
 
 if (
     leave &&
