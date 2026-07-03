@@ -95,18 +95,17 @@ const daily =
 
 const leave = leaveRequests.find(item => {
 
-   
-console.log("EMPLOYEE:", emp.full_name);
-console.log("LEAVE NAME:", item.employee_name);
-console.log("STATUS:", item.status);
+    console.log("TODAY =", today);
+    console.log("START =", item.start_date);
+    console.log("END =", item.end_date);
 
-return (
-    item.employee_name === emp.full_name &&
-    today >= item.start_date &&
-    today <= item.end_date
-);
+    return (
+        item.employee_name === emp.full_name &&
+        today >= item.start_date &&
+        today <= item.end_date
+    );
 
-   });
+});
 
 if (
     leave &&
@@ -387,6 +386,8 @@ async function recordAttendance(
                 timeZone: "Asia/Manila"
             }
         );
+
+   console.log("TODAY =", today);
 
     // Load Employee
 
