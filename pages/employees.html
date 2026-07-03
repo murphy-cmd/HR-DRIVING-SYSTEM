@@ -1,6 +1,5 @@
 <div class="page">
 
-    <!-- HEADER (CLEAN ONLY BUTTON) -->
     <div class="page-header">
 
         <button id="addEmployeeBtn" class="primary-btn">
@@ -10,7 +9,6 @@
 
     </div>
 
-    <!-- TABLE CARD -->
     <div class="card">
 
         <div class="table-responsive">
@@ -37,56 +35,41 @@
 
 </div>
 
-<!-- ADD EMPLOYEE MODAL -->
+<!-- MODAL -->
 <div id="employeeModal" class="modal">
 
     <div class="modal-content">
 
-        <!-- MODAL HEADER -->
         <div class="modal-header">
-
             <h3>Add Employee</h3>
-
             <button id="closeEmployeeModal">&times;</button>
-
         </div>
 
-        <!-- FORM -->
         <div class="modal-body">
 
-            <div class="form-grid">
+            <input type="text" id="employeeId" placeholder="Employee ID">
+            <input type="text" id="fullName" placeholder="Full Name">
+            <input type="text" id="position" placeholder="Position">
+            <input type="text" id="department" placeholder="Department">
 
-                <input type="text" id="employeeId" placeholder="Employee ID">
-                <input type="text" id="fullName" placeholder="Full Name">
-                <input type="text" id="position" placeholder="Position">
-                <input type="text" id="department" placeholder="Department">
+            <select id="employeeType">
+                <option value="office">Office Staff</option>
+                <option value="driver">Driver</option>
+                <option value="warehouse">Warehouse</option>
+            </select>
 
-                <select id="employeeType">
-                    <option value="office">Office Staff</option>
-                    <option value="driver">Driver</option>
-                    <option value="warehouse">Warehouse Staff</option>
-                </select>
-
-                <select id="status">
-                    <option value="WORKING">WORKING</option>
-                    <option value="BREAK">BREAK</option>
-                    <option value="DRIVING">DRIVING</option>
-                </select>
-
-            </div>
+            <select id="status">
+                <option value="WORKING">WORKING</option>
+                <option value="BREAK">BREAK</option>
+                <option value="DRIVING">DRIVING</option>
+            </select>
 
         </div>
 
-        <!-- FOOTER -->
         <div class="modal-footer">
 
-            <button id="cancelEmployee" class="secondary-btn">
-                Cancel
-            </button>
-
-            <button id="saveEmployee" class="primary-btn">
-                Save Employee
-            </button>
+            <button id="cancelEmployee">Cancel</button>
+            <button id="saveEmployee">Save</button>
 
         </div>
 
@@ -94,10 +77,7 @@
 
 </div>
 
-<!-- SCRIPTS (IMPORTANT ORDER FIX) -->
-
+<!-- SCRIPTS (IMPORTANT ORDER) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script src="js/supabase-config.js"></script>
-
 <script src="js/employees.js"></script>
