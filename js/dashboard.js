@@ -1,5 +1,9 @@
 console.log("Dashboard JS Loaded");
-
+function setText(id, value) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = value ?? 0;
+}
 // ==========================================
 // INIT
 // ==========================================
@@ -103,13 +107,13 @@ async function loadDriverOverview() {
             .select("*", { count: "exact", head: true })
             .eq("employee_type", "driver");
 
-        const { count: available } = await supabaseClient
+        const { count: availableDrivers } = await supabaseClient
             .from("employees")
             .select("*", { count: "exact", head: true })
             .eq("employee_type", "driver")
             .eq("status", "WORKING");
 
-        const { count: driving } = await supabaseClient
+        const { count: drivingDrivers } = await supabaseClient
             .from("assignments")
             .select("*", { count: "exact", head: true })
             .eq("status", "ONGOING");
@@ -124,9 +128,10 @@ async function loadDriverOverview() {
             .select("*", { count: "exact", head: true })
             .eq("status", "BREAK");
 
+        // ✅ SAFE UPDATE (NO CRASH ANY PAGE)
         setText("totalDrivers", totalDrivers);
-        setText("availableDrivers", available);
-        setText("drivingDrivers", driving);
+        setText("availableDrivers", availableDrivers);
+        setText("drivingDrivers", drivingDrivers);
         setText("completedTrips", completedTrips);
         setText("breakDrivers", breakDrivers);
 
