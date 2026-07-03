@@ -2,8 +2,7 @@
 // SAFE SUPABASE INIT (NO DUPLICATE DB ERROR)
 // ==========================================
 
-window.db = window.supabaseClient;
-const db = window.db;
+const db = window.supabaseClient;
 
 // ==========================================
 // INIT
