@@ -89,6 +89,8 @@ const daily =
             emp.employee_id
     );
 
+   const currentHour = new Date().getHours();
+
 // ===============================
 // CHECK APPROVED LEAVE
 // ===============================
@@ -181,10 +183,52 @@ else if (
 }
 else {
 
-    html += createAttendanceRow(
-        emp,
-        daily
-    );
+    // Auto Absent kapag 12:00 AM na ng susunod na araw
+    if (!daily && currentHour >= 0) {
+
+        const { data: existing } = await supabaseClient
+            .from("attendance_daily")
+            .select("id")
+            .eq("employee_id", emp.employee_id)
+            .eq("attendance_date", today)
+            .maybeSingle();
+
+        if (!existing) {
+
+            await supabaseClient
+                .from("attendance_daily")
+                .insert([{
+                    employee_id: emp.employee_id,
+                    employee_name: emp.full_name,
+                    employee_type: emp.employee_type,
+                    attendance_date: today,
+                    attendance_status: "ABSENT"
+                }]);
+
+            html += createAttendanceRow(
+                emp,
+                {
+                    attendance_status: "ABSENT"
+                }
+            );
+
+        } else {
+
+            html += createAttendanceRow(
+                emp,
+                daily
+            );
+
+        }
+
+    } else {
+
+        html += createAttendanceRow(
+            emp,
+            daily
+        );
+
+    }
 
 }
 
