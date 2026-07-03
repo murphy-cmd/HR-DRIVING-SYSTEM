@@ -1,12 +1,4 @@
-// ==========================================
-// EMPLOYEES MODULE (FIXED CLEAN VERSION)
-// ==========================================
-
-const db = window.supabaseClient;
-
-// ==========================================
-// INIT
-// ==========================================
+const db = window.db;
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -16,7 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelBtn = document.getElementById("cancelEmployee");
     const saveBtn = document.getElementById("saveEmployee");
 
-    if (!modal || !addBtn) {
+    // safety check
+    if (!modal || !addBtn || !saveBtn) {
         console.error("Missing elements");
         return;
     }
@@ -35,8 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.classList.remove("show");
     });
 
-    // SAVE EMPLOYEE
-    saveBtn?.addEventListener("click", async () => {
+    // SAVE EMPLOYEE (MAIN FIX HERE)
+    saveBtn.addEventListener("click", async () => {
 
         const employee = {
             employee_id: document.getElementById("employeeId").value.trim(),
@@ -47,33 +40,32 @@ document.addEventListener("DOMContentLoaded", () => {
             status: document.getElementById("status").value
         };
 
+        // validation
         if (!employee.employee_id || !employee.full_name) {
             alert("Please complete required fields");
             return;
         }
 
-        // ✅ FIXED SUPABASE CALL (NO ERROR)
+        // INSERT FIXED
         const { error } = await db
             .from("employees")
             .insert([employee]);
 
         if (error) {
-            console.error(error);
-            alert("Insert failed: " + error.message);
+            console.error("INSERT ERROR:", error);
+            alert(error.message);
             return;
         }
 
         modal.classList.remove("show");
+
         clearForm();
+
         loadEmployees();
     });
 
     loadEmployees();
 });
-
-// ==========================================
-// LOAD EMPLOYEES
-// ==========================================
 
 async function loadEmployees() {
 
@@ -86,7 +78,7 @@ async function loadEmployees() {
         .order("id");
 
     if (error) {
-        console.error(error);
+        console.error("LOAD ERROR:", error);
         return;
     }
 
@@ -95,31 +87,23 @@ async function loadEmployees() {
     data.forEach(emp => {
 
         tbody.innerHTML += `
-            <tr>
-                <td>${emp.employee_id}</td>
-                <td>${emp.full_name}</td>
-                <td>${emp.department || "-"}</td>
-                <td>${emp.position || "-"}</td>
-                <td>${emp.status}</td>
-            </tr>
+        <tr>
+            <td>${emp.employee_id}</td>
+            <td>${emp.full_name}</td>
+            <td>${emp.department || "-"}</td>
+            <td>${emp.position || "-"}</td>
+            <td>${emp.status}</td>
+        </tr>
         `;
     });
 }
 
-// ==========================================
-// CLEAR FORM
-// ==========================================
-
 function clearForm() {
 
-    ["employeeId", "fullName", "position", "department"].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = "";
-    });
-
-    const type = document.getElementById("employeeType");
-    const status = document.getElementById("status");
-
-    if (type) type.selectedIndex = 0;
-    if (status) status.selectedIndex = 0;
+    document.getElementById("employeeId").value = "";
+    document.getElementById("fullName").value = "";
+    document.getElementById("position").value = "";
+    document.getElementById("department").value = "";
+    document.getElementById("employeeType").selectedIndex = 0;
+    document.getElementById("status").selectedIndex = 0;
 }
