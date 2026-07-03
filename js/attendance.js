@@ -183,6 +183,14 @@ else {
 
 }
 
+} // end for loop
+
+document
+    .getElementById("attendanceTable")
+    .innerHTML = html;
+
+} // end loadAttendanceBoard
+
 // =========================================
 // CREATE ATTENDANCE ROW
 // =========================================
