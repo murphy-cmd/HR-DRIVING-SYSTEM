@@ -12,20 +12,23 @@ let editId = null;
 // INITIALIZE
 // ==========================================
 
-document.addEventListener("DOMContentLoaded", () => {
+// ==========================================
+// INITIALIZE PROCEDURES
+// ==========================================
+
+window.initializeProcedures = function () {
 
     loadProcedures();
 
     document
         .getElementById("saveProcedure")
-        .addEventListener("click", saveProcedure);
+        ?.addEventListener("click", saveProcedure);
 
     document
         .getElementById("search")
-        .addEventListener("keyup", searchProcedures);
+        ?.addEventListener("keyup", searchProcedures);
 
-});
-
+};
 // ==========================================
 // LOAD PROCEDURES
 // ==========================================
