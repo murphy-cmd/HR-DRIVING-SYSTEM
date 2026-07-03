@@ -52,8 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const { error } = await db.from("employees").insert([employee]);
-
+      const { error } = await supabaseClient
+    .from("employees")
+    .insert([employee]);
         if (error) {
             console.error(error);
             alert("Insert failed");
