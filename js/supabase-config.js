@@ -7,5 +7,6 @@ const supabaseClient = supabase.createClient(
 );
 
 window.db = supabaseClient;
+window.supabaseClient = supabaseClient;
 
 console.log("Supabase Ready");
