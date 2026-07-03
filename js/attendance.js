@@ -108,8 +108,9 @@ const leave = leaveRequests.find(item => {
 });
 
 if (
+ if (
     leave &&
-    leaveRequest.status === "Approved" &&
+    leave.status === "Approved"
     today >= leave.start_date &&
     today <= leave.end_date
 ) {
@@ -161,7 +162,7 @@ status: "COMPLETED"
 }
 else if (
     leave &&
-    leaveRequest.status === "Rejected" &&
+    leave.status === "Rejected" &&
     today >= leave.start_date &&
     today <= leave.end_date
 )
@@ -1061,57 +1062,60 @@ if (
 <td>${record.employee_type ?? "-"}</td>
 
 <td>
+
 ${
-    leave && leaveRequest.status === "Approved"
-        ? "-"
+  leaveRequest &&
+leaveRequest.status === "Approved"
+    ? "-"
         : formatTime(record?.am_in)
 }
 </td>
 
 <td>
 ${
-    leave && leaveRequest.status === "Approved"
-        ? "-"
+ leaveRequest &&
+leaveRequest.status === "Approved"
+    ? "-"
         : formatTime(record?.break_time)
 }
 </td>
 
 <td>
 ${
-    leave && leaveRequest.status === "Approved"
-        ? "-"
+ leaveRequest &&
+leaveRequest.status === "Approved"        ? "-"
         : formatTime(record?.pm_in)
 }
 </td>
 
 <td>
 ${
-    leave && leaveRequest.status === "Approved"
-        ? "-"
+ leaveRequest &&
+leaveRequest.status === "Approved"        ? "-"
         : formatTime(record?.time_out)
 }
 </td>
 
 <td>
 ${
-    leave && leaveRequest.status === "Approved"
-        ? "-"
+ leaveRequest &&
+leaveRequest.status === "Approved"        ? "-"
         : (record?.late_display ?? "On Time")
 }
 </td>
 
 <td>
 ${
-    leave && leaveRequest.status === "Approved"
-        ? "-"
+ leaveRequest &&
+leaveRequest.status === "Approved"        ? "-"
         : (record?.work_hours ?? "-")
 }
 </td>
 
 <td>
 ${
-    leave && leaveRequest.status === "Approved"
-        ? "-"
+ leaveRequest &&
+leaveRequest.status === "Approved"        ? "-"
         : (record?.ot_hours ?? "-")
 }
 </td>
@@ -1119,36 +1123,47 @@ ${
 <td>
 
 ${
-    leave && leaveRequest.status === "Approved"
-    ? `<span class="badge bg-warning text-dark">
-        ON LEAVE
-      </span>`
+    leaveRequest &&
+    leaveRequest.status === "Approved"
 
-        : record?.attendance_status === "LEAVE REJECTED"
+        ? `<span class="badge bg-warning text-dark">
+                ON LEAVE
+           </span>`
+
+    : leaveRequest &&
+      leaveRequest.status === "Rejected" &&
+      !record?.am_in
 
         ? `<span class="badge bg-danger">
                 LEAVE REJECTED
            </span>`
 
-        : record?.attendance_status === "LATE"
+    : record?.attendance_status === "LATE"
 
         ? `<span class="badge bg-danger">
                 LATE
            </span>`
 
-        : record?.attendance_status === "ON TIME"
+    : record?.attendance_status === "ON TIME"
 
         ? `<span class="badge bg-success">
                 ON TIME
            </span>`
 
-        : record?.attendance_status === "ABSENT"
+    : record?.attendance_status === "ABSENT"
 
         ? `<span class="badge bg-secondary">
                 ABSENT
            </span>`
 
-        : "-"
+    : record?.attendance_status === "PRESENT"
+
+        ? `<span class="badge bg-success">
+                PRESENT
+           </span>`
+
+    : "-"
+
 }
 
 </td>
