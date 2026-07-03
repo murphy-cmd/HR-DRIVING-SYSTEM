@@ -58,19 +58,37 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadEmployees() {
 
     const tbody = document.getElementById("employeeTable");
-    if (!tbody) return;
 
-    const { data, error } = await db
-        .from("employees")
-        .select("*")
-        .order("id", { ascending: false });
-
-    if (error) {
-        console.error("Load Error:", error);
+    if (!tbody) {
+        console.error("Table body not found");
         return;
     }
 
+    console.log("Loading employees...");
+
+    const { data, error } = await window.supabaseClient
+        .from("employees")
+        .select("*");
+
+    if (error) {
+        console.error("Supabase SELECT ERROR:", error);
+        return;
+    }
+
+    console.log("Employees data:", data);
+
     tbody.innerHTML = "";
+
+    if (!data || data.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align:center;">
+                    No employees found
+                </td>
+            </tr>
+        `;
+        return;
+    }
 
     data.forEach(emp => {
 
@@ -85,7 +103,6 @@ async function loadEmployees() {
         `;
     });
 }
-
 // ==========================================
 // SAVE EMPLOYEE
 // ==========================================
