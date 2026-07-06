@@ -200,8 +200,7 @@ else if (
 }
 else {
 
-    // Auto Absent kapag 12:00 AM na ng susunod na araw
-    if (!daily && currentHour >= 0) {
+if (!daily && currentHour >= 23) {
 
         const { data: existing } = await supabaseClient
             .from("attendance_daily")
