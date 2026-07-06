@@ -572,9 +572,7 @@ if (actualTime > graceLimit) {
 
         }
 
-       if (lateMinutes > 0) {
-
-   if (lateMinutes > 0) {
+      if (lateMinutes > 0) {
 
     updateData.attendance_status = "LATE";
 
@@ -583,7 +581,6 @@ if (actualTime > graceLimit) {
     updateData.attendance_status = "PRESENT";
 
 }
-
 
 break;
 
