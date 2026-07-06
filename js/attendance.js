@@ -57,7 +57,15 @@ async function loadAttendanceBoard() {
             
         );
 
-    console.log("Attendance Data:", attendance);
+   console.log("Attendance Data:", attendance);
+
+attendance.forEach(item => {
+    console.log(
+        item.employee_id,
+        item.employee_name,
+        item.attendance_status
+    );
+});
 
     if (attendanceError) {
 
