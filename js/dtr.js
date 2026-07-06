@@ -4,7 +4,7 @@
 // ==========================================
 
 // Supabase
-const supabase = window.db;
+const dtrDb = window.db;
 
 // Table Body
 const dtrBody = document.getElementById("dtrBody");
@@ -69,7 +69,7 @@ async function generateDTR() {
 
         error
 
-} = await supabase
+} = await dtrDb
         .from("attendance_daily")
         .select("*")
         .order(
