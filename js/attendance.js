@@ -700,7 +700,9 @@ updateData.ot_minutes = otMinutes;
 
 }
 
-        case "START_TRIP":
+break;
+
+case "START_TRIP":
 
             updateData.start_trip =
                 philippinesTime;
