@@ -53,7 +53,11 @@ async function loadAttendanceBoard() {
         .eq(
             "attendance_date",
             today
+
+            
         );
+
+    console.log("Attendance Data:", attendance);
 
     if (attendanceError) {
 
