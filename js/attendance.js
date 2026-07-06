@@ -950,6 +950,9 @@ const selectedStatus =
 
         .order("employee_name");
 
+    console.log("Attendance Daily:", data);
+console.log("Selected Date:", selectedDate);
+
     if (error) {
 
         console.error(error);
@@ -1001,10 +1004,18 @@ let leaveCount = 0;
 
 employees.forEach(emp => {
 
-    const record =
-        data.find(item =>
-            item.employee_id === emp.employee_id
-        );
+   const record =
+    data.find(item => {
+
+        if (item.employee_id !== emp.employee_id)
+            return false;
+
+        if (selectedDate)
+            return item.attendance_date === selectedDate;
+
+        return true;
+
+    });
    
   if (
     searchValue &&
@@ -1020,13 +1031,8 @@ employees.forEach(emp => {
 
 // Date Filter
 
-if (
-    selectedDate &&
-    record &&
-    record.attendance_date !== selectedDate
-) {
-    return;
-}
+// Wala nang Date Filter dito
+// Kasi nasa paghanap pa lang ng record ginagamit na natin ang selectedDate.
 
 // Status Filter
 
@@ -1071,10 +1077,13 @@ if (
 // Present
 if (
     record &&
-    record.am_in &&
     !(
         leaveRequest &&
         leaveRequest.status === "Approved"
+    ) &&
+    (
+        record.attendance_status === "ON TIME" ||
+        record.attendance_status === "LATE"
     )
 ) {
 
