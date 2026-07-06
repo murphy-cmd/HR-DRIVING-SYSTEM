@@ -574,6 +574,8 @@ if (actualTime > graceLimit) {
 
        if (lateMinutes > 0) {
 
+   if (lateMinutes > 0) {
+
     updateData.attendance_status = "LATE";
 
 } else {
@@ -582,9 +584,10 @@ if (actualTime > graceLimit) {
 
 }
 
-    break;
 
-        case "BREAK":
+break;
+
+case "BREAK":
 
     if (!daily?.am_in) {
 
