@@ -3,6 +3,8 @@
 // RILCO HR SYSTEM
 // ==========================================
 
+alert("procedures.js loaded");
+
 var db = window.supabaseClient;
 
 let procedures = [];
