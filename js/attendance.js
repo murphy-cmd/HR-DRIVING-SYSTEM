@@ -306,14 +306,13 @@ ${
     ? `<span class="badge bg-warning text-dark">ON LEAVE</span>`
 
     : daily?.attendance_status === "LATE"
-    ? `<span class="badge bg-danger">LATE</span>`
+? `<span class="badge bg-danger">LATE</span>`
 
-    : daily?.attendance_status === "PRESENT"
-    ? `<span class="badge bg-success">PRESENT</span>`
+: daily?.am_in
+? `<span class="badge bg-success">PRESENT</span>`
 
-    : daily?.attendance_status === "ABSENT"
-    ? `<span class="badge bg-secondary">ABSENT</span>`
-
+: daily?.attendance_status === "ABSENT"
+? `<span class="badge bg-secondary">ABSENT</span>`
     : "-"
 }
 
@@ -573,12 +572,15 @@ if (actualTime > graceLimit) {
 
         }
 
-        updateData.attendance_status =
-            lateMinutes > 0
-                ? "LATE"
-                : "ON TIME";
+       if (lateMinutes > 0) {
 
-    }
+    updateData.attendance_status = "LATE";
+
+} else {
+
+    updateData.attendance_status = "PRESENT";
+
+}
 
     break;
 
@@ -1097,8 +1099,8 @@ if (
         leaveRequest.status === "Approved"
     ) &&
     (
-        record.attendance_status === "ON TIME" ||
-        record.attendance_status === "LATE"
+       record.attendance_status === "PRESENT" ||
+record.attendance_status === "LATE"
     )
 ) {
 
@@ -1222,12 +1224,12 @@ ${
                 LATE
            </span>`
 
-    : record?.attendance_status === "ON TIME"
+   : record?.attendance_status === "PRESENT"
 
-        ? `<span class="badge bg-success">
-                ON TIME
-           </span>`
-
+? `<span class="badge bg-success">
+        PRESENT
+   </span>`
+    
     : record?.attendance_status === "ABSENT"
 
         ? `<span class="badge bg-secondary">
