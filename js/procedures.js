@@ -3,7 +3,7 @@
 // RILCO HR SYSTEM
 // ==========================================
 
-const db = window.supabaseClient;
+var db = window.supabaseClient;
 
 let procedures = [];
 let editId = null;
