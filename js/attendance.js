@@ -1025,7 +1025,7 @@ let leaveCount = 0;
 
 employees.forEach(emp => {
 
-   const record =
+  const record =
     data.find(item => {
 
         if (item.employee_id !== emp.employee_id)
@@ -1037,6 +1037,11 @@ employees.forEach(emp => {
         return true;
 
     });
+
+console.log("EMPLOYEE:", emp.employee_id);
+console.log("RECORD:", record);
+
+Pagkatapos:
    
   if (
     searchValue &&
