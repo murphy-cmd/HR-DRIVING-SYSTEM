@@ -100,11 +100,11 @@ if (leaveError) {
 for (const emp of employees) {
    
 const daily =
-    attendance.find(
-        record =>
-            record.employee_id ===
-            emp.employee_id
-    );
+    attendance
+        .filter(record =>
+            record.employee_id === emp.employee_id
+        )
+        .sort((a, b) => b.id - a.id)[0];
 
    const currentHour = new Date().getHours();
 
