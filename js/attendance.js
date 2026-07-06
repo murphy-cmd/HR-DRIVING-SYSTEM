@@ -745,10 +745,16 @@ updateData.ot_minutes = otMinutes;
 
          } else {
 
-    await supabaseClient
-        .from("attendance_daily")
-        .update(updateData)
-        .eq("id", daily.id);
+    console.log("UPDATE DATA:", updateData);
+
+const { data: updated, error: updateError } = await supabaseClient
+    .from("attendance_daily")
+    .update(updateData)
+    .eq("id", daily.id)
+    .select();
+
+console.log("UPDATED:", updated);
+console.log("UPDATE ERROR:", updateError);
 
     }
 
