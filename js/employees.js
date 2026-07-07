@@ -109,12 +109,38 @@ const { data, error } = await window.supabaseClient
 async function saveEmployee() {
 
     const modal = document.getElementById("employeeModal");
+const employeeType = document.getElementById("employeeType").value;
 
-    const employee = {
-        employee_id: document.getElementById("employeeId").value.trim(),
+let scheduleIn = "";
+let scheduleOut = "";
+
+if (employeeType === "office") {
+
+    scheduleIn = "09:00:00";
+    scheduleOut = "18:00:00";
+
+} else if (employeeType === "warehouse") {
+
+    scheduleIn = "08:00:00";
+    scheduleOut = "17:00:00";
+
+} else if (employeeType === "driver") {
+
+    scheduleIn = "08:00:00";
+    scheduleOut = "17:00:00";
+
+}
+
+const employee = {
+    employee_id: document.getElementById("employeeId").value.trim(),
     full_name: document.getElementById("fullName").value.trim(),
     position: document.getElementById("position").value.trim(),
-    employee_type: document.getElementById("employeeType").value,
+    employee_type: employeeType,
+
+    schedule_in: scheduleIn,
+    schedule_out: scheduleOut,
+    grace_period: 15,
+
     status: "AVAILABLE"
 };
  
