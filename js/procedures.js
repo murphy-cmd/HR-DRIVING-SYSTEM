@@ -3,9 +3,7 @@
 // RILCO HR SYSTEM
 // ==========================================
 
-alert("procedures.js loaded");
-
-var db = window.supabaseClient;
+const procedureDb = window.supabaseClient;
 
 let procedures = [];
 let editId = null;
@@ -50,7 +48,7 @@ async function loadProcedures() {
         </tr>
     `;
 
-    const { data, error } = await db
+    const { data, error } = await procedureDb
 
         .from("procedures")
 
@@ -181,7 +179,7 @@ async function saveProcedure() {
 
     // Duplicate Checking
     const { data: duplicate, error: duplicateError } =
-        await db
+        await procedureDb
 
             .from("procedures")
 
@@ -218,7 +216,7 @@ async function saveProcedure() {
 
     if (editId !== null) {
 
-        const { error } = await db
+        const { error } = await procedureDb
 
             .from("procedures")
 
@@ -256,7 +254,7 @@ async function saveProcedure() {
 
     else {
 
-        const { error } = await db
+        const { error } = await procedureDb
 
             .from("procedures")
 
@@ -389,7 +387,7 @@ async function deleteProcedure(id) {
         return;
     }
 
-    const { error } = await db
+    const { error } = await procedureDb
 
         .from("procedures")
 
