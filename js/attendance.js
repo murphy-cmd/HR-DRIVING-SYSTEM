@@ -713,16 +713,15 @@ case "START_TRIP":
 
             break;
 
-        case "END_TRIP":
+      case "END_TRIP":
 
-            updateData.end_trip =
-                philippinesTime;
+    updateData.end_trip =
+        philippinesTime;
 
-            employeeStatus =
-                "AVAILABLE";
+    employeeStatus =
+        "COMPLETED";
 
-            break;
-
+    break;
     }
 
     updateData.status =
