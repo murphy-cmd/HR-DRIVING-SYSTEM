@@ -94,11 +94,10 @@ const { data, error } = await window.supabaseClient
 
         tbody.innerHTML += `
         <tr>
-            <td>${emp.employee_id || "-"}</td>
-            <td>${emp.full_name || "-"}</td>
-            <td>${emp.department || "-"}</td>
-            <td>${emp.position || "-"}</td>
-            <td>${emp.status || "-"}</td>
+        <td>${emp.employee_id || "-"}</td>
+        <td>${emp.full_name || "-"}</td>
+        <td>${emp.position || "-"}</td>
+        <td>${emp.employee_type || "-"}</td>
         </tr>
         `;
     });
@@ -113,11 +112,11 @@ async function saveEmployee() {
 
     const employee = {
         employee_id: document.getElementById("employeeId").value.trim(),
-        full_name: document.getElementById("fullName").value.trim(),
-        position: document.getElementById("position").value.trim(),
-        department: document.getElementById("department").value.trim(),
-        employee_type: document.getElementById("employeeType").value,
-        status: document.getElementById("status").value
+    full_name: document.getElementById("fullName").value.trim(),
+    position: document.getElementById("position").value.trim(),
+    employee_type: document.getElementById("employeeType").value,
+    status: "AVAILABLE"
+};
     };
 
     if (!employee.employee_id || !employee.full_name) {
@@ -148,13 +147,12 @@ async function saveEmployee() {
 
 function clearForm() {
 
-    ["employeeId","fullName","position","department"].forEach(id => {
-        const el = document.getElementById(id);
+["employeeId","fullName","position"].forEach(id => {
+    const el = document.getElementById(id);
         if (el) el.value = "";
     });
 
     document.getElementById("employeeType").selectedIndex = 0;
-    document.getElementById("status").selectedIndex = 0;
 }
 
 } // END SAFETY WRAPPER
