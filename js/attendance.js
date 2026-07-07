@@ -498,8 +498,11 @@ async function recordAttendance(
     console.log("Grace Period:", employee.grace_period);
 
 
-    updateData.am_in = philippinesTime;
-    employeeStatus = "WORKING";
+updateData.am_in = philippinesTime;
+employeeStatus = "WORKING";
+
+// TEMPORARY TEST
+updateData.attendance_status = "PRESENT";
 
     if (employee.schedule_in) {
 
@@ -572,13 +575,9 @@ if (actualTime > graceLimit) {
 
         }
 
-  if (lateMinutes > 0) {
+ if (lateMinutes > 0) {
 
     updateData.attendance_status = "LATE";
-
-} else {
-
-    updateData.attendance_status = "PRESENT";
 
 }
 
