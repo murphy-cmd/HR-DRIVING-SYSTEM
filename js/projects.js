@@ -28,10 +28,10 @@ function initializeProjects() {
 }
 
 // ============================================
-// supabase
+// projectDB
 // ============================================
 
-const supabase = window.supabaseClient;
+const projectDB = window.supabaseClient;
 
 // ============================================
 // STATE
@@ -51,7 +51,7 @@ async function loadCategories() {
 
     if (!category) return;
 
-    const { data, error } = await supabase
+    const { data, error } = await projectDB
         .from("project_categories")
         .select("*")
         .order("id");
@@ -90,7 +90,7 @@ async function loadProjects() {
 
     container.innerHTML = "";
 
-    const { data, error } = await supabase
+    const { data, error } = await projectDB
         .from("projects")
         .select("*")
         .order("id", { ascending: false });
@@ -139,7 +139,7 @@ async function loadProjects() {
         // DELETE
         card.querySelector(".delete-project").addEventListener("click", async () => {
 
-            await supabase
+            await projectDB
                 .from("projects")
                 .delete()
                 .eq("id", project.id);
@@ -179,7 +179,7 @@ async function saveProject() {
 
     if (editingProjectId) {
 
-        await supabase
+        await projectDB
             .from("projects")
             .update(data)
             .eq("id", editingProjectId);
@@ -188,7 +188,7 @@ async function saveProject() {
 
     } else {
 
-        await supabase
+        await projectDB
             .from("projects")
             .insert(data);
 
