@@ -9,9 +9,10 @@ window.initializeProjects = initializeProjects;
 function initializeProjects() {
 
     console.log("Projects Initialized");
-
-    loadCategories();
-    loadProjects();
+    
+loadCategories();
+loadProjectEmployees();
+loadProjects();
 
     const saveBtn = document.getElementById("saveProject");
 
@@ -70,6 +71,37 @@ async function loadCategories() {
         category.innerHTML += `
             <option value="${cat.id}">
                 ${cat.category_name}
+            </option>
+        `;
+
+    });
+
+}
+
+async function loadProjectEmployees() {
+
+    const select = document.getElementById("projectEmployees");
+
+    if (!select) return;
+
+const { data, error } = await projectDB
+    
+    .from("employees")
+        .select("employee_id, full_name")
+        .order("full_name");
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    select.innerHTML = "";
+
+    data.forEach(emp => {
+
+        select.innerHTML += `
+            <option value="${emp.employee_id}">
+                ${emp.employee_id} - ${emp.full_name}
             </option>
         `;
 
