@@ -466,19 +466,46 @@ async function recordAttendance(
 
         data: daily
 
-    } =
-    await supabaseClient
+  const now = new Date(philippinesTime);
+
+const yesterday = new Date(now);
+yesterday.setDate(yesterday.getDate() - 1);
+
+const yesterdayDate =
+    yesterday.toLocaleDateString(
+        "en-CA",
+        {
+            timeZone: "Asia/Manila"
+        }
+    );
+
+const { data: openAttendance } = await supabaseClient
+    .from("attendance_daily")
+    .select("*")
+    .eq("employee_id", employeeId)
+    .is("time_out", null)
+    .order("attendance_date", { ascending: false })
+    .limit(1);
+
+let daily = null;
+
+if (openAttendance && openAttendance.length > 0) {
+
+    daily = openAttendance[0];
+
+} else {
+
+    const { data: todayAttendance } = await supabaseClient
         .from("attendance_daily")
         .select("*")
-        .eq(
-            "employee_id",
-            employeeId
-        )
-        .eq(
-            "attendance_date",
-            today
-        )
+        .eq("employee_id", employeeId)
+        .eq("attendance_date", today)
         .maybeSingle();
+
+    daily = todayAttendance;
+
+}
+}
 
    console.log("TODAY:", today);
    console.log("EMPLOYEE:", employeeId);
@@ -730,8 +757,9 @@ case "START_TRIP":
     updateData.status =
         employeeStatus;
 
-      if (!daily) {
+if (!daily && action === "AM_IN") {
 
+    
         updateData.employee_id =
             employee.employee_id;
 
@@ -740,9 +768,11 @@ case "START_TRIP":
 
         updateData.employee_type =
             employee.employee_type;
-
-        updateData.attendance_date =
-            today;
+          
+updateData.attendance_date =
+    daily
+        ? daily.attendance_date
+        : today;
 
         await supabaseClient
             .from("attendance_daily")
@@ -750,8 +780,17 @@ case "START_TRIP":
                 updateData
             ]);
 
-         } else {
+}
+else if (!daily) {
 
+    alert("No active attendance record found. Employee must AM IN first.");
+
+    checkbox.checked = false;
+
+    return;
+
+}
+else {
     console.log("UPDATE DATA:", updateData);
 
 const { data: updated, error: updateError } = await supabaseClient
