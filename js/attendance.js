@@ -501,8 +501,6 @@ async function recordAttendance(
 updateData.am_in = philippinesTime;
 employeeStatus = "WORKING";
 
-// TEMPORARY TEST
-updateData.attendance_status = "PRESENT";
 
     if (employee.schedule_in) {
 
@@ -541,6 +539,11 @@ if (actualTime > graceLimit) {
     );
 
 }
+
+console.log("ACTUAL TIME:", actualTime);
+console.log("SCHEDULE TIME:", scheduledTime);
+console.log("GRACE LIMIT:", graceLimit);
+console.log("LATE MINUTES:", lateMinutes);
 
         updateData.late_minutes = lateMinutes;
 
