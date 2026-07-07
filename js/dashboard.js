@@ -114,10 +114,10 @@ async function loadDriverOverview() {
     .select("*", { count: "exact", head: true })
     .eq("status", "DRIVING");
 
-        const { count: completedTrips } = await db
-            .from("assignments")
-            .select("*", { count: "exact", head: true })
-            .eq("status", "COMPLETED");
+ const { count: completedTrips } = await db
+    .from("employees")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "COMPLETED");
 
       const { count: breakDrivers } = await db
     .from("employees")
