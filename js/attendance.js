@@ -465,17 +465,6 @@ async function recordAttendance(
 
   const now = new Date(philippinesTime);
 
-const yesterday = new Date(now);
-yesterday.setDate(yesterday.getDate() - 1);
-
-const yesterdayDate =
-    yesterday.toLocaleDateString(
-        "en-CA",
-        {
-            timeZone: "Asia/Manila"
-        }
-    );
-
 const { data: openAttendance } = await supabaseClient
     .from("attendance_daily")
     .select("*")
@@ -501,7 +490,7 @@ if (openAttendance && openAttendance.length > 0) {
 
     daily = todayAttendance;
 
-}
+
 }
 
    console.log("TODAY:", today);
