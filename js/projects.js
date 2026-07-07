@@ -134,6 +134,12 @@ async function loadProjects() {
 
             document.getElementById("saveProject").textContent = "Update Project";
 
+            const modal = new bootstrap.Modal(
+    document.getElementById("projectModal")
+);
+
+modal.show();
+
         });
 
         // DELETE
