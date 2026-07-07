@@ -71,9 +71,9 @@ async function loadEmployeeOverview() {
             .eq("status", "WORKING");
 
         const { count: breaking } = await db
-            .from("employees")
-            .select("*", { count: "exact", head: true })
-            .eq("status", "BREAK");
+    .from("employees")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "ON_BREAK");
 
         const { count: completed } = await db
             .from("employees")
@@ -109,20 +109,20 @@ async function loadDriverOverview() {
             .eq("employee_type", "driver")
             .eq("status", "WORKING");
 
-        const { count: drivingDrivers } = await db
-            .from("assignments")
-            .select("*", { count: "exact", head: true })
-            .eq("status", "ONGOING");
+       const { count: drivingDrivers } = await db
+    .from("employees")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "DRIVING");
 
         const { count: completedTrips } = await db
             .from("assignments")
             .select("*", { count: "exact", head: true })
             .eq("status", "COMPLETED");
 
-        const { count: breakDrivers } = await db
-            .from("employees")
-            .select("*", { count: "exact", head: true })
-            .eq("status", "BREAK");
+      const { count: breakDrivers } = await db
+    .from("employees")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "ON_BREAK");
 
         setText("totalDrivers", totalDrivers);
         setText("availableDrivers", availableDrivers);
