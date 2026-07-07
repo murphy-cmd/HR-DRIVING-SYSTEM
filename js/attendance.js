@@ -462,9 +462,6 @@ async function recordAttendance(
 
     // Check today's attendance
 
-    const {
-
-        data: daily
 
   const now = new Date(philippinesTime);
 
