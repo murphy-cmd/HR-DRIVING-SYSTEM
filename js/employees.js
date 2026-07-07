@@ -117,7 +117,7 @@ async function saveEmployee() {
     employee_type: document.getElementById("employeeType").value,
     status: "AVAILABLE"
 };
-    };
+ 
 
     if (!employee.employee_id || !employee.full_name) {
         alert("Please complete required fields");
