@@ -30,17 +30,12 @@ LOGO
 
 .logo{
 
-    padding:30px 20px;
+    text-align:center;
 
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
+    padding:35px 20px;
 
     border-bottom:1px solid rgba(255,255,255,.08);
+
 
 }
 
@@ -50,12 +45,9 @@ LOGO
 
     height:auto;
 
-    margin-bottom:18px;
-
-    transition:.3s;
+    margin-bottom:0;
 
 }
-
 .logo img:hover{
 
     transform:scale(1.05);
@@ -132,10 +124,6 @@ COLLAPSED SIDEBAR
 
 .sidebar.collapsed{
     width:80px;
-}
-
-.sidebar.collapsed .logo-text{
-    display:none;
 }
 
 .sidebar.collapsed .logo img{
