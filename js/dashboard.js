@@ -17,6 +17,15 @@ function setText(id, value) {
 
 async function initializeDashboard() {
 
+    // Ipakita ang pangalan ng naka-login
+    const fullName = localStorage.getItem("full_name");
+
+    const dashboardUser = document.getElementById("dashboardUser");
+
+    if (dashboardUser) {
+        dashboardUser.textContent = fullName || "Administrator";
+    }
+
     updateDate();
 
     await Promise.all([
