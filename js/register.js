@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function registerUser(e) {
 
-    e.preventDefault();
+      e.preventDefault();
 
     const fullName = document.getElementById("fullName").value.trim();
 
@@ -24,6 +24,34 @@ async function registerUser(e) {
 
     }
 
-    alert("Registration page is ready.\n\nNext step: We will connect this to Supabase.");
+    const { data, error } = await window.supabaseClient.auth.signUp({
+
+        email: email,
+
+        password: password,
+
+        options: {
+
+            data: {
+
+                full_name: fullName
+
+            }
+
+        }
+
+    });
+
+    if (error) {
+
+        alert(error.message);
+
+        return;
+
+    }
+
+    alert("Account created successfully! Please check your email if confirmation is enabled.");
+
+    window.location.href = "login.html";
 
 }
