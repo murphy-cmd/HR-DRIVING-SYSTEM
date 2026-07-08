@@ -138,3 +138,49 @@ function initializeLogout() {
     });
 
 }
+
+const menuToggle = document.getElementById("menuToggle");
+const sidebar = document.querySelector(".sidebar");
+
+if (menuToggle && sidebar) {
+
+    menuToggle.addEventListener("click", () => {
+
+        sidebar.classList.toggle("collapsed");
+
+    });
+
+}
+
+/* ==========================================
+SIDEBAR COLLAPSE
+========================================== */
+
+.sidebar.collapsed{
+    width:80px;
+}
+
+.sidebar.collapsed .logo h2,
+.sidebar.collapsed .logo span{
+    display:none;
+}
+
+.sidebar.collapsed .logo img{
+    width:45px;
+}
+
+.sidebar.collapsed .menu li{
+    justify-content:center;
+}
+
+.sidebar.collapsed .menu li span{
+    display:none;
+}
+
+.sidebar.collapsed .logout{
+    font-size:0;
+}
+
+.sidebar.collapsed .logout i{
+    font-size:18px;
+}
