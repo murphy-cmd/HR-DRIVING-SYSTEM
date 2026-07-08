@@ -137,4 +137,37 @@ body{
 
     }
 
+    .register-link{
+
+    margin-top:20px;
+
+    text-align:center;
+
+    font-size:15px;
+
 }
+
+.register-link span{
+
+    color:#64748B;
+
+}
+
+.register-link a{
+
+    color:#2563EB;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    margin-left:5px;
+
+}
+
+.register-link a:hover{
+
+    text-decoration:underline;
+
+}
+
