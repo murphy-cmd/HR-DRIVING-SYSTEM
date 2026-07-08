@@ -62,41 +62,6 @@ LOGO
 
 }
 
-.logo-text{
-
-    text-align:center;
-
-}
-
-.logo-text h2{
-
-    color:#fff;
-
-    font-size:30px;
-
-    font-weight:800;
-
-    margin:0;
-
-    letter-spacing:1px;
-
-}
-
-.logo-text p{
-
-    margin-top:6px;
-
-    color:#A5B4FC;
-
-    font-size:13px;
-
-    font-weight:500;
-
-    letter-spacing:2px;
-
-    text-transform:uppercase;
-
-}
 
 /* ==========================================
 LOGOUT
