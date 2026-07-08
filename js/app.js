@@ -170,18 +170,4 @@ window.location.href = "login.html";
 
 }
 
-const menuToggle = document.getElementById("menuToggle");
-const sidebar = document.querySelector(".sidebar");
-const main = document.querySelector(".main");
-
-if (menuToggle && sidebar && main) {
-
-    menuToggle.addEventListener("click", () => {
-
-        sidebar.classList.toggle("collapsed");
-        main.classList.toggle("expanded");
-
-    });
-
-}
 
