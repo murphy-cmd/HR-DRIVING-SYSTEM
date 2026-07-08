@@ -260,3 +260,5 @@ async function loadRecentActivities() {
     } catch (err) {
         console.error("Recent Activities Error:", err);
     }
+
+}
