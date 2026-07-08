@@ -11,6 +11,45 @@ function setText(id, value) {
     if (el) el.textContent = value ?? 0;
 }
 
+async function loadLoggedInUser() {
+
+    const {
+        data: { user }
+    } = await window.supabaseClient.auth.getUser();
+
+    if (!user) return;
+
+    const fullName =
+        user.user_metadata?.full_name ||
+        user.email;
+
+    // Dashboard Banner
+    const dashboardUser =
+        document.getElementById("dashboardUser");
+
+    if (dashboardUser) {
+        dashboardUser.textContent = fullName;
+    }
+
+    // Header
+    const welcomeUser =
+        document.getElementById("welcomeUser");
+
+    if (welcomeUser) {
+        welcomeUser.textContent =
+            `Welcome back, ${fullName}`;
+    }
+
+    // Header Profile (kung meron pa)
+    const profileUser =
+        document.getElementById("profileUser");
+
+    if (profileUser) {
+        profileUser.textContent = fullName;
+    }
+
+}
+
 // ==========================================
 // INIT DASHBOARD
 // ==========================================
@@ -26,6 +65,10 @@ async function initializeDashboard() {
         dashboardUser.textContent = fullName || "Administrator";
     }
 
+   async function initializeDashboard() {
+
+    await loadLoggedInUser();
+
     updateDate();
 
     await Promise.all([
@@ -35,6 +78,7 @@ async function initializeDashboard() {
         loadPendingLeave(),
         loadRecentActivities()
     ]);
+
 }
 
 window.initializeDashboard = initializeDashboard;
