@@ -80,6 +80,20 @@ if (employee) {
     localStorage.setItem("full_name", employee.full_name);
 }
 
+const {
+    data: { user }
+} = await window.supabaseClient.auth.getUser();
+
+const { data: employee, error: employeeError } = await window.db
+    .from("employees")
+    .select("full_name")
+    .eq("email", user.email)
+    .single();
+
+if (!employeeError && employee) {
+    localStorage.setItem("full_name", employee.full_name);
+}
+
 alert("Login Successful!");
 
 window.location.href = "index.html";
