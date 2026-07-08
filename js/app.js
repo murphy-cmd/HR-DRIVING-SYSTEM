@@ -123,17 +123,35 @@ function loadPageScript(page) {
 // LOGOUT
 // ==========================================
 
+// ==========================================
+// LOGOUT
+// ==========================================
+
 function initializeLogout() {
 
     const logout = document.getElementById("logoutBtn");
 
     if (!logout) return;
 
-    logout.addEventListener("click", () => {
+    logout.addEventListener("click", async () => {
 
-        if (confirm("Logout?")) {
-            location.href = "login.html";
+        const confirmLogout = confirm("Are you sure you want to logout?");
+
+        if (!confirmLogout) return;
+
+        try {
+
+            if (window.supabaseClient) {
+                await window.supabaseClient.auth.signOut();
+            }
+
+        } catch (err) {
+
+            console.error(err);
+
         }
+
+        window.location.href = "login.html";
 
     });
 
