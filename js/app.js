@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeSidebar();
     initializeLogout();
 
+    // Ipakita ang pangalan ng naka-login
     const fullName = localStorage.getItem("full_name");
 
     const welcomeUser = document.getElementById("welcomeUser");
@@ -33,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
     loadPage("dashboard");
 
 });
-
 // ==========================================
 // SIDEBAR
 // ==========================================
