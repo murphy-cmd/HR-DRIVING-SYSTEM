@@ -54,6 +54,76 @@ LOGO
 
 }
 
+/* ==========================================
+MENU
+========================================== */
+
+.menu{
+
+    list-style:none;
+
+    margin-top:20px;
+
+    padding:0 15px;
+
+    flex:1;
+
+}
+
+.menu li{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:15px 18px;
+
+    margin-bottom:8px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.30s;
+
+    color:#CBD5E1;
+
+    font-weight:500;
+
+}
+
+.menu li i{
+
+    width:22px;
+
+    text-align:center;
+
+    font-size:17px;
+
+}
+
+.menu li:hover{
+
+    background:#2563EB;
+
+    color:#fff;
+
+    transform:translateX(5px);
+
+}
+
+.menu li.active{
+
+    background:#2563EB;
+
+    color:#fff;
+
+    box-shadow:0 8px 18px rgba(37,99,235,.30);
+
+}
+
 
 /* ==========================================
 LOGOUT
