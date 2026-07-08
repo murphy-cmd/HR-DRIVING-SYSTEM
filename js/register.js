@@ -1,3 +1,5 @@
+console.log("REGISTER JS LOADED");
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const form = document.getElementById("registerForm");
