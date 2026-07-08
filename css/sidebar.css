@@ -218,3 +218,18 @@ COLLAPSED SIDEBAR
     font-size:20px;
     margin:0;
 }
+
+/* ==========================================
+MAIN CONTENT ADJUST
+========================================== */
+
+.main{
+    margin-left:280px;
+    width:calc(100% - 280px);
+    transition:all .3s ease;
+}
+
+.main.expanded{
+    margin-left:80px;
+    width:calc(100% - 80px);
+}
