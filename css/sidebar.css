@@ -30,9 +30,15 @@ LOGO
 
 .logo{
 
-    text-align:center;
+    padding:30px 20px;
 
-    padding:35px 20px;
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
 
     border-bottom:1px solid rgba(255,255,255,.08);
 
@@ -40,107 +46,55 @@ LOGO
 
 .logo img{
 
-    width:120px;
+    width:180px;
 
-    margin-bottom:15px;
+    height:auto;
 
-}
+    margin-bottom:18px;
 
-.logo h2{
-
-    font-size:24px;
-
-    font-weight:700;
-
-    margin-bottom:5px;
+    transition:.3s;
 
 }
 
-.logo span{
+.logo img:hover{
 
-    color:#94A3B8;
-
-    font-size:14px;
+    transform:scale(1.05);
 
 }
 
-/* ==========================================
-MENU
-========================================== */
-
-.menu{
-
-    list-style:none;
-
-    margin-top:20px;
-
-    padding:0 15px;
-
-    flex:1;
-
-}
-
-.menu li{
-
-    display:flex;
-    align-items:center;
-    gap:15px;
-
-    padding:15px 18px;
-
-    margin-bottom:8px;
-
-    border-radius:12px;
-
-    cursor:pointer;
-
-    transition:all .30s ease;
-
-    color:#CBD5E1;
-
-    font-weight:500;
-
-    white-space:nowrap;
-
-    overflow:hidden;
-
-}
-
-.menu li i{
-
-    min-width:22px;
-
-    width:22px;
+.logo-text{
 
     text-align:center;
 
-    font-size:18px;
-
-    flex-shrink:0;
-
 }
 
-/* Hover */
-
-.menu li:hover{
-
-    background:#2563EB;
+.logo-text h2{
 
     color:#fff;
 
-    transform:translateX(5px);
+    font-size:30px;
+
+    font-weight:800;
+
+    margin:0;
+
+    letter-spacing:1px;
 
 }
 
-/* Active */
+.logo-text p{
 
-.menu li.active{
+    margin-top:6px;
 
-    background:#2563EB;
+    color:#A5B4FC;
 
-    color:#fff;
+    font-size:13px;
 
-    box-shadow:0 8px 18px rgba(37,99,235,.30);
+    font-weight:500;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
 
 }
 
@@ -215,15 +169,13 @@ COLLAPSED SIDEBAR
     width:80px;
 }
 
-.sidebar.collapsed .logo h2,
-.sidebar.collapsed .logo span,
-.sidebar.collapsed .menu li span{
+.sidebar.collapsed .logo-text{
     display:none;
 }
 
 .sidebar.collapsed .logo img{
-    width:45px;
-    margin:auto;
+    width:55px;
+    margin-bottom:0;
 }
 
 .sidebar.collapsed .menu li{
