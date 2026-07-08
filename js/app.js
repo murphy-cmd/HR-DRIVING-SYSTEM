@@ -16,6 +16,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     initializeSidebar();
     initializeLogout();
+
+    const fullName = localStorage.getItem("full_name");
+
+    const welcomeUser = document.getElementById("welcomeUser");
+    const profileUser = document.getElementById("profileUser");
+
+    if (welcomeUser) {
+        welcomeUser.textContent = `Welcome back, ${fullName || "Administrator"}`;
+    }
+
+    if (profileUser) {
+        profileUser.textContent = fullName || "Administrator";
+    }
+
     loadPage("dashboard");
 
 });
