@@ -83,9 +83,7 @@ MENU
 .menu li{
 
     display:flex;
-
     align-items:center;
-
     gap:15px;
 
     padding:15px 18px;
@@ -96,21 +94,29 @@ MENU
 
     cursor:pointer;
 
-    transition:.30s;
+    transition:all .30s ease;
 
     color:#CBD5E1;
 
     font-weight:500;
 
+    white-space:nowrap;
+
+    overflow:hidden;
+
 }
 
 .menu li i{
+
+    min-width:22px;
 
     width:22px;
 
     text-align:center;
 
-    font-size:17px;
+    font-size:18px;
+
+    flex-shrink:0;
 
 }
 
@@ -195,4 +201,45 @@ LOGOUT
 
 .sidebar.collapsed .logout i{
     font-size:18px;
+}
+
+/* ==========================================
+COLLAPSED SIDEBAR
+========================================== */
+
+.sidebar{
+    transition:width .3s ease;
+}
+
+.sidebar.collapsed{
+    width:80px;
+}
+
+.sidebar.collapsed .logo h2,
+.sidebar.collapsed .logo span,
+.sidebar.collapsed .menu li span{
+    display:none;
+}
+
+.sidebar.collapsed .logo img{
+    width:45px;
+    margin:auto;
+}
+
+.sidebar.collapsed .menu li{
+    justify-content:center;
+    padding:15px 0;
+}
+
+.sidebar.collapsed .logout{
+    width:50px;
+    height:50px;
+    margin:20px auto;
+    padding:0;
+    font-size:0;
+}
+
+.sidebar.collapsed .logout i{
+    font-size:20px;
+    margin:0;
 }
