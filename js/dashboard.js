@@ -56,17 +56,6 @@ async function loadLoggedInUser() {
 
 async function initializeDashboard() {
 
-    // Ipakita ang pangalan ng naka-login
-    const fullName = localStorage.getItem("full_name");
-
-    const dashboardUser = document.getElementById("dashboardUser");
-
-    if (dashboardUser) {
-        dashboardUser.textContent = fullName || "Administrator";
-    }
-
-   async function initializeDashboard() {
-
     await loadLoggedInUser();
 
     updateDate();
@@ -80,7 +69,6 @@ async function initializeDashboard() {
     ]);
 
 }
-
 window.initializeDashboard = initializeDashboard;
 
 // ==========================================
