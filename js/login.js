@@ -78,6 +78,12 @@ async function loginUser(e) {
         localStorage.setItem("full_name", employee.full_name);
     }
 
+    console.log("Logged User Email:", user.email);
+console.log("Employee Record:", employee);
+console.log("Employee Error:", employeeError);
+console.log("Saved Name:", localStorage.getItem("full_name"));
+STEP 2
+
     alert("Login Successful!");
 
     window.location.href = "index.html";
