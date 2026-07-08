@@ -1,54 +1,91 @@
-<div class="container-fluid py-4">
+<div class="page reports-page">
 
-    <!-- Page Title -->
-    <div class="mb-4">
-        <h2 class="fw-bold">Reports</h2>
-        <p class="text-muted">
-            Summary of all modules in the HR Driving System.
-        </p>
-    </div>
+    <!-- ===========================
+         REPORTS HEADER
+    ============================ -->
 
-    <!-- Dashboard Summary -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-header">
-            <h5 class="mb-0">Dashboard Summary</h5>
-        </div>
+    <section class="welcome-banner">
 
-        <div class="card-body">
+        <div class="welcome-left">
 
-            <div class="row">
+            <h1>
+                Reports
+            </h1>
 
-                <div class="col-md-3 mb-3">
-                    <div class="border rounded p-3 text-center">
-                        <h6>Total Employees</h6>
-                        <h3 id="reportTotalEmployees">0</h3>
-                    </div>
-                </div>
-
-                <div class="col-md-3 mb-3">
-                    <div class="border rounded p-3 text-center">
-                        <h6>Total Drivers</h6>
-                        <h3 id="reportTotalDrivers">0</h3>
-                    </div>
-                </div>
-
-                <div class="col-md-3 mb-3">
-                    <div class="border rounded p-3 text-center">
-                        <h6>Total Projects</h6>
-                        <h3 id="reportTotalProjects">0</h3>
-                    </div>
-                </div>
-
-                <div class="col-md-3 mb-3">
-                    <div class="border rounded p-3 text-center">
-                        <h6>Pending Leave</h6>
-                        <h3 id="reportPendingLeave">0</h3>
-                    </div>
-                </div>
-
-            </div>
+            <p>
+                Summary of all modules in the HR Driving System.
+            </p>
 
         </div>
-    </div>
+
+    </section>
+
+    <!-- ===========================
+         EMPLOYEE SUMMARY
+    ============================ -->
+
+    <section>
+
+        <h2 class="section-title">
+            Employee Summary
+        </h2>
+
+        <div class="card">
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Summary</th>
+
+                        <th>Total</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>Total Employees</td>
+
+                        <td id="reportTotalEmployees">0</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Office Staff</td>
+
+                        <td id="reportOfficeStaff">0</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Warehouse Staff</td>
+
+                        <td id="reportWarehouseStaff">0</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Drivers</td>
+
+                        <td id="reportDrivers">0</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
 
 </div>
