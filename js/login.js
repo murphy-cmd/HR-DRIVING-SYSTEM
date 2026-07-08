@@ -46,4 +46,31 @@ async function loginUser(e) {
 
     window.location.href = "index.html";
 
+    const togglePassword = document.getElementById("togglePassword");
+
+if (togglePassword) {
+
+    togglePassword.addEventListener("click", () => {
+
+        const password = document.getElementById("password");
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+            togglePassword.innerHTML =
+                '<i class="fa-solid fa-eye-slash"></i>';
+
+        } else {
+
+            password.type = "password";
+
+            togglePassword.innerHTML =
+                '<i class="fa-solid fa-eye"></i>';
+
+        }
+
+    });
+
+
 }
