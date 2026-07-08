@@ -490,3 +490,11 @@ MODAL
     background:#E2E8F0;
 
 }
+
+.sidebar.collapsed ~ .main{
+
+    margin-left:80px;
+
+    width:calc(100% - 80px);
+
+}
