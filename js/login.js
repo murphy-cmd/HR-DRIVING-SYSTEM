@@ -3,8 +3,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("loginForm");
 
     if (form) {
-
         form.addEventListener("submit", loginUser);
+    }
+
+    const togglePassword = document.getElementById("togglePassword");
+
+    if (togglePassword) {
+
+        togglePassword.addEventListener("click", () => {
+
+            const password = document.getElementById("password");
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                togglePassword.innerHTML =
+                    '<i class="fa-solid fa-eye-slash"></i>';
+
+            } else {
+
+                password.type = "password";
+
+                togglePassword.innerHTML =
+                    '<i class="fa-solid fa-eye"></i>';
+
+            }
+
+        });
 
     }
 
@@ -15,7 +41,6 @@ async function loginUser(e) {
     e.preventDefault();
 
     const email = document.getElementById("email").value.trim();
-
     const password = document.getElementById("password").value;
 
     if (!email || !password) {
@@ -26,11 +51,10 @@ async function loginUser(e) {
 
     }
 
-    const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+    const { error } = await window.supabaseClient.auth.signInWithPassword({
 
-        email: email,
-
-        password: password
+        email,
+        password
 
     });
 
@@ -46,29 +70,4 @@ async function loginUser(e) {
 
     window.location.href = "index.html";
 
-    const togglePassword = document.getElementById("togglePassword");
-
-if (togglePassword) {
-
-    togglePassword.addEventListener("click", () => {
-
-        const password = document.getElementById("password");
-
-        if (password.type === "password") {
-
-            password.type = "text";
-
-            togglePassword.innerHTML =
-                '<i class="fa-solid fa-eye-slash"></i>';
-
-        } else {
-
-            password.type = "password";
-
-            togglePassword.innerHTML =
-                '<i class="fa-solid fa-eye"></i>';
-
-        }
-
-    });
-
+}
