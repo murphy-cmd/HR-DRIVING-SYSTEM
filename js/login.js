@@ -17,14 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (password.type === "password") {
 
                 password.type = "text";
-
                 togglePassword.innerHTML =
                     '<i class="fa-solid fa-eye-slash"></i>';
 
             } else {
 
                 password.type = "password";
-
                 togglePassword.innerHTML =
                     '<i class="fa-solid fa-eye"></i>';
 
@@ -44,78 +42,44 @@ async function loginUser(e) {
     const password = document.getElementById("password").value;
 
     if (!email || !password) {
-
         alert("Please enter your email and password.");
-
         return;
-
     }
 
     const { error } = await window.supabaseClient.auth.signInWithPassword({
-
         email,
         password
-
     });
 
     if (error) {
-
         alert(error.message);
-
         return;
-
     }
 
-   const {
-    data: { user }
-} = await window.supabaseClient.auth.getUser();
+    // Kunin ang kasalukuyang user
+    const {
+        data: { user },
+        error: userError
+    } = await window.supabaseClient.auth.getUser();
 
-const { data: employee } = await window.db
-    .from("employees")
-    .select("full_name")
-    .eq("email", user.email)
-    .single();
+    if (userError || !user) {
+        alert("Unable to get user information.");
+        return;
+    }
 
-if (employee) {
-    localStorage.setItem("full_name", employee.full_name);
-}
+    // Kunin ang full name sa employees table
+    const { data: employee, error: employeeError } = await window.db
+        .from("employees")
+        .select("full_name")
+        .eq("email", user.email)
+        .single();
 
-const {
-    data: { user }
-} = await window.supabaseClient.auth.getUser();
+    if (!employeeError && employee) {
+        localStorage.setItem("full_name", employee.full_name);
+    }
 
-const { data: employee, error: employeeError } = await window.db
-    .from("employees")
-    .select("full_name")
-    .eq("email", user.email)
-    .single();
+    alert("Login Successful!");
 
-if (!employeeError && employee) {
-    localStorage.setItem("full_name", employee.full_name);
-}
-
-const {
-    data: { user },
-    error: userError
-} = await window.supabaseClient.auth.getUser();
-
-if (userError || !user) {
-    alert("Unable to get user information.");
-    return;
-}
-
-const { data: employee, error: employeeError } = await window.db
-    .from("employees")
-    .select("full_name")
-    .eq("email", user.email)
-    .single();
-
-if (!employeeError && employee) {
-    localStorage.setItem("full_name", employee.full_name);
-}
-
-alert("Login Successful!");
-
-window.location.href = "index.html";
+    window.location.href = "index.html";
 
 }
