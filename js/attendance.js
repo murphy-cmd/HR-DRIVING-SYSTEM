@@ -1192,13 +1192,13 @@ if (
 
 <tr>
 
-<td>${record.attendance_date ?? "-"}</td>
+<td>${record?.attendance_date ?? "-"}</td>
 
-<td>${record.employee_id ?? "-"}</td>
+<td>${record?.employee_id ?? "-"}</td>
 
-<td>${record.employee_name ?? "-"}</td>
+<td>${record?.employee_name ?? "-"}</td>
 
-<td>${record.employee_type ?? "-"}</td>
+<td>${record?.employee_type ?? "-"}</td>
 
 <td>
 
