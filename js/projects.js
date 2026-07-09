@@ -135,8 +135,10 @@ async function loadProjects() {
         console.error(error);
         return;
     }
+    
+data.forEach(project => {
 
-    data.forEach(project => {
+    try {
 
         console.log("LOADING PROJECT:", project.project_name);
 
@@ -202,21 +204,27 @@ modal.show();
 
         });
 
-        // DELETE
-        card.querySelector(".delete-project").addEventListener("click", async () => {
+      card.querySelector(".delete-project").addEventListener("click", async () => {
 
-            await projectDB
-                .from("projects")
-                .delete()
-                .eq("id", project.id);
+    await projectDB
+        .from("projects")
+        .delete()
+        .eq("id", project.id);
 
-            loadProjects();
+    loadProjects();
 
-        });
+});
 
-        container.appendChild(card);
+// idagdag ang card sa page
+container.appendChild(card);
 
-    });
+} catch (e) {
+
+    console.error("PROJECT CARD ERROR:", e);
+
+}
+
+});
 
 }
 
