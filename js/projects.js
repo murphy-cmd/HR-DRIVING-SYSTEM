@@ -1,4 +1,4 @@
-console.log("Projects JS Loaded")
+console.log("Projects JS Loaded");
 
 // ============================================
 // INITIALIZE PROJECTS
