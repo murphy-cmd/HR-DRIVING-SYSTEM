@@ -29,27 +29,21 @@
 <ul class="nav nav-tabs mb-4">
 
     <li class="nav-item">
-
-        <button
-            id="boardTab"
-            class="nav-link active">
-
+        <button id="boardTab" class="nav-link active">
             Attendance Board
-
         </button>
-
     </li>
 
     <li class="nav-item">
-
-        <button
-            id="summaryTab"
-            class="nav-link">
-
+        <button id="summaryTab" class="nav-link">
             Attendance Summary
-
         </button>
+    </li>
 
+    <li class="nav-item">
+        <button id="shiftTab" class="nav-link">
+            Shift Management
+        </button>
     </li>
 
 </ul>
@@ -164,8 +158,7 @@ Today's Activity
 <!-- ATTENDANCE SUMMARY -->
 <!-- ============================= -->
 
-<div
-id="attendanceSummary"
+<div id="attendanceSummary"
 style="display:none;">
 
 <div class="row mb-4">
@@ -235,6 +228,7 @@ style="display:none;">
     </div>
 
 </div>
+
 
 <!-- ============================= -->
 <!-- FILTERS -->
@@ -360,12 +354,63 @@ Search
 </div>
 
 </div>
+    <!-- ============================= -->
+<!-- SHIFT MANAGEMENT -->
+<!-- ============================= -->
+
+<div id="shiftManagement" style="display:none;">
+
+<div class="card shadow-sm">
+
+<div class="card-header fw-bold">
+
+Shift Assignment
+
+</div>
+
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>ID</th>
+
+<th>Name</th>
+
+<th>Type</th>
+
+<th>Date</th>
+
+<th>Shift</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="shiftTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script src="js/supabase-config.js"></script>
-
-<script src="js/attendance.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/attendance.js"></script>
 
 </body>
 
