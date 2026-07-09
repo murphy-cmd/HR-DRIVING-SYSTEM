@@ -781,7 +781,6 @@ console.log("LATE MINUTES:", lateMinutes);
 
 }
 
-} // <-- IDAGDAG MO ITO
 
 break;
 
