@@ -547,11 +547,7 @@ function calculateOvertime(workMinutes) {
 // =========================================
 // RECORD ATTENDANCE
 // =========================================
-const work = calculateWorkHours(...);
 
-const overtime = calculateOvertime(work.totalMinutes);
-
-const night = calculateNightDifferential(...);
 async function recordAttendance(
 
     employeeId,
