@@ -480,385 +480,6 @@ function calculateLate(employee, actualTime) {
 
 }
 
-// =========================================
-// CALCULATE WORK HOURS
-// =========================================
-
-function calculateWorkHours(amIn, breakTime, pmIn, timeOut) {
-
-    let totalMinutes = Math.floor(
-        (timeOut - amIn) / 1000 / 60
-    );
-
-    // Deduct break
-
-    if (breakTime && pmIn) {
-
-        const breakMinutes = Math.floor(
-            (pmIn - breakTime) / 1000 / 60
-        );
-
-        totalMinutes -= breakMinutes;
-
-    }
-
-    if (totalMinutes < 0) {
-
-        totalMinutes = 0;
-
-    }
-
-    return {
-
-        totalMinutes,
-
-        display:
-            `${Math.floor(totalMinutes / 60)}h ${totalMinutes % 60}m`
-
-    };
-
-}
-// =========================================
-// CALCULATE OVERTIME
-// =========================================
-
-function calculateOvertime(workMinutes) {
-
-    const REQUIRED_MINUTES = 8 * 60; // 8 hours
-
-    let otMinutes = 0;
-
-    if (workMinutes > REQUIRED_MINUTES) {
-
-        otMinutes = workMinutes - REQUIRED_MINUTES;
-
-    }
-
-    return {
-
-        otMinutes,
-
-        display:
-            `${Math.floor(otMinutes / 60)}h ${otMinutes % 60}m`
-
-    };
-
-}
-// =========================================
-// GET EMPLOYEE SHIFT
-// =========================================
-
-async function getEmployeeShift(employeeId, date) {
-
-    const { data, error } = await supabaseClient
-        .from("shift_assignments")
-        .select("shift_type")
-        .eq("employee_id", employeeId)
-        .eq("shift_date", date)
-        .maybeSingle();
-
-    if (error) {
-
-        console.error("Shift Error:", error);
-
-        return "DAY";
-
-    }
-
-    return data?.shift_type || "DAY";
-
-}
-// =========================================
-// CALCULATE LATE
-// =========================================
-
-function calculateLate(employee, actualTime) {
-
-    let lateMinutes = 0;
-    let lateDisplay = "On Time";
-    let attendanceStatus = "PRESENT";
-
-    if (!employee.schedule_in) {
-
-        return {
-            lateMinutes,
-            lateDisplay,
-            attendanceStatus
-        };
-
-    }
-
-    const [hour, minute] = employee.schedule_in.split(":");
-
-    const scheduledTime = new Date(actualTime);
-
-    scheduledTime.setHours(
-        Number(hour),
-        Number(minute),
-        0,
-        0
-    );
-
-    const graceLimit = new Date(scheduledTime);
-
-    graceLimit.setMinutes(
-        graceLimit.getMinutes() +
-        (employee.grace_period || 0)
-    );
-
-    if (actualTime > graceLimit) {
-
-        lateMinutes = Math.floor(
-            (actualTime - scheduledTime) /
-            1000 / 60
-        );
-
-    }
-
-    if (lateMinutes > 0) {
-
-        attendanceStatus = "LATE";
-
-        const hrs = Math.floor(lateMinutes / 60);
-        const mins = lateMinutes % 60;
-
-        if (hrs > 0 && mins > 0) {
-
-            lateDisplay = `${hrs} hr ${mins} min`;
-
-        } else if (hrs > 0) {
-
-            lateDisplay = `${hrs} hr`;
-
-        } else {
-
-            lateDisplay = `${mins} min`;
-
-        }
-
-    }
-
-    return {
-
-        lateMinutes,
-        lateDisplay,
-        attendanceStatus
-
-    };
-
-}
-// =========================================
-// RECORD ATTENDANCE
-// =========================================
-
-async function recordAttendance(
-
-    employeeId,
-    action,
-    checkbox
-
-) {
-
-    if (!checkbox.checked) return;
-
-    const philippinesTime =
-        new Date().toLocaleString(
-            "sv-SE",
-            {
-                timeZone: "Asia/Manila"
-            }
-        );
-
-    const today =
-        new Date().toLocaleDateString(
-            "en-CA",
-            {
-                timeZone: "Asia/Manila"
-            }
-        );
-
-   console.log("TODAY =", today);
-
-    // Load Employee
-
-    const {
-
-        data: employee,
-        error: employeeError
-
-    } =
-    await supabaseClient
-        .from("employees")
-        .select("*")
-        .eq(
-            "employee_id",
-            employeeId
-        )
-        .single();
-
-    if (employeeError) {
-
-        console.error(employeeError);
-
-        checkbox.checked = false;
-
-        return;
-
-    }
-
-    // Check today's attendance
-
-
-  const now = new Date(philippinesTime);
-
-const { data: openAttendance } = await supabaseClient
-    .from("attendance_daily")
-    .select("*")
-    .eq("employee_id", employeeId)
-    .is("time_out", null)
-    .order("attendance_date", { ascending: false })
-    .limit(1);
-
-let daily = null;
-
-if (openAttendance && openAttendance.length > 0) {
-
-    daily = openAttendance[0];
-
-} else {
-
-    const { data: todayAttendance } = await supabaseClient
-        .from("attendance_daily")
-        .select("*")
-        .eq("employee_id", employeeId)
-        .eq("attendance_date", today)
-        .maybeSingle();
-
-    daily = todayAttendance;
-
-
-}
-
-   console.log("TODAY:", today);
-   console.log("EMPLOYEE:", employeeId);
-  console.log("DAILY RECORD:", daily);
-
-const employeeShift = await getEmployeeShift(
-    employeeId,
-    today
-);
-
-console.log("SHIFT:", employeeShift);
-
-let updateData = {};
-
-let employeeStatus = "WORKING";
-
-    switch(action){
-case "AM_IN":
-
-    console.log("Employee ID:", employee.employee_id);
-    console.log("Employee Type:", employee.employee_type);
-    console.log("Schedule In:", employee.schedule_in);
-    console.log("Grace Period:", employee.grace_period);
-
-    // Save AM IN
-    updateData.am_in = philippinesTime;
-    employeeStatus = "WORKING";
-
-    // Calculate Late
-    const late = calculateLate(
-        employee,
-        new Date(philippinesTime)
-    );
-
-    updateData.late_minutes = late.lateMinutes;
-    updateData.late_display = late.lateDisplay;
-    updateData.attendance_status = late.attendanceStatus;
-
-    break;
-
-
-// =========================================
-// CALCULATE LATE
-// =========================================
-
-function calculateLate(employee, actualTime) {
-
-    let lateMinutes = 0;
-    let lateDisplay = "On Time";
-    let attendanceStatus = "PRESENT";
-
-    if (!employee.schedule_in) {
-
-        return {
-            lateMinutes,
-            lateDisplay,
-            attendanceStatus
-        };
-
-    }
-
-    const [hour, minute] = employee.schedule_in.split(":");
-
-    const scheduledTime = new Date(actualTime);
-
-    scheduledTime.setHours(
-        Number(hour),
-        Number(minute),
-        0,
-        0
-    );
-
-    const graceLimit = new Date(scheduledTime);
-
-    graceLimit.setMinutes(
-        graceLimit.getMinutes() +
-        (employee.grace_period || 0)
-    );
-
-    if (actualTime > graceLimit) {
-
-        lateMinutes = Math.floor(
-            (actualTime - scheduledTime) /
-            1000 / 60
-        );
-
-    }
-
-    if (lateMinutes > 0) {
-
-        attendanceStatus = "LATE";
-
-        const hrs = Math.floor(lateMinutes / 60);
-        const mins = lateMinutes % 60;
-
-        if (hrs > 0 && mins > 0) {
-
-            lateDisplay = `${hrs} hr ${mins} min`;
-
-        } else if (hrs > 0) {
-
-            lateDisplay = `${hrs} hr`;
-
-        } else {
-
-            lateDisplay = `${mins} min`;
-
-        }
-
-    }
-
-    return {
-
-        lateMinutes,
-        lateDisplay,
-        attendanceStatus
-
-    };
-
-}
-
 
 break;
 
@@ -1072,6 +693,226 @@ loadTodayHistory();
     loadTodayHistory();
 
 }
+// =========================================
+// CALCULATE WORK HOURS
+// =========================================
+
+function calculateWorkHours(amIn, breakTime, pmIn, timeOut) {
+
+    let totalMinutes = Math.floor(
+        (timeOut - amIn) / 1000 / 60
+    );
+
+    // Deduct break
+
+    if (breakTime && pmIn) {
+
+        const breakMinutes = Math.floor(
+            (pmIn - breakTime) / 1000 / 60
+        );
+
+        totalMinutes -= breakMinutes;
+
+    }
+
+    if (totalMinutes < 0) {
+
+        totalMinutes = 0;
+
+    }
+
+    return {
+
+        totalMinutes,
+
+        display:
+            `${Math.floor(totalMinutes / 60)}h ${totalMinutes % 60}m`
+
+    };
+
+}
+// =========================================
+// CALCULATE OVERTIME
+// =========================================
+
+function calculateOvertime(workMinutes) {
+
+    const REQUIRED_MINUTES = 8 * 60; // 8 hours
+
+    let otMinutes = 0;
+
+    if (workMinutes > REQUIRED_MINUTES) {
+
+        otMinutes = workMinutes - REQUIRED_MINUTES;
+
+    }
+
+    return {
+
+        otMinutes,
+
+        display:
+            `${Math.floor(otMinutes / 60)}h ${otMinutes % 60}m`
+
+    };
+
+}
+// =========================================
+// GET EMPLOYEE SHIFT
+// =========================================
+
+async function getEmployeeShift(employeeId, date) {
+
+    const { data, error } = await supabaseClient
+        .from("shift_assignments")
+        .select("shift_type")
+        .eq("employee_id", employeeId)
+        .eq("shift_date", date)
+        .maybeSingle();
+
+    if (error) {
+
+        console.error("Shift Error:", error);
+
+        return "DAY";
+
+    }
+
+    return data?.shift_type || "DAY";
+
+}
+
+// =========================================
+// RECORD ATTENDANCE
+// =========================================
+
+async function recordAttendance(
+
+    employeeId,
+    action,
+    checkbox
+
+) {
+
+    if (!checkbox.checked) return;
+
+    const philippinesTime =
+        new Date().toLocaleString(
+            "sv-SE",
+            {
+                timeZone: "Asia/Manila"
+            }
+        );
+
+    const today =
+        new Date().toLocaleDateString(
+            "en-CA",
+            {
+                timeZone: "Asia/Manila"
+            }
+        );
+
+   console.log("TODAY =", today);
+
+    // Load Employee
+
+    const {
+
+        data: employee,
+        error: employeeError
+
+    } =
+    await supabaseClient
+        .from("employees")
+        .select("*")
+        .eq(
+            "employee_id",
+            employeeId
+        )
+        .single();
+
+    if (employeeError) {
+
+        console.error(employeeError);
+
+        checkbox.checked = false;
+
+        return;
+
+    }
+
+    // Check today's attendance
+
+
+  const now = new Date(philippinesTime);
+
+const { data: openAttendance } = await supabaseClient
+    .from("attendance_daily")
+    .select("*")
+    .eq("employee_id", employeeId)
+    .is("time_out", null)
+    .order("attendance_date", { ascending: false })
+    .limit(1);
+
+let daily = null;
+
+if (openAttendance && openAttendance.length > 0) {
+
+    daily = openAttendance[0];
+
+} else {
+
+    const { data: todayAttendance } = await supabaseClient
+        .from("attendance_daily")
+        .select("*")
+        .eq("employee_id", employeeId)
+        .eq("attendance_date", today)
+        .maybeSingle();
+
+    daily = todayAttendance;
+
+
+}
+
+   console.log("TODAY:", today);
+   console.log("EMPLOYEE:", employeeId);
+  console.log("DAILY RECORD:", daily);
+
+const employeeShift = await getEmployeeShift(
+    employeeId,
+    today
+);
+
+console.log("SHIFT:", employeeShift);
+
+let updateData = {};
+
+let employeeStatus = "WORKING";
+
+    switch(action){
+case "AM_IN":
+
+    console.log("Employee ID:", employee.employee_id);
+    console.log("Employee Type:", employee.employee_type);
+    console.log("Schedule In:", employee.schedule_in);
+    console.log("Grace Period:", employee.grace_period);
+
+    // Save AM IN
+    updateData.am_in = philippinesTime;
+    employeeStatus = "WORKING";
+
+    // Calculate Late
+    const late = calculateLate(
+        employee,
+        new Date(philippinesTime)
+    );
+
+    updateData.late_minutes = late.lateMinutes;
+    updateData.late_display = late.lateDisplay;
+    updateData.attendance_status = late.attendanceStatus;
+
+    break;
+
 
 // ===============================
 // TODAY'S ACTIVITY
