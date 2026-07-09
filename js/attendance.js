@@ -1517,55 +1517,67 @@ loadAttendanceSummary();
 // ===============================
 
 async function loadShiftManagement() {
-console.log("Shift Management Loaded");
+
+    console.log("Shift Management Loaded");
+
     const tbody = document.getElementById("shiftTable");
 
     if (!tbody) return;
 
-console.log(employees);
-console.log(shifts);
-console.log(html);
+    tbody.innerHTML = "";
 
-tbody.innerHTML = html;
-    
-    const today =
-        new Date().toLocaleDateString(
-            "en-CA",
-            {
-                timeZone: "Asia/Manila"
-            }
-        );
+    const today = new Date().toLocaleDateString(
+        "en-CA",
+        {
+            timeZone: "Asia/Manila"
+        }
+    );
 
-    // Load Employees
+    // ===============================
+    // LOAD EMPLOYEES
+    // ===============================
+
     const {
         data: employees,
-        error
+        error: employeeError
     } = await supabaseClient
         .from("employees")
         .select("*")
         .order("employee_id");
 
-    if (error) {
+    if (employeeError) {
 
-        console.error(error);
+        console.error(employeeError);
 
         return;
 
     }
 
-    // Load today's assigned shifts
+    // ===============================
+    // LOAD SHIFT ASSIGNMENTS
+    // ===============================
+
     const {
-        data: shifts
+        data: shifts,
+        error: shiftError
     } = await supabaseClient
         .from("shift_assignments")
         .select("*")
         .eq("shift_date", today);
 
+    if (shiftError) {
+
+        console.error(shiftError);
+
+        return;
+
+    }
+
     let html = "";
 
     employees.forEach(emp => {
 
-        const assigned = shifts?.find(item =>
+        const assigned = shifts.find(item =>
             item.employee_id === emp.employee_id
         );
 
@@ -1573,49 +1585,51 @@ tbody.innerHTML = html;
 
 <tr>
 
-<td>${emp.employee_id}</td>
+    <td>${emp.employee_id}</td>
 
-<td>${emp.full_name}</td>
+    <td>${emp.full_name}</td>
 
-<td>${emp.employee_type}</td>
+    <td>${emp.employee_type}</td>
 
-<td>${today}</td>
+    <td>${today}</td>
 
-<td>
+    <td>
 
-<select
-class="form-select"
-id="shift_${emp.employee_id}">
+        <select
+            class="form-select"
+            id="shift_${emp.employee_id}">
 
-<option value="DAY"
-${assigned?.shift_type==="DAY"?"selected":""}>
+            <option
+                value="DAY"
+                ${assigned?.shift_type === "DAY" ? "selected" : ""}>
 
-🌞 Day Shift
+                🌞 Day Shift
 
-</option>
+            </option>
 
-<option value="NIGHT"
-${assigned?.shift_type==="NIGHT"?"selected":""}>
+            <option
+                value="NIGHT"
+                ${assigned?.shift_type === "NIGHT" ? "selected" : ""}>
 
-🌙 Night Shift
+                🌙 Night Shift
 
-</option>
+            </option>
 
-</select>
+        </select>
 
-</td>
+    </td>
 
-<td>
+    <td>
 
-<button
-class="btn btn-success btn-sm"
-onclick="saveShift('${emp.employee_id}')">
+        <button
+            class="btn btn-success btn-sm"
+            onclick="saveShift('${emp.employee_id}')">
 
-Save
+            Save
 
-</button>
+        </button>
 
-</td>
+    </td>
 
 </tr>
 
