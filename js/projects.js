@@ -4,7 +4,7 @@ console.log("Projects JS Loaded");
 // INITIALIZE PROJECTS
 // ============================================
 
-window.initializeProjects = initializeProjects;
+window.initializeProjects = initializeProjects
 
 function initializeProjects() {
 
