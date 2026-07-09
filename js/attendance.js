@@ -1343,3 +1343,211 @@ document
     .addEventListener("click", loadAttendanceSummary);
 
 loadAttendanceSummary();
+// ===============================
+// LOAD SHIFT MANAGEMENT
+// ===============================
+
+async function loadShiftManagement() {
+
+    const tbody = document.getElementById("shiftTable");
+
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+
+    const today =
+        new Date().toLocaleDateString(
+            "en-CA",
+            {
+                timeZone: "Asia/Manila"
+            }
+        );
+
+    // Load Employees
+    const {
+        data: employees,
+        error
+    } = await supabaseClient
+        .from("employees")
+        .select("*")
+        .order("employee_id");
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+
+    }
+
+    // Load today's assigned shifts
+    const {
+        data: shifts
+    } = await supabaseClient
+        .from("shift_assignments")
+        .select("*")
+        .eq("shift_date", today);
+
+    let html = "";
+
+    employees.forEach(emp => {
+
+        const assigned = shifts?.find(item =>
+            item.employee_id === emp.employee_id
+        );
+
+        html += `
+
+<tr>
+
+<td>${emp.employee_id}</td>
+
+<td>${emp.full_name}</td>
+
+<td>${emp.employee_type}</td>
+
+<td>${today}</td>
+
+<td>
+
+<select
+class="form-select"
+id="shift_${emp.employee_id}">
+
+<option value="DAY"
+${assigned?.shift_type==="DAY"?"selected":""}>
+
+🌞 Day Shift
+
+</option>
+
+<option value="NIGHT"
+${assigned?.shift_type==="NIGHT"?"selected":""}>
+
+🌙 Night Shift
+
+</option>
+
+</select>
+
+</td>
+
+<td>
+
+<button
+class="btn btn-success btn-sm"
+onclick="saveShift('${emp.employee_id}')">
+
+Save
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+    });
+
+    tbody.innerHTML = html;
+
+}
+// ===============================
+// SAVE SHIFT
+// ===============================
+
+async function saveShift(employeeId) {
+
+    const shift = document.getElementById(
+        `shift_${employeeId}`
+    ).value;
+
+    const today =
+        new Date().toLocaleDateString(
+            "en-CA",
+            {
+                timeZone: "Asia/Manila"
+            }
+        );
+
+    // Load Employee
+
+    const {
+        data: employee,
+        error: employeeError
+    } = await supabaseClient
+        .from("employees")
+        .select("*")
+        .eq("employee_id", employeeId)
+        .single();
+
+    if (employeeError) {
+
+        console.error(employeeError);
+
+        return;
+
+    }
+
+    // Check existing assignment
+
+    const {
+        data: existing
+    } = await supabaseClient
+        .from("shift_assignments")
+        .select("*")
+        .eq("employee_id", employeeId)
+        .eq("shift_date", today)
+        .maybeSingle();
+
+    if (existing) {
+
+        const { error } = await supabaseClient
+            .from("shift_assignments")
+            .update({
+
+                shift_type: shift
+
+            })
+            .eq("id", existing.id);
+
+        if (error) {
+
+            console.error(error);
+
+            return;
+
+        }
+
+    } else {
+
+        const { error } = await supabaseClient
+            .from("shift_assignments")
+            .insert([{
+
+                employee_id: employee.employee_id,
+
+                employee_name: employee.full_name,
+
+                employee_type: employee.employee_type,
+
+                shift_date: today,
+
+                shift_type: shift
+
+            }]);
+
+        if (error) {
+
+            console.error(error);
+
+            return;
+
+        }
+
+    }
+
+    alert("Shift saved successfully.");
+
+}
