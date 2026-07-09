@@ -38,3 +38,37 @@ async function loadProfile() {
         user.email || "";
 
 }
+// ==========================================
+// CHANGE PASSWORD
+// ==========================================
+
+document.getElementById("changePasswordBtn").addEventListener("click", async () => {
+
+    const newPassword = document.getElementById("newPassword").value.trim();
+    const confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+    if (!newPassword || !confirmPassword) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    if (newPassword !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+    }
+
+    const { error } = await window.supabaseClient.auth.updateUser({
+        password: newPassword
+    });
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    alert("Password updated successfully.");
+
+    document.getElementById("newPassword").value = "";
+    document.getElementById("confirmPassword").value = "";
+
+});
