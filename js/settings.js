@@ -1,8 +1,5 @@
-if (!window.db) {
-    console.error("Database not initialized.");
-}
-
 const settingsDB = window.db;
+
 // ==========================================
 // INIT SETTINGS
 // ==========================================
@@ -38,6 +35,7 @@ async function loadProfile() {
         user.email || "";
 
 }
+
 // ==========================================
 // CHANGE PASSWORD
 // ==========================================
