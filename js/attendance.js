@@ -545,6 +545,30 @@ function calculateOvertime(workMinutes) {
 
 }
 // =========================================
+// GET EMPLOYEE SHIFT
+// =========================================
+
+async function getEmployeeShift(employeeId, date) {
+
+    const { data, error } = await supabaseClient
+        .from("shift_assignments")
+        .select("shift_type")
+        .eq("employee_id", employeeId)
+        .eq("shift_date", date)
+        .maybeSingle();
+
+    if (error) {
+
+        console.error("Shift Error:", error);
+
+        return "DAY";
+
+    }
+
+    return data?.shift_type || "DAY";
+
+}
+// =========================================
 // RECORD ATTENDANCE
 // =========================================
 
@@ -638,11 +662,18 @@ if (openAttendance && openAttendance.length > 0) {
 
    console.log("TODAY:", today);
    console.log("EMPLOYEE:", employeeId);
-   console.log("DAILY RECORD:", daily);
+  console.log("DAILY RECORD:", daily);
 
-    let updateData = {};
+const employeeShift = await getEmployeeShift(
+    employeeId,
+    today
+);
 
-    let employeeStatus = "WORKING";
+console.log("SHIFT:", employeeShift);
+
+let updateData = {};
+
+let employeeStatus = "WORKING";
 
     switch(action){
 
