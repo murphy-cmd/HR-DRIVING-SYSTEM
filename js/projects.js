@@ -258,9 +258,14 @@ const employeeCount = selectedEmployees.length;
 
     } else {
 
-        await projectDB
-            .from("projects")
-            .insert(data);
+const { data: result, error } = await projectDB
+    .from("projects")
+    .insert(data)
+    .select();
+
+console.log("DATA TO SAVE:", data);
+console.log("RESULT:", result);
+console.log("ERROR:", error);
 
     }
 
