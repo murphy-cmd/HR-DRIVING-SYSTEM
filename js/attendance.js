@@ -1075,21 +1075,20 @@ let leaveCount = 0;
 
 employees.forEach(emp => {
 
-  const record =
-    data.find(item => {
+    const record = data.find(item => {
 
         if (item.employee_id !== emp.employee_id)
             return false;
 
-        if (selectedDate)
-            return item.attendance_date === selectedDate;
+        if (selectedDate && item.attendance_date !== selectedDate)
+            return false;
 
         return true;
 
-    });
+    }) || null;
 
-console.log("EMPLOYEE:", emp.employee_id);
-console.log("RECORD:", record);
+    console.log("EMPLOYEE:", emp.employee_id);
+    console.log("RECORD:", record);
 
 Pagkatapos:
    
