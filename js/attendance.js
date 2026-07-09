@@ -916,32 +916,56 @@ const { data, error } =
 
 const boardTab = document.getElementById("boardTab");
 const summaryTab = document.getElementById("summaryTab");
+const shiftTab = document.getElementById("shiftTab");
 
 const attendanceBoard = document.getElementById("attendanceBoard");
 const attendanceSummary = document.getElementById("attendanceSummary");
+const shiftManagement = document.getElementById("shiftManagement");
 
-if (boardTab && summaryTab && attendanceBoard && attendanceSummary) {
-
-   boardTab.addEventListener("click", () => {
+if (
+    boardTab &&
+    summaryTab &&
+    shiftTab &&
+    attendanceBoard &&
+    attendanceSummary &&
+    shiftManagement
+) {
+  boardTab.addEventListener("click", () => {
 
     boardTab.classList.add("active");
     summaryTab.classList.remove("active");
+    shiftTab.classList.remove("active");
 
     attendanceBoard.style.display = "block";
     attendanceSummary.style.display = "none";
+    shiftManagement.style.display = "none";
 
 });
-
    summaryTab.addEventListener("click", () => {
 
     summaryTab.classList.add("active");
     boardTab.classList.remove("active");
+    shiftTab.classList.remove("active");
 
     attendanceBoard.style.display = "none";
     attendanceSummary.style.display = "block";
+    shiftManagement.style.display = "none";
 
-    // Load Attendance Summary
     loadAttendanceSummary();
+
+});
+    shiftTab.addEventListener("click", () => {
+
+    shiftTab.classList.add("active");
+
+    boardTab.classList.remove("active");
+    summaryTab.classList.remove("active");
+
+    attendanceBoard.style.display = "none";
+    attendanceSummary.style.display = "none";
+    shiftManagement.style.display = "block";
+
+    loadShiftManagement();
 
 });
 }
