@@ -2,7 +2,7 @@ if (!window.db) {
     console.error("Database not initialized.");
 }
 
-const db = window.db;
+const settingsDB = window.db;
 // ==========================================
 // INIT SETTINGS
 // ==========================================
