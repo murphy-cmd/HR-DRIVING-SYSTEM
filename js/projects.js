@@ -140,7 +140,7 @@ async function loadProjects() {
         card.querySelector(".project-client").textContent = project.client;
         card.querySelector(".project-category").textContent = categories[project.category_id] || "-";
         card.querySelector(".project-location").textContent = project.location;
-card.querySelector(".employee-count").textContent =
+        card.querySelector(".employee-count").textContent =
     project.employee_count || 0;
         
         card.querySelector(".estimated-finish").textContent = project.expected_finish || "-";
