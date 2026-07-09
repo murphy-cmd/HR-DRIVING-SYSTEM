@@ -1481,7 +1481,7 @@ ${
 
     });
 
-   document.getElementById("presentCount").textContent = present;
+document.getElementById("presentCount").textContent = present;
 
 document.getElementById("lateCount").textContent = late;
 
@@ -1517,13 +1517,17 @@ loadAttendanceSummary();
 // ===============================
 
 async function loadShiftManagement() {
-
+console.log("Shift Management Loaded");
     const tbody = document.getElementById("shiftTable");
 
     if (!tbody) return;
 
-    tbody.innerHTML = "";
+console.log(employees);
+console.log(shifts);
+console.log(html);
 
+tbody.innerHTML = html;
+    
     const today =
         new Date().toLocaleDateString(
             "en-CA",
