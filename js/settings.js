@@ -1,5 +1,8 @@
-const db = window.db;
+if (!window.db) {
+    console.error("Database not initialized.");
+}
 
+const db = window.db;
 // ==========================================
 // INIT SETTINGS
 // ==========================================
