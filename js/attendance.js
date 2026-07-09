@@ -569,6 +569,85 @@ async function getEmployeeShift(employeeId, date) {
 
 }
 // =========================================
+// CALCULATE LATE
+// =========================================
+
+function calculateLate(employee, actualTime) {
+
+    let lateMinutes = 0;
+    let lateDisplay = "On Time";
+    let attendanceStatus = "PRESENT";
+
+    if (!employee.schedule_in) {
+
+        return {
+            lateMinutes,
+            lateDisplay,
+            attendanceStatus
+        };
+
+    }
+
+    const [hour, minute] = employee.schedule_in.split(":");
+
+    const scheduledTime = new Date(actualTime);
+
+    scheduledTime.setHours(
+        Number(hour),
+        Number(minute),
+        0,
+        0
+    );
+
+    const graceLimit = new Date(scheduledTime);
+
+    graceLimit.setMinutes(
+        graceLimit.getMinutes() +
+        (employee.grace_period || 0)
+    );
+
+    if (actualTime > graceLimit) {
+
+        lateMinutes = Math.floor(
+            (actualTime - scheduledTime) /
+            1000 / 60
+        );
+
+    }
+
+    if (lateMinutes > 0) {
+
+        attendanceStatus = "LATE";
+
+        const hrs = Math.floor(lateMinutes / 60);
+        const mins = lateMinutes % 60;
+
+        if (hrs > 0 && mins > 0) {
+
+            lateDisplay = `${hrs} hr ${mins} min`;
+
+        } else if (hrs > 0) {
+
+            lateDisplay = `${hrs} hr`;
+
+        } else {
+
+            lateDisplay = `${mins} min`;
+
+        }
+
+    }
+
+    return {
+
+        lateMinutes,
+        lateDisplay,
+        attendanceStatus
+
+    };
+
+}
+// =========================================
 // RECORD ATTENDANCE
 // =========================================
 
@@ -676,20 +755,31 @@ let updateData = {};
 let employeeStatus = "WORKING";
 
     switch(action){
+case "AM_IN":
 
-      case "AM_IN":
-
-   console.log("Employee ID:", employee.employee_id);
+    console.log("Employee ID:", employee.employee_id);
     console.log("Employee Type:", employee.employee_type);
     console.log("Schedule In:", employee.schedule_in);
     console.log("Grace Period:", employee.grace_period);
 
+    // Save AM IN
+    updateData.am_in = philippinesTime;
+    employeeStatus = "WORKING";
 
-updateData.am_in = philippinesTime;
-employeeStatus = "WORKING";
+    // Calculate Late
+    const late = calculateLate(
+        employee,
+        new Date(philippinesTime)
+    );
+
+    updateData.late_minutes = late.lateMinutes;
+    updateData.late_display = late.lateDisplay;
+    updateData.attendance_status = late.attendanceStatus;
+
+    break;
 
 
-   // =========================================
+// =========================================
 // CALCULATE LATE
 // =========================================
 
@@ -766,49 +856,6 @@ function calculateLate(employee, actualTime) {
         attendanceStatus
 
     };
-
-}
-console.log("ACTUAL TIME:", actualTime);
-console.log("SCHEDULE TIME:", scheduledTime);
-console.log("GRACE LIMIT:", graceLimit);
-console.log("LATE MINUTES:", lateMinutes);
-
-        updateData.late_minutes = lateMinutes;
-
-        if (lateMinutes <= 0) {
-
-            updateData.late_display = "On Time";
-
-        } else {
-
-            const hrs =
-                Math.floor(lateMinutes / 60);
-
-            const mins =
-                lateMinutes % 60;
-
-            if (hrs > 0 && mins > 0) {
-
-                updateData.late_display =
-                    `${hrs} hr ${mins} min`;
-
-            } else if (hrs > 0) {
-
-                updateData.late_display =
-                    `${hrs} hr`;
-
-            } else {
-
-                updateData.late_display =
-                    `${mins} min`;
-
-            }
-
-        }
-
- if (lateMinutes > 0) {
-
-    updateData.attendance_status = "LATE";
 
 }
 
