@@ -233,3 +233,21 @@ MAIN CONTENT ADJUST
     margin-left:80px;
     width:calc(100% - 80px);
 }
+
+/* ==========================================
+   MOBILE SIDEBAR FIX
+========================================== */
+
+@media (max-width: 768px){
+
+    .menu{
+        flex: unset;
+    }
+
+    .logout{
+        margin: 10px 20px 20px;
+    }
+
+}
+
+
