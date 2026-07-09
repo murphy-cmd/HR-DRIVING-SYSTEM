@@ -221,12 +221,17 @@ modal.show();
 // ============================================
 
 async function saveProject() {
+    
+const employeeSelect = document.getElementById("projectEmployees");
 
-const selectedEmployees = Array.from(
-    document.getElementById("projectEmployees").selectedOptions
-).map(option => option.value);
+const selectedEmployees = Array.from(employeeSelect.options)
+    .filter(option => option.selected)
+    .map(option => option.value);
 
 const employeeCount = selectedEmployees.length;
+
+console.log("Selected:", selectedEmployees);
+console.log("Count:", employeeCount);
 
     const data = {
 
