@@ -400,11 +400,158 @@ onclick="recordAttendance('${emp.employee_id}','END_TRIP',this)">`
 `;
 
 }
+// =========================================
+// CALCULATE LATE
+// =========================================
 
+function calculateLate(employee, actualTime) {
+
+    let lateMinutes = 0;
+    let lateDisplay = "On Time";
+    let attendanceStatus = "PRESENT";
+
+    if (!employee.schedule_in) {
+
+        return {
+            lateMinutes,
+            lateDisplay,
+            attendanceStatus
+        };
+
+    }
+
+    const [hour, minute] = employee.schedule_in.split(":");
+
+    const scheduledTime = new Date(actualTime);
+
+    scheduledTime.setHours(
+        Number(hour),
+        Number(minute),
+        0,
+        0
+    );
+
+    const graceLimit = new Date(scheduledTime);
+
+    graceLimit.setMinutes(
+        graceLimit.getMinutes() +
+        (employee.grace_period || 0)
+    );
+
+    if (actualTime > graceLimit) {
+
+        lateMinutes = Math.floor(
+            (actualTime - scheduledTime) /
+            1000 / 60
+        );
+
+    }
+
+    if (lateMinutes > 0) {
+
+        attendanceStatus = "LATE";
+
+        const hrs = Math.floor(lateMinutes / 60);
+        const mins = lateMinutes % 60;
+
+        if (hrs > 0 && mins > 0) {
+
+            lateDisplay = `${hrs} hr ${mins} min`;
+
+        } else if (hrs > 0) {
+
+            lateDisplay = `${hrs} hr`;
+
+        } else {
+
+            lateDisplay = `${mins} min`;
+
+        }
+
+    }
+
+    return {
+
+        lateMinutes,
+        lateDisplay,
+        attendanceStatus
+
+    };
+
+}
+
+// =========================================
+// CALCULATE WORK HOURS
+// =========================================
+
+function calculateWorkHours(amIn, breakTime, pmIn, timeOut) {
+
+    let totalMinutes = Math.floor(
+        (timeOut - amIn) / 1000 / 60
+    );
+
+    // Deduct break
+
+    if (breakTime && pmIn) {
+
+        const breakMinutes = Math.floor(
+            (pmIn - breakTime) / 1000 / 60
+        );
+
+        totalMinutes -= breakMinutes;
+
+    }
+
+    if (totalMinutes < 0) {
+
+        totalMinutes = 0;
+
+    }
+
+    return {
+
+        totalMinutes,
+
+        display:
+            `${Math.floor(totalMinutes / 60)}h ${totalMinutes % 60}m`
+
+    };
+
+}
+// =========================================
+// CALCULATE OVERTIME
+// =========================================
+
+function calculateOvertime(workMinutes) {
+
+    const REQUIRED_MINUTES = 8 * 60; // 8 hours
+
+    let otMinutes = 0;
+
+    if (workMinutes > REQUIRED_MINUTES) {
+
+        otMinutes = workMinutes - REQUIRED_MINUTES;
+
+    }
+
+    return {
+
+        otMinutes,
+
+        display:
+            `${Math.floor(otMinutes / 60)}h ${otMinutes % 60}m`
+
+    };
+
+}
 // =========================================
 // RECORD ATTENDANCE
 // =========================================
+const work = calculateWorkHours(...);
 
+const overtime = calculateOvertime(work.totalMinutes);
+
+const night = calculateNightDifferential(...);
 async function recordAttendance(
 
     employeeId,
@@ -515,44 +662,85 @@ updateData.am_in = philippinesTime;
 employeeStatus = "WORKING";
 
 
-    if (employee.schedule_in) {
+   // =========================================
+// CALCULATE LATE
+// =========================================
 
-        const actualTime = new Date(philippinesTime);
+function calculateLate(employee, actualTime) {
 
-       const [hour, minute] =
-    employee.schedule_in.split(":");
+    let lateMinutes = 0;
+    let lateDisplay = "On Time";
+    let attendanceStatus = "PRESENT";
 
-// Original schedule (9:00 AM)
-const scheduledTime = new Date(philippinesTime);
+    if (!employee.schedule_in) {
 
-scheduledTime.setHours(
-    Number(hour),
-    Number(minute),
-    0,
-    0
-);
+        return {
+            lateMinutes,
+            lateDisplay,
+            attendanceStatus
+        };
 
-// Grace limit (9:15 AM)
-const graceLimit = new Date(scheduledTime);
+    }
 
-graceLimit.setMinutes(
-    graceLimit.getMinutes() +
-    (employee.grace_period || 0)
-);
+    const [hour, minute] = employee.schedule_in.split(":");
 
-let lateMinutes = 0;
+    const scheduledTime = new Date(actualTime);
 
-// Kung lumagpas sa grace period,
-// doon lang bibilang ang late
-if (actualTime > graceLimit) {
-
-    lateMinutes = Math.floor(
-        (actualTime - scheduledTime) /
-        1000 / 60
+    scheduledTime.setHours(
+        Number(hour),
+        Number(minute),
+        0,
+        0
     );
 
-}
+    const graceLimit = new Date(scheduledTime);
 
+    graceLimit.setMinutes(
+        graceLimit.getMinutes() +
+        (employee.grace_period || 0)
+    );
+
+    if (actualTime > graceLimit) {
+
+        lateMinutes = Math.floor(
+            (actualTime - scheduledTime) /
+            1000 / 60
+        );
+
+    }
+
+    if (lateMinutes > 0) {
+
+        attendanceStatus = "LATE";
+
+        const hrs = Math.floor(lateMinutes / 60);
+        const mins = lateMinutes % 60;
+
+        if (hrs > 0 && mins > 0) {
+
+            lateDisplay = `${hrs} hr ${mins} min`;
+
+        } else if (hrs > 0) {
+
+            lateDisplay = `${hrs} hr`;
+
+        } else {
+
+            lateDisplay = `${mins} min`;
+
+        }
+
+    }
+
+    return {
+
+        lateMinutes,
+        lateDisplay,
+        attendanceStatus
+
+    };
+
+}
 console.log("ACTUAL TIME:", actualTime);
 console.log("SCHEDULE TIME:", scheduledTime);
 console.log("GRACE LIMIT:", graceLimit);
@@ -658,62 +846,33 @@ case "BREAK":
         const amIn = new Date(daily.am_in);
         const timeOut = new Date(philippinesTime);
 
-        let totalMinutes = Math.floor(
-            (timeOut - amIn) / 1000 / 60
-        );
+        const work = calculateWorkHours(
 
-        // Ibawas ang lunch break
-        if (daily.break_time && daily.pm_in) {
+    amIn,
 
-            const breakStart = new Date(daily.break_time);
-            const breakEnd = new Date(daily.pm_in);
+    daily.break_time
+        ? new Date(daily.break_time)
+        : null,
 
-            const breakMinutes = Math.floor(
-                (breakEnd - breakStart) / 1000 / 60
-            );
+    daily.pm_in
+        ? new Date(daily.pm_in)
+        : null,
 
-            totalMinutes -= breakMinutes;
-        }
+    timeOut
 
-        if (totalMinutes < 0) {
-            totalMinutes = 0;
-        }
+);
 
-      updateData.work_hours =
-    `${Math.floor(totalMinutes / 60)}h ${totalMinutes % 60}m`;
+updateData.work_hours = work.display;
 
-const shiftEnd = new Date(amIn);
+updateData.work_minutes = work.totalMinutes;
 
-if (employee.employee_type === "office") {
+const overtime = calculateOvertime(
+    work.totalMinutes
+);
 
-    shiftEnd.setHours(18, 0, 0, 0);
+updateData.ot_hours = overtime.display;
 
-} else if (employee.employee_type === "warehouse") {
-
-    shiftEnd.setHours(17, 0, 0, 0);
-
-} else {
-
-    shiftEnd.setHours(18, 0, 0, 0);
-
-}
-
-let otMinutes = 0;
-
-if (timeOut > shiftEnd) {
-
-    otMinutes = Math.floor(
-        (timeOut - shiftEnd) / 1000 / 60
-    );
-
-}
-
-updateData.ot_hours =
-    `${Math.floor(otMinutes / 60)}h ${otMinutes % 60}m`;
-
-
-updateData.work_minutes = totalMinutes;
-updateData.ot_minutes = otMinutes;
+updateData.ot_minutes = overtime.otMinutes;
 
 }
 
@@ -826,22 +985,7 @@ if (logError) {
 
 }
 
-   await supabaseClient
-    .from("attendance_logs")
-    .insert({
-
-        employee_id: employee.employee_id,
-
-        employee_name: employee.full_name,
-
-        action: action,
-
-        log_time: philippinesTime,
-
-        action_date: today
-
-    });
-
+ 
 checkbox.disabled = true;
 
 loadAttendanceBoard();
