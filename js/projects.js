@@ -140,7 +140,9 @@ async function loadProjects() {
         card.querySelector(".project-client").textContent = project.client;
         card.querySelector(".project-category").textContent = categories[project.category_id] || "-";
         card.querySelector(".project-location").textContent = project.location;
-        card.querySelector(".employee-count").textContent = 0;
+card.querySelector(".employee-count").textContent =
+    project.employee_count || 0;
+        
         card.querySelector(".estimated-finish").textContent = project.expected_finish || "-";
         card.querySelector(".current-procedure").textContent = "Waiting Assignment";
 
@@ -163,6 +165,26 @@ async function loadProjects() {
             document.getElementById("startDate").value = project.start_date;
             document.getElementById("finishDate").value = project.expected_finish;
             document.getElementById("status").value = project.status;
+
+            const employeeSelect = document.getElementById("projectEmployees");
+
+// I-clear muna lahat ng selected
+Array.from(employeeSelect.options).forEach(option => {
+    option.selected = false;
+});
+
+// Ibalik ang dating assigned employees
+if (project.assigned_employees) {
+
+    Array.from(employeeSelect.options).forEach(option => {
+
+        if (project.assigned_employees.includes(option.value)) {
+            option.selected = true;
+        }
+
+    });
+
+}
 
             document.getElementById("saveProject").textContent = "Update Project";
 
@@ -198,12 +220,22 @@ modal.show();
 
 async function saveProject() {
 
+const selectedEmployees = Array.from(
+    document.getElementById("projectEmployees").selectedOptions
+).map(option => option.value);
+
+const employeeCount = selectedEmployees.length;
+
     const data = {
 
         project_name: document.getElementById("projectName").value,
         client: document.getElementById("client").value,
         category_id: Number(document.getElementById("category").value),
         location: document.getElementById("location").value,
+
+            employee_count: employeeCount,
+        assigned_employees: selectedEmployees,
+        
         start_date: document.getElementById("startDate").value,
         expected_finish: document.getElementById("finishDate").value,
         status: document.getElementById("status").value
