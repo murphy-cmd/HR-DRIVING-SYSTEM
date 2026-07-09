@@ -144,6 +144,16 @@ data.forEach(project => {
 
         const card = template.content.cloneNode(true);
 
+const projectCard = card.querySelector(".project-card");
+
+if (!projectCard) {
+    console.error("project-card NOT FOUND");
+    return;
+}
+
+card.querySelector(".project-title").textContent = project.project_name;
+card.querySelector(".project-client").textContent = project.client;
+
         card.querySelector(".project-title").textContent = project.project_name;
         card.querySelector(".project-client").textContent = project.client;
         card.querySelector(".project-category").textContent = categories[project.category_id] || "-";
