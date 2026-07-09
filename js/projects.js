@@ -127,8 +127,8 @@ async function loadProjects() {
         .select("*")
         .order("id", { ascending: false });
 
-    console.log("PROJECTS:", data);
-
+console.log("FIRST PROJECT:", data[0]);
+    
     if (error) {
         console.error(error);
         return;
