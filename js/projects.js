@@ -128,6 +128,8 @@ async function loadProjects() {
         .order("id", { ascending: false });
 
     console.log("PROJECTS:", data);
+
+    console.log("TOTAL PROJECTS:", data.length);
     
     if (error) {
         console.error(error);
@@ -135,6 +137,8 @@ async function loadProjects() {
     }
 
     data.forEach(project => {
+
+        console.log("LOADING PROJECT:", project.project_name);
 
         const card = template.content.cloneNode(true);
 
