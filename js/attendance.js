@@ -1413,7 +1413,6 @@ async function loadShiftManagement() {
             timeZone: "Asia/Manila"
         }
     );
-    
 
     // ===============================
     // LOAD EMPLOYEES
@@ -1459,10 +1458,16 @@ async function loadShiftManagement() {
 
         console.error(shiftError);
 
+    }
+
+    let html = "";
+
+    if (!employees || employees.length === 0) {
+
         tbody.innerHTML = `
             <tr>
-                <td colspan="6" class="text-danger text-center">
-                    Failed to load shifts.
+                <td colspan="6" class="text-center">
+                    No employees found.
                 </td>
             </tr>
         `;
@@ -1471,81 +1476,65 @@ async function loadShiftManagement() {
 
     }
 
-    let html = "";
-
     employees.forEach(emp => {
 
-        const assigned = shifts.find(item =>
-            item.employee_id === emp.employee_id
+        const assigned = shifts?.find(s =>
+            s.employee_id === emp.employee_id
         );
 
         html += `
+        <tr>
 
-<tr>
+            <td>${emp.employee_id}</td>
 
-    <td>${emp.employee_id}</td>
+            <td>${emp.full_name}</td>
 
-    <td>${emp.full_name}</td>
+            <td>${emp.employee_type}</td>
 
-    <td>${emp.employee_type}</td>
+            <td>${today}</td>
 
-    <td>${today}</td>
+            <td>
 
-    <td>
+                <select
+                    id="shift_${emp.employee_id}"
+                    class="form-select">
 
-        <select
-            class="form-select"
-            id="shift_${emp.employee_id}">
+                    <option
+                        value="DAY"
+                        ${assigned?.shift_type === "DAY" ? "selected" : ""}>
 
-            <option
-                value="DAY"
-                ${assigned?.shift_type === "DAY" ? "selected" : ""}>
+                        🌞 DAY SHIFT
 
-                🌞 DAY SHIFT
+                    </option>
 
-            </option>
+                    <option
+                        value="NIGHT"
+                        ${assigned?.shift_type === "NIGHT" ? "selected" : ""}>
 
-            <option
-                value="NIGHT"
-                ${assigned?.shift_type === "NIGHT" ? "selected" : ""}>
+                        🌙 NIGHT SHIFT
 
-                🌙 NIGHT SHIFT
+                    </option>
 
-            </option>
+                </select>
 
-        </select>
+            </td>
 
-    </td>
+            <td>
 
-    <td>
+                <button
+                    class="btn btn-success btn-sm"
+                    onclick="saveShift('${emp.employee_id}')">
 
-        <button
-            class="btn btn-success btn-sm"
-            onclick="saveShift('${emp.employee_id}')">
+                    Save
 
-            Save
+                </button>
 
-        </button>
+            </td>
 
-    </td>
-
-</tr>
-
-`;
-
-    });
-
-    if (employees.length === 0) {
-
-        html = `
-            <tr>
-                <td colspan="6" class="text-center">
-                    No employees found.
-                </td>
-            </tr>
+        </tr>
         `;
 
-    }
+    });
 
     tbody.innerHTML = html;
 
