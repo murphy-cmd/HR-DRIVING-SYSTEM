@@ -481,10 +481,6 @@ function calculateLate(employee, actualTime) {
 }
 
 
-break;
-
-case "BREAK":
-
     if (!daily?.am_in) {
 
         alert("Employee must AM IN first.");
