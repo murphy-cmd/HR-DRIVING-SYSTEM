@@ -12,11 +12,7 @@ async function initializeSettings() {
 
     document
         .getElementById("saveProfileBtn")
-        .addEventListener("click", saveProfile);
-
-    document
-        .getElementById("changePasswordBtn")
-        .addEventListener("click", changePassword);
+        .addEventListener("click", saveSettings);
 
 }
 
@@ -45,10 +41,10 @@ async function loadProfile() {
 }
 
 // ==========================================
-// SAVE PROFILE
+// SAVE SETTINGS
 // ==========================================
 
-async function saveProfile() {
+async function saveSettings() {
 
     const fullName = document
         .getElementById("settingFullName")
@@ -60,69 +56,62 @@ async function saveProfile() {
         .value
         .trim();
 
-    const { error } = await window.supabaseClient.auth.updateUser({
+    const newPassword = document
+        .getElementById("newPassword")
+        .value
+        .trim();
 
-        email: email,
+    const confirmPassword = document
+        .getElementById("confirmPassword")
+        .value
+        .trim();
 
-        data: {
+    // Update Name & Email
+    const { error: profileError } =
+        await window.supabaseClient.auth.updateUser({
 
-            full_name: fullName
+            email: email,
+
+            data: {
+                full_name: fullName
+            }
+
+        });
+
+    if (profileError) {
+
+        alert(profileError.message);
+        return;
+
+    }
+
+    // Update Password (optional)
+    if (newPassword || confirmPassword) {
+
+        if (newPassword !== confirmPassword) {
+
+            alert("Passwords do not match.");
+            return;
 
         }
 
-    });
+        const { error: passwordError } =
+            await window.supabaseClient.auth.updateUser({
 
-    if (error) {
+                password: newPassword
 
-        alert(error.message);
-        return;
+            });
 
-    }
+        if (passwordError) {
 
-    alert("Profile updated successfully.");
+            alert(passwordError.message);
+            return;
 
-}
-
-// ==========================================
-// CHANGE PASSWORD
-// ==========================================
-
-async function changePassword() {
-
-    const newPassword =
-        document.getElementById("newPassword").value.trim();
-
-    const confirmPassword =
-        document.getElementById("confirmPassword").value.trim();
-
-    if (!newPassword || !confirmPassword) {
-
-        alert("Please fill in all fields.");
-        return;
+        }
 
     }
 
-    if (newPassword !== confirmPassword) {
-
-        alert("Passwords do not match.");
-        return;
-
-    }
-
-    const { error } = await window.supabaseClient.auth.updateUser({
-
-        password: newPassword
-
-    });
-
-    if (error) {
-
-        alert(error.message);
-        return;
-
-    }
-
-    alert("Password updated successfully.");
+    alert("Settings updated successfully.");
 
     document.getElementById("newPassword").value = "";
     document.getElementById("confirmPassword").value = "";
