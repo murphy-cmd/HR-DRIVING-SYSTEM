@@ -1,5 +1,5 @@
 // ==========================================
-// PROCEDURES MODULE - PART 1
+// PROCEDURES MODULE
 // RILCO HR SYSTEM
 // ==========================================
 
@@ -10,10 +10,6 @@ let editId = null;
 
 // ==========================================
 // INITIALIZE
-// ==========================================
-
-// ==========================================
-// INITIALIZE PROCEDURES
 // ==========================================
 
 window.initializeProcedures = function () {
@@ -40,38 +36,32 @@ async function loadProcedures() {
 
     const tbody = document.getElementById("procedureTable");
 
-   tbody.innerHTML = `
-    <tr>
-        <td colspan="5" class="text-center">
-            Loading...
-        </td>
-    </tr>
-`;
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="5" class="text-center">
+                Loading...
+            </td>
+        </tr>
+    `;
 
     const { data, error } = await procedureDb
-
         .from("procedures")
-
         .select("*")
-
-        .order("order_no", {
-            ascending: true
-        });
+        .order("order_no", { ascending: true });
 
     if (error) {
 
         console.error(error);
 
         tbody.innerHTML = `
-    <tr>
-        <td colspan="5" class="text-danger text-center">
-            Failed to load procedures.
-        </td>
-    </tr>
-`;
+            <tr>
+                <td colspan="5" class="text-danger text-center">
+                    Failed to load procedures.
+                </td>
+            </tr>
+        `;
 
         return;
-
     }
 
     procedures = data || [];
@@ -79,7 +69,6 @@ async function loadProcedures() {
     displayProcedures(procedures);
 
 }
-
 // ==========================================
 // DISPLAY PROCEDURES
 // ==========================================
@@ -92,19 +81,24 @@ function displayProcedures(list) {
 
     if (list.length === 0) {
 
-       tbody.innerHTML = `
-    <tr>
-        <td colspan="5" class="text-center">
-            No procedures found.
-        </td>
-    </tr>
-`;
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center">
+                    No procedures found.
+                </td>
+            </tr>
+        `;
 
         return;
 
     }
 
     list.forEach(item => {
+
+        const badgeClass =
+            item.status === "Inactive"
+                ? "bg-danger"
+                : "bg-success";
 
         tbody.innerHTML += `
 
@@ -115,6 +109,14 @@ function displayProcedures(list) {
                 <td>${item.category}</td>
 
                 <td>${item.order_no}</td>
+
+                <td>
+
+                    <span class="badge ${badgeClass}">
+                        ${item.status || "Active"}
+                    </span>
+
+                </td>
 
                 <td>
 
@@ -149,8 +151,6 @@ function displayProcedures(list) {
 
 async function saveProcedure() {
 
-    console.log("SAVE BUTTON CLICKED");
-
     const procedureName = document
         .getElementById("procedureName")
         .value
@@ -164,7 +164,10 @@ async function saveProcedure() {
         document.getElementById("orderNo").value
     );
 
-    // Validation
+    const status = document
+        .getElementById("procedureStatus")
+        .value;
+
     if (
         procedureName === "" ||
         category === "" ||
@@ -177,7 +180,6 @@ async function saveProcedure() {
 
     }
 
-    // Duplicate Checking
     const { data: duplicate, error: duplicateError } =
         await procedureDb
 
@@ -210,10 +212,6 @@ async function saveProcedure() {
 
     }
 
-    // ==========================
-    // UPDATE
-    // ==========================
-
     if (editId !== null) {
 
         const { error } = await procedureDb
@@ -226,7 +224,9 @@ async function saveProcedure() {
 
                 category: category,
 
-                order_no: orderNo
+                order_no: orderNo,
+
+                status: status
 
             })
 
@@ -248,10 +248,6 @@ async function saveProcedure() {
 
     }
 
-    // ==========================
-    // INSERT
-    // ==========================
-
     else {
 
         const { error } = await procedureDb
@@ -266,7 +262,9 @@ async function saveProcedure() {
 
                     category: category,
 
-                    order_no: orderNo
+                    order_no: orderNo,
+
+                    status: status
 
                 }
 
@@ -291,7 +289,6 @@ async function saveProcedure() {
     loadProcedures();
 
 }
-
 // ==========================================
 // CLEAR FORM
 // ==========================================
@@ -304,20 +301,19 @@ function clearForm() {
 
     document.getElementById("orderNo").value = "";
 
+    document.getElementById("procedureStatus").value = "Active";
+
 }
 
 // ==========================================
-// SEARCH
+// SEARCH PROCEDURES
 // ==========================================
 
 function searchProcedures() {
 
     const keyword = document
-
         .getElementById("search")
-
         .value
-
         .toLowerCase();
 
     const filtered = procedures.filter(item => {
@@ -339,6 +335,12 @@ function searchProcedures() {
             String(item.order_no)
                 .includes(keyword)
 
+            ||
+
+            (item.status || "")
+                .toLowerCase()
+                .includes(keyword)
+
         );
 
     });
@@ -355,8 +357,11 @@ function editProcedure(id) {
     const procedure = procedures.find(item => item.id === id);
 
     if (!procedure) {
+
         alert("Procedure not found.");
+
         return;
+
     }
 
     document.getElementById("procedureName").value =
@@ -368,24 +373,31 @@ function editProcedure(id) {
     document.getElementById("orderNo").value =
         procedure.order_no;
 
+    document.getElementById("procedureStatus").value =
+        procedure.status || "Active";
+
     editId = id;
 
     window.scrollTo({
+
         top: 0,
+
         behavior: "smooth"
+
     });
 
 }
-
 // ==========================================
 // DELETE PROCEDURE
 // ==========================================
 
 async function deleteProcedure(id) {
 
-    if (!confirm("Are you sure you want to delete this procedure?")) {
-        return;
-    }
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this procedure?"
+    );
+
+    if (!confirmDelete) return;
 
     const { error } = await procedureDb
 
@@ -422,28 +434,34 @@ function resetEditMode() {
     clearForm();
 
 }
-
 // ==========================================
 // ENTER KEY TO SAVE
 // ==========================================
 
 document.addEventListener("keydown", function (event) {
 
-    if (event.key === "Enter") {
+    if (event.key !== "Enter") {
+        return;
+    }
 
-        const active = document.activeElement;
+    const activeElement = document.activeElement;
 
-        if (
-            active.tagName === "INPUT" ||
-            active.tagName === "SELECT"
-        ) {
+    if (
+        activeElement &&
+        (
+            activeElement.tagName === "INPUT" ||
+            activeElement.tagName === "SELECT"
+        )
+    ) {
 
-            event.preventDefault();
+        event.preventDefault();
 
-            saveProcedure();
-
-        }
+        saveProcedure();
 
     }
 
 });
+
+// ==========================================
+// END OF PROCEDURES MODULE
+// ==========================================
