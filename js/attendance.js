@@ -1413,13 +1413,24 @@ loadAttendanceSummary();
 
 async function loadShiftManagement() {
 
-    console.log("Shift Management Loaded");
+    console.log("Loading Shift Management...");
 
     const tbody = document.getElementById("shiftTable");
 
-    if (!tbody) return;
+    if (!tbody) {
 
-    tbody.innerHTML = "";
+        console.error("shiftTable not found.");
+        return;
+
+    }
+
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="6" class="text-center">
+                Loading...
+            </td>
+        </tr>
+    `;
 
     const today = new Date().toLocaleDateString(
         "en-CA",
@@ -1444,6 +1455,14 @@ async function loadShiftManagement() {
 
         console.error(employeeError);
 
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-danger text-center">
+                    Failed to load employees.
+                </td>
+            </tr>
+        `;
+
         return;
 
     }
@@ -1463,6 +1482,14 @@ async function loadShiftManagement() {
     if (shiftError) {
 
         console.error(shiftError);
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-danger text-center">
+                    Failed to load shifts.
+                </td>
+            </tr>
+        `;
 
         return;
 
@@ -1498,7 +1525,7 @@ async function loadShiftManagement() {
                 value="DAY"
                 ${assigned?.shift_type === "DAY" ? "selected" : ""}>
 
-                🌞 Day Shift
+                🌞 DAY SHIFT
 
             </option>
 
@@ -1506,7 +1533,7 @@ async function loadShiftManagement() {
                 value="NIGHT"
                 ${assigned?.shift_type === "NIGHT" ? "selected" : ""}>
 
-                🌙 Night Shift
+                🌙 NIGHT SHIFT
 
             </option>
 
@@ -1532,104 +1559,20 @@ async function loadShiftManagement() {
 
     });
 
+    if (employees.length === 0) {
+
+        html = `
+            <tr>
+                <td colspan="6" class="text-center">
+                    No employees found.
+                </td>
+            </tr>
+        `;
+
+    }
+
     tbody.innerHTML = html;
 
-}
-// ===============================
-// SAVE SHIFT
-// ===============================
-
-async function saveShift(employeeId) {
-
-    const shift = document.getElementById(
-        `shift_${employeeId}`
-    ).value;
-
-    const today =
-        new Date().toLocaleDateString(
-            "en-CA",
-            {
-                timeZone: "Asia/Manila"
-            }
-        );
-
-    // Load Employee
-
-    const {
-        data: employee,
-        error: employeeError
-    } = await supabaseClient
-        .from("employees")
-        .select("*")
-        .eq("employee_id", employeeId)
-        .single();
-
-    if (employeeError) {
-
-        console.error(employeeError);
-
-        return;
-
-    }
-
-    // Check existing assignment
-
-    const {
-        data: existing
-    } = await supabaseClient
-        .from("shift_assignments")
-        .select("*")
-        .eq("employee_id", employeeId)
-        .eq("shift_date", today)
-        .maybeSingle();
-
-    if (existing) {
-
-        const { error } = await supabaseClient
-            .from("shift_assignments")
-            .update({
-
-                shift_type: shift
-
-            })
-            .eq("id", existing.id);
-
-        if (error) {
-
-            console.error(error);
-
-            return;
-
-        }
-
-    } else {
-
-        const { error } = await supabaseClient
-            .from("shift_assignments")
-            .insert([{
-
-                employee_id: employee.employee_id,
-
-                employee_name: employee.full_name,
-
-                employee_type: employee.employee_type,
-
-                shift_date: today,
-
-                shift_type: shift
-
-            }]);
-
-        if (error) {
-
-            console.error(error);
-
-            return;
-
-        }
-
-    }
-
-    alert("Shift saved successfully.");
+    console.log("Shift Management Loaded Successfully.");
 
 }
