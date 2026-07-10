@@ -1,111 +1,75 @@
-<div class="modal-content">
+<div class="page">
 
-    <div class="modal-header">
+    <div class="page-header">
 
-        <h4 class="modal-title fw-bold">
-            <i class="fa-solid fa-user-plus me-2"></i>
+        <button id="addEmployeeBtn" class="primary-btn">
+            <i class="fa-solid fa-plus"></i>
             Add Employee
-        </h4>
-
-        <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal">
         </button>
 
     </div>
 
-    <div class="modal-body">
+    <div class="card">
 
-        <div class="row g-3">
+        <div class="table-responsive">
 
-            <div class="col-md-6">
+            <table class="table">
 
-                <label class="form-label fw-semibold">
-                    Employee ID
-                </label>
+                <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Employee Type</th>
+                    </tr>
+                </thead>
 
-                <input
-                    type="text"
-                    class="form-control"
-                    id="employeeId"
-                    placeholder="EMP 001">
+                <tbody id="employeeTable"></tbody>
 
-            </div>
-
-            <div class="col-md-6">
-
-                <label class="form-label fw-semibold">
-                    Full Name
-                </label>
-
-                <input
-                    type="text"
-                    class="form-control"
-                    id="fullName"
-                    placeholder="Juan Dela Cruz">
-
-            </div>
-
-            <div class="col-md-6">
-
-                <label class="form-label fw-semibold">
-                    Position
-                </label>
-
-                <input
-                    type="text"
-                    class="form-control"
-                    id="position"
-                    placeholder="Project Engineer">
-
-            </div>
-
-            <div class="col-md-6">
-
-                <label class="form-label fw-semibold">
-                    Employee Type
-                </label>
-
-                <select
-                    class="form-select"
-                    id="employeeType">
-
-                    <option value="Office Staff">Office Staff</option>
-                    <option value="Warehouse">Warehouse</option>
-                    <option value="Driver">Driver</option>
-                    <option value="Lead Man">Lead Man</option>
-                    <option value="Safety Officer">Safety Officer</option>
-
-                </select>
-
-            </div>
+            </table>
 
         </div>
 
     </div>
 
-    <div class="modal-footer">
+</div>
 
-        <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal">
+<!-- MODAL -->
+<div id="employeeModal" class="modal">
 
-            Cancel
+    <div class="modal-content">
 
-        </button>
+        <div class="modal-header">
+            <h3>Add Employee</h3>
+            <button id="closeEmployeeModal">&times;</button>
+        </div>
 
-        <button
-            type="button"
-            class="btn btn-primary"
-            id="saveEmployee">
+        <div class="modal-body">
 
-            <i class="fa-solid fa-floppy-disk me-1"></i>
-            Save Employee
+            <input type="text" id="employeeId" placeholder="Employee ID">
+            <input type="text" id="fullName" placeholder="Full Name">
+            <input type="text" id="position" placeholder="Position">
 
-        </button>
+          <select id="employeeType">
+    <option value="Office Staff">Office Staff</option>
+    <option value="Warehouse">Warehouse</option>
+    <option value="Driver">Driver</option>
+    <option value="Lead Man">Lead Man</option>
+    <option value="Safety Officer">Safety Officer</option>
+
+                
+            </select>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button id="cancelEmployee">Cancel</button>
+            <button id="saveEmployee">Save</button>
+
+        </div>
 
     </div>
 
 </div>
+
