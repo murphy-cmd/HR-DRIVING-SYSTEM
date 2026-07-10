@@ -481,214 +481,7 @@ function calculateLate(employee, actualTime) {
 }
 
 
-    if (!daily?.am_in) {
-
-        alert("Employee must AM IN first.");
-
-        checkbox.checked = false;
-
-        return;
-
-    }
-
-    updateData.break_time = philippinesTime;
-
-    employeeStatus = "ON_BREAK";
-
-    break;
-
-        case "PM_IN":
-
-    if (!daily?.break_time) {
-
-        alert("Employee must take BREAK first.");
-
-        checkbox.checked = false;
-
-        return;
-
-    }
-
-    updateData.pm_in = philippinesTime;
-
-    employeeStatus = "WORKING";
-
-    break;
-
-      case "TIME_OUT":
-
-    if (!daily?.pm_in) {
-
-        alert("Employee must PM IN first.");
-
-        checkbox.checked = false;
-
-        return;
-
-    }
-
-    updateData.time_out = philippinesTime;
-    updateData.completed = true;
-    employeeStatus = "COMPLETED";
-
-    if (daily && daily.am_in) {
-
-        const amIn = new Date(daily.am_in);
-        const timeOut = new Date(philippinesTime);
-
-        const work = calculateWorkHours(
-
-    amIn,
-
-    daily.break_time
-        ? new Date(daily.break_time)
-        : null,
-
-    daily.pm_in
-        ? new Date(daily.pm_in)
-        : null,
-
-    timeOut
-
-);
-
-updateData.work_hours = work.display;
-
-updateData.work_minutes = work.totalMinutes;
-
-const overtime = calculateOvertime(
-    work.totalMinutes
-);
-
-updateData.ot_hours = overtime.display;
-
-updateData.ot_minutes = overtime.otMinutes;
-
-}
-
-break;
-
-case "START_TRIP":
-
-            updateData.start_trip =
-                philippinesTime;
-
-            employeeStatus =
-                "DRIVING";
-
-            break;
-
-      case "END_TRIP":
-
-    updateData.end_trip =
-        philippinesTime;
-
-    employeeStatus =
-        "COMPLETED";
-
-    break;
-    }
-
-    updateData.status =
-        employeeStatus;
-
-if (!daily && action === "AM_IN") {
-
-    
-        updateData.employee_id =
-            employee.employee_id;
-
-        updateData.employee_name =
-            employee.full_name;
-
-        updateData.employee_type =
-            employee.employee_type;
-          
-updateData.attendance_date =
-    daily
-        ? daily.attendance_date
-        : today;
-
-        await supabaseClient
-            .from("attendance_daily")
-            .insert([
-                updateData
-            ]);
-
-}
-else if (!daily) {
-
-    alert("No active attendance record found. Employee must AM IN first.");
-
-    checkbox.checked = false;
-
-    return;
-
-}
-else {
-    console.log("UPDATE DATA:", updateData);
-
-const { data: updated, error: updateError } = await supabaseClient
-    .from("attendance_daily")
-    .update(updateData)
-    .eq("id", daily.id)
-    .select();
-
-console.log("UPDATED:", updated);
-console.log("UPDATE ERROR:", updateError);
-
-    }
-
-     await supabaseClient
-        .from("employees")
-        .update({
-
-            status:
-                employeeStatus
-
-        })
-        .eq(
-            "employee_id",
-            employeeId
-        );
-
-   const { error: logError } =
-await supabaseClient
-    .from("attendance_logs")
-    .insert([{
-
-        employee_id: employee.employee_id,
-
-        employee_name: employee.full_name,
-
-        action: action,
-
-        log_time: philippinesTime,
-
-        action_date: today
-
-    }]);
-
-if (logError) {
-
-    console.error("Attendance Log Error:", logError);
-
-}
-
  
-checkbox.disabled = true;
-
-loadAttendanceBoard();
-
-loadTodayHistory();
-
-    checkbox.disabled = true;
-
-    loadAttendanceBoard();
-
-    loadTodayHistory();
-
-}
 // =========================================
 // CALCULATE WORK HOURS
 // =========================================
@@ -870,8 +663,8 @@ if (openAttendance && openAttendance.length > 0) {
 
 }
 
-   console.log("TODAY:", today);
-   console.log("EMPLOYEE:", employeeId);
+  console.log("TODAY:", today);
+  console.log("EMPLOYEE:", employeeId);
   console.log("DAILY RECORD:", daily);
 
 const employeeShift = await getEmployeeShift(
@@ -879,36 +672,194 @@ const employeeShift = await getEmployeeShift(
     today
 );
 
+if (employeeShift === "NIGHT") {
+
+    employee.schedule_in = "20:00:00";
+    employee.schedule_out = "05:00:00";
+
+}
+
 console.log("SHIFT:", employeeShift);
 
 let updateData = {};
 
 let employeeStatus = "WORKING";
+case "BREAK":
 
-    switch(action){
-case "AM_IN":
+    if (!daily?.am_in) {
 
-    console.log("Employee ID:", employee.employee_id);
-    console.log("Employee Type:", employee.employee_type);
-    console.log("Schedule In:", employee.schedule_in);
-    console.log("Grace Period:", employee.grace_period);
+        alert("Employee must AM IN first.");
 
-    // Save AM IN
-    updateData.am_in = philippinesTime;
-    employeeStatus = "WORKING";
+        checkbox.checked = false;
 
-    // Calculate Late
-    const late = calculateLate(
-        employee,
-        new Date(philippinesTime)
-    );
+        return;
 
-    updateData.late_minutes = late.lateMinutes;
-    updateData.late_display = late.lateDisplay;
-    updateData.attendance_status = late.attendanceStatus;
+    }
+
+    updateData.break_time = philippinesTime;
+    employeeStatus = "ON_BREAK";
 
     break;
 
+case "PM_IN":
+
+    if (!daily?.break_time) {
+
+        alert("Employee must take BREAK first.");
+
+        checkbox.checked = false;
+
+        return;
+
+    }
+
+    updateData.pm_in = philippinesTime;
+    employeeStatus = "WORKING";
+
+    break;
+
+case "TIME_OUT":
+
+    if (!daily?.pm_in) {
+
+        alert("Employee must PM IN first.");
+
+        checkbox.checked = false;
+
+        return;
+
+    }
+
+    updateData.time_out = philippinesTime;
+    updateData.completed = true;
+
+    employeeStatus = "COMPLETED";
+
+    if (daily?.am_in) {
+
+        const work = calculateWorkHours(
+
+            new Date(daily.am_in),
+
+            daily.break_time
+                ? new Date(daily.break_time)
+                : null,
+
+            daily.pm_in
+                ? new Date(daily.pm_in)
+                : null,
+
+            new Date(philippinesTime)
+
+        );
+
+        updateData.work_hours = work.display;
+        updateData.work_minutes = work.totalMinutes;
+
+        const overtime = calculateOvertime(
+            work.totalMinutes
+        );
+
+        updateData.ot_hours = overtime.display;
+        updateData.ot_minutes = overtime.otMinutes;
+
+    }
+
+    break;
+
+case "START_TRIP":
+
+    updateData.start_trip = philippinesTime;
+
+    employeeStatus = "DRIVING";
+
+    break;
+
+case "END_TRIP":
+
+    updateData.end_trip = philippinesTime;
+
+    employeeStatus = "COMPLETED";
+
+    break;
+
+}
+    updateData.status = employeeStatus;
+
+    if (!daily && action === "AM_IN") {
+
+        updateData.employee_id = employee.employee_id;
+        updateData.employee_name = employee.full_name;
+        updateData.employee_type = employee.employee_type;
+        updateData.attendance_date = today;
+
+        const { error: insertError } = await supabaseClient
+            .from("attendance_daily")
+            .insert([updateData]);
+
+        if (insertError) {
+
+            console.error(insertError);
+
+            checkbox.checked = false;
+
+            return;
+
+        }
+
+    } else if (!daily) {
+
+        alert("Employee must AM IN first.");
+
+        checkbox.checked = false;
+
+        return;
+
+    } else {
+
+        const { error: updateError } = await supabaseClient
+            .from("attendance_daily")
+            .update(updateData)
+            .eq("id", daily.id);
+
+        if (updateError) {
+
+            console.error(updateError);
+
+            checkbox.checked = false;
+
+            return;
+
+        }
+
+    }
+
+    await supabaseClient
+        .from("employees")
+        .update({
+            status: employeeStatus
+        })
+        .eq("employee_id", employeeId);
+
+    await supabaseClient
+        .from("attendance_logs")
+        .insert([{
+
+            employee_id: employee.employee_id,
+            employee_name: employee.full_name,
+            action: action,
+            log_time: philippinesTime,
+            action_date: today
+
+        }]);
+
+    checkbox.disabled = true;
+
+    await loadAttendanceBoard();
+
+    await loadTodayHistory();
+
+}
 
 // =========================================
 // TODAY'S ACTIVITY
