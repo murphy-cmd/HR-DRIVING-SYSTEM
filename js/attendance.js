@@ -776,16 +776,17 @@ switch (action) {
                 new Date(philippinesTime)
 
             );
+const overtime = calculateOvertime(
+    work.totalMinutes
+);
+updateData.work_hours = work.display;
+updateData.work_minutes = work.totalMinutes;
 
-            updateData.work_hours = work.display;
-            updateData.work_minutes = work.totalMinutes;
+// TODO: Night Differential computation
 
-            const nightDiff =
-    calculateNightDifferential(...);
-
-            updateData.ot_hours = overtime.display;
-            updateData.ot_minutes = overtime.otMinutes;
-
+updateData.ot_hours = overtime.display;
+updateData.ot_minutes = overtime.otMinutes;
+            
         }
 
         break;
