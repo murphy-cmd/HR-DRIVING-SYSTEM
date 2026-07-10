@@ -914,33 +914,35 @@ case "AM_IN":
     break;
 
 
-// ===============================
+// =========================================
 // TODAY'S ACTIVITY
-// ===============================
+// =========================================
 
 async function loadTodayHistory() {
 
-    const history = document.getElementById("todayHistory");
+    const tbody =
+        document.getElementById("historyTable");
 
-    if (!history) return;
-
+    if (!tbody) return;
 
     const today =
-    new Date().toLocaleDateString(
-        "en-CA",
-        {
-            timeZone: "Asia/Manila"
-        }
-    );
+        new Date().toLocaleDateString(
+            "en-CA",
+            {
+                timeZone: "Asia/Manila"
+            }
+        );
 
-const { data, error } =
-    await supabaseClient
+    const {
+
+        data,
+        error
+
+    } = await supabaseClient
         .from("attendance_logs")
         .select("*")
         .eq("action_date", today)
-        .order("log_time", {
-            ascending: false
-        });
+        .order("log_time", { ascending: false });
 
     if (error) {
 
@@ -955,19 +957,24 @@ const { data, error } =
     data.forEach(log => {
 
         html += `
-            <tr>
-                <td>${new Date(log.log_time).toLocaleString()}</td>
-                <td>${log.employee_name}</td>
-                <td>${log.action}</td>
-            </tr>
-        `;
+
+<tr>
+
+<td>${log.log_time}</td>
+
+<td>${log.employee_name}</td>
+
+<td>${log.action}</td>
+
+</tr>
+
+`;
 
     });
 
-    document.getElementById("todayHistory").innerHTML = html;
+    tbody.innerHTML = html;
 
 }
-
 // ===============================
 // ATTENDANCE TABS
 // ===============================
