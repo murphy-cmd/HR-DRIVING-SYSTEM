@@ -40,13 +40,13 @@ async function loadProcedures() {
 
     const tbody = document.getElementById("procedureTable");
 
-    tbody.innerHTML = `
-        <tr>
-            <td colspan="4" class="text-center">
-                Loading...
-            </td>
-        </tr>
-    `;
+   tbody.innerHTML = `
+    <tr>
+        <td colspan="5" class="text-center">
+            Loading...
+        </td>
+    </tr>
+`;
 
     const { data, error } = await procedureDb
 
@@ -63,12 +63,12 @@ async function loadProcedures() {
         console.error(error);
 
         tbody.innerHTML = `
-            <tr>
-                <td colspan="4" class="text-danger text-center">
-                    Failed to load procedures.
-                </td>
-            </tr>
-        `;
+    <tr>
+        <td colspan="5" class="text-danger text-center">
+            Failed to load procedures.
+        </td>
+    </tr>
+`;
 
         return;
 
@@ -92,13 +92,13 @@ function displayProcedures(list) {
 
     if (list.length === 0) {
 
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="4" class="text-center">
-                    No procedures found.
-                </td>
-            </tr>
-        `;
+       tbody.innerHTML = `
+    <tr>
+        <td colspan="5" class="text-center">
+            No procedures found.
+        </td>
+    </tr>
+`;
 
         return;
 
