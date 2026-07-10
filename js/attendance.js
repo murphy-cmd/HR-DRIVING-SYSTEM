@@ -1413,6 +1413,7 @@ async function loadShiftManagement() {
             timeZone: "Asia/Manila"
         }
     );
+    
 
     // ===============================
     // LOAD EMPLOYEES
