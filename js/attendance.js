@@ -784,9 +784,8 @@ switch (action) {
             updateData.work_hours = work.display;
             updateData.work_minutes = work.totalMinutes;
 
-            const overtime = calculateOvertime(
-                work.totalMinutes
-            );
+            const nightDiff =
+    calculateNightDifferential(...);
 
             updateData.ot_hours = overtime.display;
             updateData.ot_minutes = overtime.otMinutes;
@@ -895,9 +894,8 @@ switch (action) {
 
 async function loadTodayHistory() {
 
-    const tbody =
-        document.getElementById("historyTable");
-
+   const tbody =
+    document.getElementById("todayHistory");
     if (!tbody) return;
 
     const today =
