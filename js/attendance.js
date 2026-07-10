@@ -684,104 +684,132 @@ console.log("SHIFT:", employeeShift);
 let updateData = {};
 
 let employeeStatus = "WORKING";
-case "BREAK":
 
-    if (!daily?.am_in) {
+switch (action) {
 
-        alert("Employee must AM IN first.");
+    case "AM_IN":
 
-        checkbox.checked = false;
+        console.log("Employee ID:", employee.employee_id);
+        console.log("Employee Type:", employee.employee_type);
+        console.log("Schedule In:", employee.schedule_in);
+        console.log("Grace Period:", employee.grace_period);
 
-        return;
+        updateData.am_in = philippinesTime;
 
-    }
+        employeeStatus = "WORKING";
 
-    updateData.break_time = philippinesTime;
-    employeeStatus = "ON_BREAK";
-
-    break;
-
-case "PM_IN":
-
-    if (!daily?.break_time) {
-
-        alert("Employee must take BREAK first.");
-
-        checkbox.checked = false;
-
-        return;
-
-    }
-
-    updateData.pm_in = philippinesTime;
-    employeeStatus = "WORKING";
-
-    break;
-
-case "TIME_OUT":
-
-    if (!daily?.pm_in) {
-
-        alert("Employee must PM IN first.");
-
-        checkbox.checked = false;
-
-        return;
-
-    }
-
-    updateData.time_out = philippinesTime;
-    updateData.completed = true;
-
-    employeeStatus = "COMPLETED";
-
-    if (daily?.am_in) {
-
-        const work = calculateWorkHours(
-
-            new Date(daily.am_in),
-
-            daily.break_time
-                ? new Date(daily.break_time)
-                : null,
-
-            daily.pm_in
-                ? new Date(daily.pm_in)
-                : null,
-
+        const late = calculateLate(
+            employee,
             new Date(philippinesTime)
-
         );
 
-        updateData.work_hours = work.display;
-        updateData.work_minutes = work.totalMinutes;
+        updateData.late_minutes = late.lateMinutes;
+        updateData.late_display = late.lateDisplay;
+        updateData.attendance_status = late.attendanceStatus;
 
-        const overtime = calculateOvertime(
-            work.totalMinutes
-        );
+        break;
 
-        updateData.ot_hours = overtime.display;
-        updateData.ot_minutes = overtime.otMinutes;
+    case "BREAK":
 
-    }
+        if (!daily?.am_in) {
 
-    break;
+            alert("Employee must AM IN first.");
 
-case "START_TRIP":
+            checkbox.checked = false;
 
-    updateData.start_trip = philippinesTime;
+            return;
 
-    employeeStatus = "DRIVING";
+        }
 
-    break;
+        updateData.break_time = philippinesTime;
 
-case "END_TRIP":
+        employeeStatus = "ON_BREAK";
 
-    updateData.end_trip = philippinesTime;
+        break;
 
-    employeeStatus = "COMPLETED";
+    case "PM_IN":
 
-    break;
+        if (!daily?.break_time) {
+
+            alert("Employee must take BREAK first.");
+
+            checkbox.checked = false;
+
+            return;
+
+        }
+
+        updateData.pm_in = philippinesTime;
+
+        employeeStatus = "WORKING";
+
+        break;
+
+    case "TIME_OUT":
+
+        if (!daily?.pm_in) {
+
+            alert("Employee must PM IN first.");
+
+            checkbox.checked = false;
+
+            return;
+
+        }
+
+        updateData.time_out = philippinesTime;
+
+        updateData.completed = true;
+
+        employeeStatus = "COMPLETED";
+
+        if (daily?.am_in) {
+
+            const work = calculateWorkHours(
+
+                new Date(daily.am_in),
+
+                daily.break_time
+                    ? new Date(daily.break_time)
+                    : null,
+
+                daily.pm_in
+                    ? new Date(daily.pm_in)
+                    : null,
+
+                new Date(philippinesTime)
+
+            );
+
+            updateData.work_hours = work.display;
+            updateData.work_minutes = work.totalMinutes;
+
+            const overtime = calculateOvertime(
+                work.totalMinutes
+            );
+
+            updateData.ot_hours = overtime.display;
+            updateData.ot_minutes = overtime.otMinutes;
+
+        }
+
+        break;
+
+    case "START_TRIP":
+
+        updateData.start_trip = philippinesTime;
+
+        employeeStatus = "DRIVING";
+
+        break;
+
+    case "END_TRIP":
+
+        updateData.end_trip = philippinesTime;
+
+        employeeStatus = "COMPLETED";
+
+        break;
 
 }
     updateData.status = employeeStatus;
