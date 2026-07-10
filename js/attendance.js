@@ -667,11 +667,7 @@ if (openAttendance && openAttendance.length > 0) {
   console.log("EMPLOYEE:", employeeId);
   console.log("DAILY RECORD:", daily);
 
-const employeeShift = await getEmployeeShift(
-    employeeId,
-    today
-);
-
+const employeeShift = await getEmployeeShift(employeeId, today);
 if (employeeShift === "NIGHT") {
 
     employee.schedule_in = "20:00:00";
