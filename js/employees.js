@@ -114,20 +114,24 @@ const employeeType = document.getElementById("employeeType").value;
 let scheduleIn = "";
 let scheduleOut = "";
 
-if (employeeType === "office") {
+if (employeeType === "Office Staff") {
 
-    scheduleIn = "09:00:00";
-    scheduleOut = "18:00:00";
+    scheduleIn = "09:00";
+    scheduleOut = "18:00";
 
-} else if (employeeType === "warehouse") {
+} else if (
+    employeeType === "Warehouse" ||
+    employeeType === "Lead Man" ||
+    employeeType === "Safety Officer"
+) {
 
-    scheduleIn = "08:00:00";
-    scheduleOut = "17:00:00";
+    scheduleIn = "08:00";
+    scheduleOut = "17:00";
 
-} else if (employeeType === "driver") {
+} else if (employeeType === "Driver") {
 
-    scheduleIn = "08:00:00";
-    scheduleOut = "17:00:00";
+    scheduleIn = "08:00";
+    scheduleOut = "17:00";
 
 }
 
