@@ -94,73 +94,28 @@ async function loadShiftManagement() {
 
     }
 
-    let html = "";
+let html = "";
 
-    employees.forEach(emp => {
+employees.forEach(emp => {
 
-        const assigned = shifts?.find(s =>
-            s.employee_id === emp.employee_id
-        );
+    console.log("EMPLOYEE:", emp);
 
-        html += `
+    html += `
+        <tr>
+            <td>${emp.employee_id}</td>
+            <td>${emp.full_name}</td>
+            <td>${emp.employee_type}</td>
+            <td>${today}</td>
+            <td>DAY</td>
+            <td>TEST</td>
+        </tr>
+    `;
 
-<tr>
+});
 
-<td>${emp.employee_id}</td>
+console.log(html);
 
-<td>${emp.full_name}</td>
-
-<td>${emp.employee_type}</td>
-
-<td>${today}</td>
-
-<td>
-
-<select
-id="shift_${emp.employee_id}"
-class="form-select">
-
-<option
-value="DAY"
-${assigned?.shift_type === "DAY" ? "selected" : ""}>
-
-🌞 DAY SHIFT
-
-</option>
-
-<option
-value="NIGHT"
-${assigned?.shift_type === "NIGHT" ? "selected" : ""}>
-
-🌙 NIGHT SHIFT
-
-</option>
-
-</select>
-
-</td>
-
-<td>
-
-<button
-class="btn btn-success btn-sm"
-onclick="saveShift('${emp.employee_id}')">
-
-Save
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-    });
-
-    tbody.innerHTML = html;
-
-    console.log("Shift Management Loaded Successfully.");
+tbody.innerHTML = html;
 
 }
 // =========================================
